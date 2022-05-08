@@ -8,7 +8,7 @@ import { Repository } from "typeorm";
 import { hashSync } from "bcrypt";
 
 import { AuthRegisterCommand } from "./auth-register.command";
-import { AuthMailVerificationEntity } from "../../../entities/auth-mail-verification.entity";
+import { AuthVerificationEntity } from "../../../entities/auth-verification.entity";
 
 
 @CommandHandler(AuthRegisterCommand)
@@ -18,12 +18,13 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
         private readonly jwtService: JwtService,
         private readonly commandBus: CommandBus,
         private readonly eventBus: EventBus,
-        @InjectRepository(AuthMailVerificationEntity)
-        private readonly mailVerificationRepository: Repository<AuthMailVerificationEntity>
+        @InjectRepository(AuthVerificationEntity)
+        private readonly authVerificationRepository: Repository<AuthVerificationEntity>
 
     ) {
     }
 
+    
     async execute(command: AuthRegisterCommand): Promise<any> {
         try {
             console.log('FIRST API')

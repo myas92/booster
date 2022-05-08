@@ -3,11 +3,11 @@ import { AggregateRoot } from "@nestjs/cqrs";
 import { AuthVerificationTypeEnum } from "./auth-verification-type.enum";
 import { ApiProperty } from '@nestjs/swagger';
 
-@Entity()
-export class AuthMailVerificationEntity extends AggregateRoot {
-    @PrimaryGeneratedColumn()
+@Entity('auth-verification')
+export class AuthVerificationEntity extends AggregateRoot {
+    @PrimaryGeneratedColumn("uuid")
     @ApiProperty()
-    id: number;
+    id: string;
 
     @Column()
     @ApiProperty()

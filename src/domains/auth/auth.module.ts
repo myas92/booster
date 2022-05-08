@@ -9,7 +9,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
 import { AuthRegisterCommandHandler } from "./cqrs/commands/auth-register/auth-register.command-handler";
-import { AuthMailVerificationEntity } from "./entities/auth-mail-verification.entity";
+import { AuthVerificationEntity } from "./entities/auth-verification.entity";
 
 import { AuthCheckUsernameQueryHandler } from './cqrs/queries/auth-check-username/auth-check-username.query-handler';
 
@@ -26,7 +26,7 @@ export const EventHandlers = [
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([AuthMailVerificationEntity]),
+        TypeOrmModule.forFeature([AuthVerificationEntity]),
         ConfigModule.forRoot(),
         CqrsModule,
         JwtModule.register({
