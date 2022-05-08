@@ -20,6 +20,7 @@
     },
     "peacock.color": "#dd0531",
     "cSpell.words": [
+        "cqrs",
         "nestjs",
         "typeorm"
     ]
