@@ -44,7 +44,7 @@ export class AuthController {
     @ApiBody({ type: AuthRegisterSubmitDto  })
     async register(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
         console.log('--------------',body)
-        const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.email, body.username, body.password));
+        const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobileNumber, body.password));
         return new AuthRegisterResponseDto('please check your email');
     }
 

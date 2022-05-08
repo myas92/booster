@@ -5,20 +5,20 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('auth-verification')
 export class AuthVerificationEntity extends AggregateRoot {
-    @PrimaryGeneratedColumn("uuid")
     @ApiProperty()
+    @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column()
     @ApiProperty()
+    @Column()
+    mobileNumber: string
+
+    @ApiProperty()
+    @Column({ nullable: true })
     email: string;
 
-    @Column()
     @ApiProperty()
-    username: string;
-
     @Column()
-    @ApiProperty()
     password: string;
 
     @ApiProperty()
@@ -27,7 +27,7 @@ export class AuthVerificationEntity extends AggregateRoot {
 
     @ApiProperty()
     @Column()
-    verificationLink: string;
+    verificationToken: string;
 
     @ApiProperty()
     @Column({ nullable: true })

@@ -10,7 +10,7 @@ import { hashSync } from "bcrypt";
 import { AuthRegisterCommand } from "./auth-register.command";
 import { AuthVerificationEntity } from "../../../entities/auth-verification.entity";
 
-
+import { AuthVerificationTypeEnum } from "../../../entities/auth-verification-type.enum";
 @CommandHandler(AuthRegisterCommand)
 export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterCommand> {
 
@@ -24,10 +24,21 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
     ) {
     }
 
-    
+
     async execute(command: AuthRegisterCommand): Promise<any> {
         try {
+            let token = '1111'
             console.log('FIRST API')
+            const {mobileNumber, password} = command
+            let registerInfo = new AuthVerificationEntity();
+            registerInfo.mobileNumber = command.mobileNumber;
+            registerInfo.password = hashSync(password, 10);
+            registerInfo.verificationToken = token;
+            registerInfo.type = AuthVerificationTypeEnum.Register;
+            registerInfo.ip = command.req.ip;
+            registerInfo.createdAt= new Date(Date.now())
+            console.log(registerInfo)
+            await this.authVerificationRepository.save(registerInfo);
         } catch (error) {
             throw new InternalServerErrorException(error.message);
         }
