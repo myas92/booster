@@ -6,14 +6,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
 // Modules
 import { AuthModule } from './domains/auth/auth.module';
+import { ExampleModule } from './domains/example/example.module';
 
 @Module({
   imports: [
     CqrsModule,
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
+    ExampleModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
