@@ -3,5 +3,6 @@ export const generalConfig = {
     MAX_GET_TOKOEN: 4,
     ENCRYPTION_MIDDLEWARE:false,   
     EXPIRE_LOGIN_TOKEN:30,//based on day   
-    MAX_IMAGE_SIZE: 2000000
+    MAX_IMAGE_SIZE: 2000000,
+    LANGUAGES: ['fa', 'en']
 }

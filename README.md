@@ -151,8 +151,12 @@ nest g mi common/middlewares/logger
 
 # Response Format 
 
+It's sensitive to languages(`fa/en`)
+
+**Note**: language in header of request
+
 **Success**
-```
+```javascript
 {
     "status": "success",
     "data": {
@@ -162,6 +166,27 @@ nest g mi common/middlewares/logger
     "error": {}
 }
 ```
+**Error**
+```javascript
+// For language:fa
+{
+    "status": "error",
+    "error": {
+        "status_code": 200,
+        "error_code": 1001,
+        "timestamp": "2022-05-09T11:31:34.858Z",
+        "path": "/api/v1/auth/register",
+        "message": "شماره همراه تکراری است"
+    }
+}
+```
+
+# Postman
+
+Implemented test for all APIs
+
+Postman link: https://www.getpostman.com/collections/6006ac369048172eb56e
+
 
 # Useful articles
 

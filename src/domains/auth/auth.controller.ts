@@ -23,6 +23,7 @@ import {
 import { AuthRegisterCommand } from "./cqrs/commands/auth-register/auth-register.command";
 import { AuthRegisterResponseDto, AuthRegisterSubmitDto } from "./dto/auth-register.dto";
 import { FormatResponseInterceptor } from "src/common/interceptors/format-response.interceptor";
+import { HttpExceptionFilter } from "src/common/filters/http-exception.filter";
 
 
 
@@ -30,7 +31,7 @@ import { FormatResponseInterceptor } from "src/common/interceptors/format-respon
 // import { FormatResponseInterceptor } from "../../infrastructure/interceptors/format-response.interceptor";
 
 @UseInterceptors(FormatResponseInterceptor)
-// @UseFilters(new HttpExceptionFilter())
+@UseFilters(new HttpExceptionFilter())
 @Controller('api/v1/auth')
 @ApiTags('Auth')
 export class AuthController {
@@ -50,7 +51,6 @@ export class AuthController {
     @Post('register/resend-code')
     @ApiBody({ type: AuthRegisterSubmitDto })
     async resendToken(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
-        console.log('--------------', body)
         const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
         return new AuthRegisterResponseDto('123','please check your email');
     }
