@@ -22,13 +22,14 @@ import {
 // import { HttpExceptionFilter } from "../../infrastructure/filters/http-exception.filter";
 import { AuthRegisterCommand } from "./cqrs/commands/auth-register/auth-register.command";
 import { AuthRegisterResponseDto, AuthRegisterSubmitDto } from "./dto/auth-register.dto";
+import { FormatResponseInterceptor } from "src/common/interceptors/format-response.interceptor";
 
 
 
 
 // import { FormatResponseInterceptor } from "../../infrastructure/interceptors/format-response.interceptor";
 
-// @UseInterceptors(FormatResponseInterceptor)
+@UseInterceptors(FormatResponseInterceptor)
 // @UseFilters(new HttpExceptionFilter())
 @Controller('api/v1/auth')
 @ApiTags('Auth')
