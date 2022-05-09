@@ -111,3 +111,13 @@ Multer (upload photo)
 ```
 npm i -D @types/multer
 ```
+
+
+## Roles
+
+### naming
+based on https://martendb.io/postgres/naming.html we use lowercase with under scores naming
+```
+mobile_number
+is_used
+```

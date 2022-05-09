@@ -30,7 +30,7 @@ import { AuthRegisterResponseDto, AuthRegisterSubmitDto } from "./dto/auth-regis
 
 // @UseInterceptors(FormatResponseInterceptor)
 // @UseFilters(new HttpExceptionFilter())
-@Controller('api/auth')
+@Controller('api/v1/auth')
 @ApiTags('Auth')
 export class AuthController {
 
@@ -41,11 +41,19 @@ export class AuthController {
     }
 
     @Post('register')
-    @ApiBody({ type: AuthRegisterSubmitDto  })
+    @ApiBody({ type: AuthRegisterSubmitDto })
     async register(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
-        console.log('--------------',body)
-        const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobileNumber, body.password));
-        return new AuthRegisterResponseDto('please check your email');
+        console.log('--------------', body)
+        const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
+        console.log(result)
+        return new AuthRegisterResponseDto(result.code, 'کد تایید با موفقیت ارسال شد');
+    }
+    @Post('register/resend-code')
+    @ApiBody({ type: AuthRegisterSubmitDto })
+    async resendToken(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
+        console.log('--------------', body)
+        const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
+        return new AuthRegisterResponseDto('123','please check your email');
     }
 
 

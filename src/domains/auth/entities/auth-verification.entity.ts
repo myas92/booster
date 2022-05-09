@@ -3,7 +3,7 @@ import { AggregateRoot } from "@nestjs/cqrs";
 import { AuthVerificationTypeEnum } from "./auth-verification-type.enum";
 import { ApiProperty } from '@nestjs/swagger';
 
-@Entity('auth-verification')
+@Entity('auth_verification')
 export class AuthVerificationEntity extends AggregateRoot {
     @ApiProperty()
     @PrimaryGeneratedColumn("uuid")
@@ -11,7 +11,7 @@ export class AuthVerificationEntity extends AggregateRoot {
 
     @ApiProperty()
     @Column()
-    mobileNumber: string
+    mobile_number: string
 
     @ApiProperty()
     @Column({ nullable: true })
@@ -27,7 +27,7 @@ export class AuthVerificationEntity extends AggregateRoot {
 
     @ApiProperty()
     @Column()
-    verificationToken: string;
+    verification_code: string;
 
     @ApiProperty()
     @Column({ nullable: true })
@@ -35,13 +35,13 @@ export class AuthVerificationEntity extends AggregateRoot {
 
     @ApiProperty()
     @Column('boolean', { default: false })
-    isUsed: boolean = false
+    is_used: boolean = false
 
     @ApiProperty()
     @CreateDateColumn({ nullable: true })
-    createdAt: Date;
+    created_at: Date;
 
     @UpdateDateColumn({ nullable: true })
-    updatedAt: Date;
+    updated_at: Date;
 
 }
