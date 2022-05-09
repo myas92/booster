@@ -125,7 +125,8 @@ is_used
 
 # Swagger
 
-For showing the all API and documentations uses fo `Swagger`
+To shows the all APIs and documentations uses of `Swagger`
+
 url: {{domain}}/docs
 example: http://localhost:5000/docs
 
