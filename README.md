@@ -121,3 +121,12 @@ based on https://martendb.io/postgres/naming.html we use lowercase with under sc
 mobile_number
 is_used
 ```
+
+
+# Swagger
+
+For showing the all API and documentations uses fo `Swagger`
+url: {{domain}}/docs
+example: http://localhost:5000/docs
+
+Login based on `SWAGGER_USERNAME` and `SWAGGER_PASSWORD` in `.env` file

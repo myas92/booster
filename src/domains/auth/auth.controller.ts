@@ -43,6 +43,7 @@ export class AuthController {
     @Post('register')
     @ApiBody({ type: AuthRegisterSubmitDto })
     async register(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
+        console.log(process.env);
         console.log('--------------', body)
         const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
         console.log(result)

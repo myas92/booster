@@ -27,7 +27,6 @@ export const EventHandlers = [
 @Module({
     imports: [
         TypeOrmModule.forFeature([AuthVerificationEntity]),
-        ConfigModule.forRoot(),
         CqrsModule,
         JwtModule.register({
             secret: process.env.TOKEN_SECRET,
