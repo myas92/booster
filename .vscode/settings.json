@@ -21,6 +21,7 @@
     "peacock.color": "#dd0531",
     "cSpell.words": [
         "cqrs",
+        "middlewares",
         "nestjs",
         "typeorm"
     ]

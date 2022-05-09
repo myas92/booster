@@ -28,7 +28,6 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
     async execute(command: AuthRegisterCommand): Promise<any> {
         try {
             let code = '1111'
-            console.log('FIRST API')
             const { mobile_number, password } = command
             let registerInfo = new AuthVerificationEntity();
             registerInfo.mobile_number = command.mobile_number;
@@ -37,7 +36,6 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
             registerInfo.type = AuthVerificationTypeEnum.Register;
             registerInfo.ip = command.req.ip;
             registerInfo.created_at = new Date(Date.now())
-            console.log(registerInfo)
             await this.authVerificationRepository.save(registerInfo);
             return { code: code };
         } catch (error) {

@@ -136,3 +136,20 @@ To shows the all APIs and documentations uses of `Swagger`
 `example: http://localhost:5000/docs`
 
 Login based on `SWAGGER_USERNAME` and `SWAGGER_PASSWORD` in `.env` file
+
+
+# CLI
+**Install nestjs cli**
+```
+npm i -g @nestjs/cli
+```
+
+**Add a middleware**
+```
+nest g mi common/middlewares/logger
+```
+
+
+# Useful articles
+
+1: [Difference between Middleware, Interceptor, and Filter in the NestJS ecosystem](https://blog.bitsrc.io/difference-between-middleware-interceptor-and-filter-in-the-nest-js-ecosystem-c71fb3ba32f6)
