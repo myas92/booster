@@ -6,7 +6,7 @@ import * as basicAuth from 'express-basic-auth';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe()); // validate input data
-
+  app.enableCors();
 
   // create a authentication for swagger documentations
   app.use(['/docs', '/docs-json'], basicAuth({

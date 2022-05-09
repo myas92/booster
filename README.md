@@ -119,7 +119,7 @@ npm i express-basic-auth
 
 ## Roles
 
-### naming
+### Naming
 based on https://martendb.io/postgres/naming.html we use lowercase with under scores naming
 ```
 mobile_number
