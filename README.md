@@ -149,6 +149,19 @@ npm i -g @nestjs/cli
 nest g mi common/middlewares/logger
 ```
 
+# Response Format 
+
+**Success**
+```
+{
+    "status": "success",
+    "data": {
+        "message": "something",
+        "extraData": "something"
+    },
+    "error": {}
+}
+```
 
 # Useful articles
 
