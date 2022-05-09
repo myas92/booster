@@ -54,22 +54,17 @@ query : GET
 
 ## Modules:
 
-Swagger
-```
-npm install --save @nestjs/swagger swagger-ui-express
-```
-
-use ENV
+**Config for using ENV**
 ```
 npm install --save @nestjs/config
 ```
 
-CQRS
+**CQRS**
 ```
 npm install --save @nestjs/cqrs
 ```
 
-Validation 
+**Validation** 
 
 based on tutorial link : https://docs.nestjs.com/techniques/validation
 ```
@@ -77,12 +72,12 @@ npm i --save class-validator class-transformer
 ```
 
 
-Hashing password
+**Hashing password**
 ```
 npm install bcrypt
 ```
 
-JWT Auth
+**JWT Auth**
 
 tutorial Link : https://docs.nestjs.com/security/authentication
 ```
@@ -93,7 +88,7 @@ npm install --save @nestjs/passport passport passport-local
 ```
 
 
-Sending Email
+**Sending Email**
 
 tutorial link: https://www.npmjs.com/package/@nestjs-modules/mailer
 ```
@@ -106,12 +101,21 @@ Hint: handlebars and pug is an optional dependency, if you want to use the templ
 npm install --save handlebars
 ```
 
-
-Multer (upload photo)
+**Multer (upload photo)**
 ```
 npm i -D @types/multer
 ```
 
+
+**Swagger**
+```
+npm install --save @nestjs/swagger swagger-ui-express
+```
+
+**Swagger authentication**
+```
+npm i express-basic-auth
+```
 
 ## Roles
 
@@ -127,7 +131,8 @@ is_used
 
 To shows the all APIs and documentations uses of `Swagger`
 
-url: {{domain}}/docs
-example: http://localhost:5000/docs
+`url: {{domain}}/docs`
+
+`example: http://localhost:5000/docs`
 
 Login based on `SWAGGER_USERNAME` and `SWAGGER_PASSWORD` in `.env` file
