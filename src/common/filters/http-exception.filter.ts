@@ -1,6 +1,6 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { Something_Went_Wrong } from '../translates/errors.translate';
+import { Something_Went_Wrong, Bad_Request_Exception } from '../translates/errors.translate';
 import { generalConfig } from '../../config/general.config';
 
 @Catch(HttpException)
@@ -21,6 +21,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 timestamp: new Date().toISOString(),
                 path: request.url,
                 message: generalError.response.message[language],
+            }
+        }
+        if (exception.status === 400 && exception.message === "Bad Request Exception") {
+            result = {
+                status_code: Bad_Request_Exception.status_code,
+                error_code: Bad_Request_Exception.code,
+                timestamp: new Date().toISOString(),
+                path: request.url,
+                message: Bad_Request_Exception.message[language],
+                //TODO : remove this line from
+                message_developer: exception.getResponse().message
             }
         }
         // If none exception error is happened

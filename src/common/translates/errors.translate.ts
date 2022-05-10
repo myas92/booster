@@ -191,3 +191,11 @@ export const Field_Email_Is_Duplicate = {
       en: "Mobile number is duplicated",
     },
   };
+  export const Bad_Request_Exception = {
+    status_code: 400,
+    code: 1020,
+    message: {
+      fa: "درخواست نامعتبر است",
+      en: "Bad request exception",
+    },
+  };
