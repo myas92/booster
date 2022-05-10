@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { AggregateRoot } from "@nestjs/cqrs";
-import { ExampleGenderTypeEnum } from "./example-gender-type.enum";
+import { ExampleStatusTypeEnum } from "./example-status-type.enum";
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
@@ -16,6 +16,6 @@ export class ExampleEntity extends AggregateRoot {
 
     @ApiProperty()
     @Column({ nullable: true })
-    info: ExampleGenderTypeEnum;
+    status: ExampleStatusTypeEnum;
 
 }

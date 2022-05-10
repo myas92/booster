@@ -10,6 +10,8 @@ import { ExampleModule } from './domains/example/example.module';
 // Middleware
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 
+import { Connection } from 'typeorm';
+
 @Module({
   imports: [
     CqrsModule,
@@ -22,7 +24,8 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 })
 
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
+  constructor(private connection: Connection) {}
+  configure(consumer: MiddlewareConsumer, ) {
     consumer
       .apply(LoggerMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });

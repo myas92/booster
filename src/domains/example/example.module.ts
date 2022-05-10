@@ -10,10 +10,12 @@ import { AddExampleCommandHandler } from "./cqrs/commands/add-example/add-exampl
 import { ExampleEntity } from "./entities/example.entity";
 
 import { AuthCheckUsernameQueryHandler } from './cqrs/queries/auth-check-username/auth-check-username.query-handler';
+import { AddExampleRollbackCommandHandler } from './cqrs/commands/add-example-rollback/add-example-rollback.command-handler';
 
 
 export const CommandHandlers = [
     AddExampleCommandHandler,
+    AddExampleRollbackCommandHandler
 ];
 export const QueriesHandlers = [
     AuthCheckUsernameQueryHandler

@@ -84,7 +84,7 @@ export const Field_Email_Is_Duplicate = {
   };
 
   export const Something_Went_Wrong = {
-    status_code: 400,
+    status_code: 500,
     code: 1009,
     message: {
       fa: "خطای سمت سرور",

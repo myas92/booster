@@ -12,10 +12,12 @@ import { AuthRegisterCommandHandler } from "./cqrs/commands/auth-register/auth-r
 import { AuthVerificationEntity } from "./entities/auth-verification.entity";
 
 import { AuthCheckUsernameQueryHandler } from './cqrs/queries/auth-check-username/auth-check-username.query-handler';
+import { ResendCodeCommandHandler } from './cqrs/commands/resend-code/resend-code.command-handler';
 
 
 export const CommandHandlers = [
     AuthRegisterCommandHandler,
+    ResendCodeCommandHandler
 ];
 export const QueriesHandlers = [
     AuthCheckUsernameQueryHandler

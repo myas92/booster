@@ -1,4 +1,4 @@
-export class AddExampleCommand {
+export class AddExampleRollbackCommand {
 
     constructor(req: any, name: string) {
         this.req = req;

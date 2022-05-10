@@ -1,0 +1,10 @@
+1: Access to database in Cqrs Handler or in Service
+----------------------------------------------------------------------
+import { ExampleEntity } from "../../../entities/example.entity";
+
+    constructor(
+        @InjectRepository(ExampleEntity)
+        private readonly exampleRepository: Repository<ExampleEntity>
+    ) {
+    }
+******************************************************************************

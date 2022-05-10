@@ -24,6 +24,8 @@ import { AuthRegisterCommand } from "./cqrs/commands/auth-register/auth-register
 import { AuthRegisterResponseDto, AuthRegisterSubmitDto } from "./dto/auth-register.dto";
 import { FormatResponseInterceptor } from "src/common/interceptors/format-response.interceptor";
 import { HttpExceptionFilter } from "src/common/filters/http-exception.filter";
+import { AuthService } from "./auth.service";
+import { ResendCodeCommand } from "./cqrs/commands/resend-code/resend-code.command";
 
 
 
@@ -39,9 +41,17 @@ export class AuthController {
     constructor(
         private readonly commandBus: CommandBus,
         private readonly queryBus: QueryBus,
+        private readonly authService : AuthService
     ) {
     }
 
+    @Post('register-temp')
+    @ApiBody({ type: AuthRegisterSubmitDto })
+    async registerTemp(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
+        // const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
+        let result = await this.authService.getAllRecords()
+        return new AuthRegisterResponseDto('12', 'کد تایید با موفقیت ارسال شد');
+    }
     @Post('register')
     @ApiBody({ type: AuthRegisterSubmitDto })
     async register(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
@@ -51,7 +61,7 @@ export class AuthController {
     @Post('register/resend-code')
     @ApiBody({ type: AuthRegisterSubmitDto })
     async resendToken(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
-        const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
+        const result = await this.commandBus.execute(new ResendCodeCommand(req, body.mobile_number, body.password));
         return new AuthRegisterResponseDto('123','please check your email');
     }
 

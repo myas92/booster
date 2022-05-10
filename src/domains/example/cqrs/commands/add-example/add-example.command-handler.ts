@@ -1,6 +1,6 @@
 import { generalConfig } from 'src/config/general.config';
 import moment from "moment"
-import { BadRequestException, ConflictException, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, ConflictException, HttpException, InternalServerErrorException } from "@nestjs/common";
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
 import { JwtService } from "@nestjs/jwt";
@@ -9,6 +9,7 @@ import { hashSync } from "bcrypt";
 
 import { AddExampleCommand } from "./add-example.command";
 import { ExampleEntity } from "../../../entities/example.entity";
+import { ExampleStatusTypeEnum } from 'src/domains/example/entities/example-status-type.enum';
 
 
 @CommandHandler(AddExampleCommand)
@@ -16,18 +17,22 @@ export class AddExampleCommandHandler implements ICommandHandler<AddExampleComma
 
     constructor(
         private readonly commandBus: CommandBus,
+        @InjectRepository(ExampleEntity)
+        private readonly exampleRepository: Repository<ExampleEntity>
     ) {
     }
 
     async execute(command: AddExampleCommand): Promise<any> {
         try {
-            const {name, info} = command
-            console.log('command', command)
-            console.log('body', name);
-            console.log('body', info)
-            console.log('FIRST API')
+            const {name} = command
+            let example = new ExampleEntity();
+            example.name = name;
+            example.status = ExampleStatusTypeEnum.ACTIVE;
+            await this.exampleRepository.save(example);
+            return example
+
         } catch (error) {
-            throw new InternalServerErrorException(error.message);
+            throw new HttpException(error, error.status);
         }
     }
 

@@ -7,14 +7,14 @@ import { JwtService } from "@nestjs/jwt";
 import { Connection, Repository } from "typeorm";
 import { hashSync } from "bcrypt";
 
-import { AuthRegisterCommand } from "./auth-register.command";
+import { ResendCodeCommand } from "./resend-code.command";
 import { AuthVerificationEntity } from "../../../entities/auth-verification.entity";
 
 import { AuthVerificationTypeEnum } from "../../../entities/auth-verification-type.enum";
 import { Account_Is_Disabled } from 'src/common/translates/errors.translate';
 import { AuthService } from 'src/domains/auth/auth.service';
-@CommandHandler(AuthRegisterCommand)
-export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterCommand> {
+@CommandHandler(ResendCodeCommand)
+export class ResendCodeCommandHandler implements ICommandHandler<ResendCodeCommand> {
 
     constructor(
         private readonly jwtService: JwtService,
@@ -23,28 +23,12 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
         @InjectRepository(AuthVerificationEntity)
         private readonly authVerificationRepository: Repository<AuthVerificationEntity>,
         private readonly authService: AuthService,
+        private readonly connection: Connection,
     ) {
     }
 
-    async execute(command: AuthRegisterCommand): Promise<any> {
-        // try {
-
-        let code = '1111'
-        const { mobile_number, password } = command
-        let registerInfo = new AuthVerificationEntity();
-        registerInfo.ip = command.req.ip;
-        registerInfo.mobile_number = command.mobile_number;
-        registerInfo.password = hashSync(password, 10);
-        registerInfo.verification_code = code;
-        registerInfo.type = AuthVerificationTypeEnum.Register;
-        registerInfo.created_at = new Date(Date.now())
-
-        await this.authVerificationRepository.save(registerInfo);
-        return { code: code };
-    } catch(error) {
-        throw new HttpException(error, error.status);
-
+    async execute(command: ResendCodeCommand): Promise<any> {
+        console.log(command);
     }
+
 }
-
-

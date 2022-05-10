@@ -6,12 +6,6 @@ export class AddExampleSubmitDto {
     @MinLength(3)
     @MaxLength(50)
     name: string;
-
-    @ApiProperty()
-    @MinLength(6)
-    @MaxLength(50)
-    info: string;
-    
 }
 
 export class AddExampleResponseDto {

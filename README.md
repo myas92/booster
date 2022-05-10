@@ -162,8 +162,7 @@ It's sensitive to languages(`fa/en`)
     "data": {
         "message": "something",
         "extraData": "something"
-    },
-    "error": {}
+    }
 }
 ```
 **Error**
@@ -171,7 +170,7 @@ It's sensitive to languages(`fa/en`)
 // For language:fa
 {
     "status": "error",
-    "error": {
+    "data": {
         "status_code": 200,
         "error_code": 1001,
         "timestamp": "2022-05-09T11:31:34.858Z",
@@ -180,6 +179,15 @@ It's sensitive to languages(`fa/en`)
     }
 }
 ```
+
+# Rollback
+
+Uses [transaction](https://docs.nestjs.com/techniques/database#transactions) of type orm for rollback
+
+There is a example of using rollback in this blow path
+
+`src/domains/example/cqrs/commands/add-example-rollback/add-example-rollback.command-handler.ts`
+
 
 # Postman
 

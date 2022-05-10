@@ -19,17 +19,18 @@ import {
     ApiTags
 } from "@nestjs/swagger";
 
-// import { HttpExceptionFilter } from "../../infrastructure/filters/http-exception.filter";
 import { AddExampleCommand } from "./cqrs/commands/add-example/add-example.command";
 import { AddExampleSubmitDto, AddExampleResponseDto } from "./dto/example.dto";
+import { AddExampleRollbackCommand } from "./cqrs/commands/add-example-rollback/add-example-rollback.command";
+import { HttpExceptionFilter } from "src/common/filters/http-exception.filter";
+import { FormatResponseInterceptor } from "src/common/interceptors/format-response.interceptor";
 
 
 
 
-// import { FormatResponseInterceptor } from "../../infrastructure/interceptors/format-response.interceptor";
 
-// @UseInterceptors(FormatResponseInterceptor)
-// @UseFilters(new HttpExceptionFilter())
+@UseInterceptors(FormatResponseInterceptor)
+@UseFilters(new HttpExceptionFilter())
 @Controller('api/example')
 @ApiTags('Example')
 export class ExampleController {
@@ -42,9 +43,14 @@ export class ExampleController {
 
     @Post('add')
     @ApiBody({ type: AddExampleSubmitDto  })
-    async register(@Body() body: AddExampleSubmitDto, @Req() req): Promise<AddExampleResponseDto> {
-        console.log('--------------',body)
-        const result = await this.commandBus.execute(new AddExampleCommand(req, body.name, body.info));
+    async addExample(@Body() body: AddExampleSubmitDto, @Req() req): Promise<AddExampleResponseDto> {
+        const result = await this.commandBus.execute(new AddExampleCommand(req, body.name));
+        return new AddExampleResponseDto('example added');
+    }
+    @Post('add/rollback')
+    @ApiBody({ type: AddExampleSubmitDto  })
+    async addExampleRollback(@Body() body: AddExampleSubmitDto, @Req() req): Promise<AddExampleResponseDto> {
+        const result = await this.commandBus.execute(new AddExampleRollbackCommand(req, body.name));
         return new AddExampleResponseDto('example added');
     }
 
