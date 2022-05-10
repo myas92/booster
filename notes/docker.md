@@ -1,33 +1,33 @@
 ## Docker
 
-### Run proxy or VPN
+### 1: Run proxy or VPN
 Flow this link [how to install and use docker on ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
 
 
-### Install docker compose
+### 2: Install docker compose
 Flow this link [how to install and use docker compose on ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04)
 
 
-### Login to docker account 
+### 3: Login to docker account 
 ```bash
 sudo docker login
 ```
 
-### Install docker extensions in vscode
+### 4: Install docker extensions in vscode
 It's a helpful extensions for use of docker
 
-### Useful other link
+### 5: Useful other link
  
 [creating Dockerfile in nestjs](https://tushar-chy.medium.com/a-simple-todo-application-with-nestjs-typeorm-postgresql-swagger-pgadmin4-jwt-and-docker-caa2742a4295)
 
 
-### Change volume of docker pgdata to local 
+### 6: Change volume of docker pgdata to local 
 ```bash
 volumes:
     - ../pgdata:/var/lib/postgresql/data
 ```
 
-### Connect pgadmin4 to docker database
+### 7: Connect pgadmin4 to docker database
 ```bash
 > docker ps
 > docker inspect <dockerContainerId> | grep IPAddress
@@ -37,7 +37,7 @@ volumes:
 Flow this link [how to connect to docker postgres in local](https://stackoverflow.com/questions/25540711/docker-postgres-pgadmin-local-connection)
 
 
-### Multiple environment
+### 8: Multiple environment
 For using multiple environment, use this [article](https://dev.to/erezhod/setting-up-a-nestjs-project-with-docker-for-back-end-development-30lg)
 
 
