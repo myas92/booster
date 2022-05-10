@@ -38,11 +38,9 @@ Flow this link [how to connect to docker postgres in local](https://stackoverflo
 
 
 ## Multiple environment
-For using multiple environment, use this [article]
-(https://dev.to/erezhod/setting-up-a-nestjs-project-with-docker-for-back-end-development-30lg)
+For using multiple environment, use this [article](https://dev.to/erezhod/setting-up-a-nestjs-project-with-docker-for-back-end-development-30lg)
 
 
----------------------------------------------------
 **Note**: We can remove `nameserver of Shekan` from /etc/resolve.conf when `<npm install>`
 ```
 nameserver 178.22.122.100
