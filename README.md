@@ -184,7 +184,7 @@ It's sensitive to languages(`fa/en`)
 
 Uses [transaction](https://docs.nestjs.com/techniques/database#transactions) of type orm for rollback
 
-There is a example of using rollback in this blow path
+There is an example of using rollback in this blow path
 
 `src/domains/example/cqrs/commands/add-example-rollback/add-example-rollback.command-handler.ts`
 
@@ -196,6 +196,12 @@ Implemented test for all APIs
 Postman link: https://www.getpostman.com/collections/6006ac369048172eb56e
 
 
+# Docker
+It is possible to publish the project as a docker
+**Note:** Read notes>docker.txt steps
+
 # Useful articles
 
 1: [Difference between Middleware, Interceptor, and Filter in the NestJS ecosystem](https://blog.bitsrc.io/difference-between-middleware-interceptor-and-filter-in-the-nest-js-ecosystem-c71fb3ba32f6)
+
+2: [How To Install and Use Docker on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)

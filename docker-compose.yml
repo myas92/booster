@@ -1,0 +1,43 @@
+
+version: '3'
+services: 
+  db:
+    image: postgres
+    restart: always
+    environment: 
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+    container_name: postgres-db
+    volumes:
+      - ../pgdata:/var/lib/postgresql/data
+  nestjs:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    image: yaserahmadi/booster:latest
+    environment: 
+      - SERVER_PORT=${SERVER_PORT_DOCKER}
+      - POSTGRES_HOST=${POSTGRES_HOST_DOCKER}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      - RUN_MIGRATIONS=${RUN_MIGRATIONS}
+      - POSTGRES_SYNCHRONIZE=${POSTGRES_SYNCHRONIZE}
+      - TOKEN_SECRET=${TOKEN_SECRET}
+      - TOKEN_EXPIRE=${TOKEN_EXPIRE}
+      - POSTGRES_SYNC=false
+      - SWAGGER_USERNAME=${SWAGGER_USERNAME}
+      - SWAGGER_PASSWORD=${SWAGGER_PASSWORD}
+    ports: 
+      - "5000:5000" # expose-to-the-world : only-in-the-docker
+    container_name: nest-booster
+    depends_on: 
+      - db
+    volumes: 
+      - .:/app
+      - /app/node_modules
+volumes:
+  pgdata:
+  pgadmin-data:
