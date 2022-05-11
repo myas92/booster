@@ -27,12 +27,6 @@ $ npm run start:prod
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 ### For migration use this tutorial
 
@@ -199,6 +193,15 @@ Postman link: https://www.getpostman.com/collections/6006ac369048172eb56e
 # Docker
 It is possible to publish the project as a docker
 **Note:** Read notes>docker.txt steps
+
+# Make file
+The [Makefile](https://gist.github.com/zoe-1/784100440f0cf2299010#:~:text=The%20Makefile%20is%20useful%20for,%22%20and%20%22npm%20test%22.) is useful for automating tasks in your project. It don't work in `Windows`.
+```bash
+# sudo apt install make
+
+make start
+```
+
 
 # Useful articles
 
