@@ -22,8 +22,8 @@ import {
 // import { HttpExceptionFilter } from "../../infrastructure/filters/http-exception.filter";
 import { AuthRegisterCommand } from "./cqrs/commands/auth-register/auth-register.command";
 import { AuthRegisterResponseDto, AuthRegisterSubmitDto } from "./dto/auth-register.dto";
-import { FormatResponseInterceptor } from "src/common/interceptors/format-response.interceptor";
-import { HttpExceptionFilter } from "src/common/filters/http-exception.filter";
+import { FormatResponseInterceptor } from "../../common/interceptors/format-response.interceptor";
+import { HttpExceptionFilter } from "../../common/filters/http-exception.filter";
 import { AuthService } from "./auth.service";
 import { ResendCodeCommand } from "./cqrs/commands/resend-code/resend-code.command";
 

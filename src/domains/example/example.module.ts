@@ -4,7 +4,7 @@ import { CqrsModule } from "@nestjs/cqrs";
 import { ConfigModule } from "@nestjs/config";
 
 import { ExampleController } from './example.controller';
-import { AuthService } from './example.service';
+import { ExampleService } from './example.service';
 
 import { AddExampleCommandHandler } from "./cqrs/commands/add-example/add-example.command-handler";
 import { ExampleEntity } from "./entities/example.entity";
@@ -32,12 +32,12 @@ export const EventHandlers = [
     ],
     controllers: [ExampleController],
     providers: [
-        AuthService,
+        ExampleService,
         ...CommandHandlers,
         ...EventHandlers,
         ...QueriesHandlers],
     exports: [
-        AuthService,
+        ExampleService,
         ...CommandHandlers,
         ...EventHandlers,
         ...QueriesHandlers]

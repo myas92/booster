@@ -22,8 +22,9 @@ import {
 import { AddExampleCommand } from "./cqrs/commands/add-example/add-example.command";
 import { AddExampleSubmitDto, AddExampleResponseDto } from "./dto/example.dto";
 import { AddExampleRollbackCommand } from "./cqrs/commands/add-example-rollback/add-example-rollback.command";
-import { HttpExceptionFilter } from "src/common/filters/http-exception.filter";
-import { FormatResponseInterceptor } from "src/common/interceptors/format-response.interceptor";
+import { FormatResponseInterceptor } from './../../common/interceptors/format-response.interceptor';
+import { HttpExceptionFilter } from './../../common/filters/http-exception.filter';
+
 
 
 

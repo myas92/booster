@@ -9,10 +9,10 @@ import { hashSync } from "bcrypt";
 
 import { ResendCodeCommand } from "./resend-code.command";
 import { AuthVerificationEntity } from "../../../entities/auth-verification.entity";
+import { AuthService } from './../../../auth.service';
 
 import { AuthVerificationTypeEnum } from "../../../entities/auth-verification-type.enum";
-import { Account_Is_Disabled } from 'src/common/translates/errors.translate';
-import { AuthService } from 'src/domains/auth/auth.service';
+
 @CommandHandler(ResendCodeCommand)
 export class ResendCodeCommandHandler implements ICommandHandler<ResendCodeCommand> {
 

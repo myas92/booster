@@ -1,4 +1,3 @@
-import { generalConfig } from 'src/config/general.config';
 import moment from "moment"
 import { BadRequestException, ConflictException, HttpException, InternalServerErrorException } from "@nestjs/common";
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
@@ -9,7 +8,7 @@ import { hashSync } from "bcrypt";
 
 import { AddExampleRollbackCommand } from "./add-example-rollback.command"
 import { ExampleEntity } from "../../../entities/example.entity";
-import { ExampleStatusTypeEnum } from 'src/domains/example/entities/example-status-type.enum';
+import { ExampleStatusTypeEnum } from './../../../entities/example-status-type.enum';
 
 
 @CommandHandler(AddExampleRollbackCommand)

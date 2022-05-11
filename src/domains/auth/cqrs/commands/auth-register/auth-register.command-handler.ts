@@ -11,8 +11,8 @@ import { AuthRegisterCommand } from "./auth-register.command";
 import { AuthVerificationEntity } from "../../../entities/auth-verification.entity";
 
 import { AuthVerificationTypeEnum } from "../../../entities/auth-verification-type.enum";
-import { Account_Is_Disabled } from 'src/common/translates/errors.translate';
-import { AuthService } from 'src/domains/auth/auth.service';
+import { Account_Is_Disabled } from '../../../../../common/translates/errors.translate';
+import { AuthService } from '../../../../../domains/auth/auth.service';
 @CommandHandler(AuthRegisterCommand)
 export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterCommand> {
 

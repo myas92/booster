@@ -1,3 +1,4 @@
+import { ExampleStatusTypeEnum } from './../../../entities/example-status-type.enum';
 import { generalConfig } from 'src/config/general.config';
 import moment from "moment"
 import { BadRequestException, ConflictException, HttpException, InternalServerErrorException } from "@nestjs/common";
@@ -9,7 +10,6 @@ import { hashSync } from "bcrypt";
 
 import { AddExampleCommand } from "./add-example.command";
 import { ExampleEntity } from "../../../entities/example.entity";
-import { ExampleStatusTypeEnum } from 'src/domains/example/entities/example-status-type.enum';
 
 
 @CommandHandler(AddExampleCommand)
