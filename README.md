@@ -26,7 +26,7 @@ $ npm run start:prod
 
 ```bash
 # unit tests
-$ npm run test
+$ npm run test:e2e
 ```
 ### For migration use this tutorial
 
