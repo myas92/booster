@@ -1,6 +1,7 @@
+import { Total_Resend_Code, Mobile_Number_Is_Not_Exist } from './../../../../../common/translates/errors.translate';
 import { generalConfig } from 'src/config/general.config';
 import moment from "moment"
-import { BadRequestException, ConflictException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, HttpException } from "@nestjs/common";
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
 import { JwtService } from "@nestjs/jwt";
@@ -28,7 +29,20 @@ export class ResendCodeCommandHandler implements ICommandHandler<ResendCodeComma
     }
 
     async execute(command: ResendCodeCommand): Promise<any> {
-        console.log(command);
+        try {
+            const { mobile_number } = command
+            let authUserInfo = await this.authService.getAuthUserByPhone(mobile_number);
+            if (authUserInfo) {// 5 attempts
+                throw new HttpException(Mobile_Number_Is_Not_Exist, Mobile_Number_Is_Not_Exist.status_code);
+            }
+            if (authUserInfo.total_resend_code < 3) {// 5 attempts
+                throw new HttpException(Total_Resend_Code, Total_Resend_Code.status_code);
+            }
+            console.log(command);
+        } catch (error) {
+            throw new HttpException(error, error.status);
+        }
+
     }
 
 }

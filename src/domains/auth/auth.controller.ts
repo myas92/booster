@@ -1,3 +1,4 @@
+import { AuthResendCodeResponseDto, AuthResendCodeSubmitDto } from './dto/auth-resend-code.dto';
 import { Request_Was_Successful } from './../../common/translates/success.translate';
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { diskStorage } from 'multer';
@@ -49,22 +50,22 @@ export class AuthController {
 
     @Post('register-temp')
     @ApiBody({ type: AuthRegisterSubmitDto })
-    async registerTemp(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers() headers): Promise<AuthRegisterResponseDto> {
+    async registerTemp(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
         // const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
         let result = await this.authService.getAllRecords()
         return new AuthRegisterResponseDto('12', 'کد تایید با موفقیت ارسال شد');
     }
     @Post('register')
     @ApiBody({ type: AuthRegisterSubmitDto })
-    async register(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers() headers): Promise<AuthRegisterResponseDto> {
+    async register(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
         const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
-        return new AuthRegisterResponseDto(result.code, Request_Was_Successful.message[headers.language]);
+        return new AuthRegisterResponseDto(result.code, Request_Was_Successful.message[language]);
     }
-    @Post('register/resend-code')
-    @ApiBody({ type: AuthRegisterSubmitDto })
-    async resendToken(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
-        const result = await this.commandBus.execute(new ResendCodeCommand(req, body.mobile_number, body.password));
-        return new AuthRegisterResponseDto('123', Request_Was_Successful[req.language]);
+    @Post('resend-code')
+    @ApiBody({ type: AuthResendCodeSubmitDto })
+    async resendToken(@Body() body: AuthResendCodeSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
+        const result = await this.commandBus.execute(new ResendCodeCommand(req, body.mobile_number));
+        return new AuthResendCodeResponseDto('123', Request_Was_Successful.message[language]);
     }
 
 

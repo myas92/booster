@@ -8,12 +8,14 @@ export class LoggerMiddleware implements NestMiddleware {
     logger = new Logger(LoggerMiddleware.name);
 
     use(req: Request, res: Response, next: Function) {
-        let language = req.headers['language'] as string
-        language = (language && generalConfig.LANGUAGES.includes(language)) ? (language) : 'fa';
-        req.header['language'] = language;
+        {
+            let language = req.headers['language'] as string
+            language = (language && generalConfig.LANGUAGES.includes(language)) ? (language) : 'fa';
+            req.header['language'] = language;
 
-        const ip = req.ip
-        this.logger.verbose(`[${req.hostname}][${req.method}][${ip}] : ${req.originalUrl}`)
-        next();
+            const ip = req.ip
+            this.logger.verbose(`[${req.hostname}][${req.method}][${ip}] : ${req.originalUrl}`)
+            next();
+        }
     }
 }

@@ -9,7 +9,7 @@ export class LanguageMiddleware implements NestMiddleware {
     use(req: Request, res: Response, next: Function) {
         let language = req.headers['language'] as string
         language = (language && generalConfig.LANGUAGES.includes(language)) ? (language) : 'fa';
-        req.header['language'] = language;
+        req.headers['language'] = language;
         next();
     }
 }

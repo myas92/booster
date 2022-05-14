@@ -22,7 +22,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 message: generalError.response.message[language],
             }
         }
-        if (exception.status === 400 && exception.message === "Bad Request Exception") {
+        else if (exception.status === 400 && exception.message === "Bad Request Exception") {
             result = {
                 status_code: Bad_Request_Exception.status_code,
                 error_code: Bad_Request_Exception.code,

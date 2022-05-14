@@ -11,6 +11,14 @@ export class AuthService {
         private readonly authVerificationRepository: Repository<AuthVerificationEntity>
     ) { }
 
+    async getAuthUserByPhone(mobileNumber) {
+        const result = await this.authVerificationRepository.findOne({
+            where: [{ mobile_number: mobileNumber }, {is_used: false}],
+            order: { created_at: 'DESC' }
+        });
+        return result;
+    }
+
     async getAllRecords() {
         let result = await this.authVerificationRepository.find();
         console.log(result)

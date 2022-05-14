@@ -1,13 +1,9 @@
 export class ResendCodeCommand {
 
-    constructor(req: any, mobile_number: string, password: string, agreement: boolean = true) {
+    constructor(req: any, mobile_number: string) {
         this.req = req;
-        this.mobile_number = mobile_number?.toLowerCase();
-        this.password = password;
-        this.agreement = agreement;
+        this.mobile_number = mobile_number;
     }
     req: any;
     mobile_number: string;
-    password: string;
-    agreement: boolean
 }

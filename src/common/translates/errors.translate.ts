@@ -193,9 +193,25 @@ export const Field_Email_Is_Duplicate = {
   };
   export const Bad_Request_Exception = {
     status_code: 400,
-    code: 1020,
+    code: 1021,
     message: {
       fa: "درخواست نامعتبر است",
       en: "Bad request exception",
+    },
+  };
+  export const Total_Resend_Code = {
+    status_code: 400,
+    code: 1022,
+    message: {
+      fa: "تا ۲۴ ساعت آینده ارسال مجدد کد امکان پذیر نیست ",
+      en: "Please try 24 hours later again",
+    },
+  };
+  export const Mobile_Number_Is_Not_Exist = {
+    status_code: 403,
+    code: 1023,
+    message: {
+      fa: "شماره همراه نامعتبر است",
+      en: "Mobile number is not exist",
     },
   };

@@ -27,7 +27,7 @@ export class AuthVerificationEntity extends AggregateRoot {
 
     @ApiProperty()
     @Column()
-    verification_code: string;
+    verify_code: string;
 
     @ApiProperty()
     @Column({ nullable: true })
@@ -36,6 +36,10 @@ export class AuthVerificationEntity extends AggregateRoot {
     @ApiProperty()
     @Column('boolean', { default: false })
     is_used: boolean = false
+
+    @ApiProperty()
+    @Column()
+    total_resend_code: number;
 
     @ApiProperty()
     @CreateDateColumn({ nullable: true })
