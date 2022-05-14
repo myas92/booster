@@ -1,3 +1,4 @@
+import { getVerifyCode } from './../../../../../common/utils/helpers';
 import { generalConfig } from 'src/config/general.config';
 import moment from "moment"
 import { BadRequestException, ConflictException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
@@ -29,11 +30,11 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
     async execute(command: AuthRegisterCommand): Promise<any> {
         // try {
 
-        let code = '1111'
+        let code = getVerifyCode();
         const { mobile_number, password } = command
         let registerInfo = new AuthVerificationEntity();
         registerInfo.ip = command.req.ip;
-        registerInfo.mobile_number = command.mobile_number;
+        registerInfo.mobile_number = mobile_number;
         registerInfo.password = hashSync(password, 10);
         registerInfo.verification_code = code;
         registerInfo.type = AuthVerificationTypeEnum.Register;
