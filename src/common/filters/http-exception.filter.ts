@@ -13,7 +13,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const generalError = exception.getResponse();
         let language = request.headers['language'] as string
 
-        language = (language && generalConfig.LANGUAGES.includes(language)) ? (language) : 'fa';
         if (generalError.response) {
             result = {
                 status_code: generalError.response.status_code,
