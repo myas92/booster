@@ -9,6 +9,7 @@ import { AuthModule } from './domains/auth/auth.module';
 import { ExampleModule } from './domains/example/example.module';
 // Middleware
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { LanguageMiddleware } from './common/middlewares/language.middleware'
 
 import { Connection } from 'typeorm';
 
@@ -29,5 +30,8 @@ export class AppModule implements NestModule {
     consumer
       .apply(LoggerMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
+    consumer
+      .apply(LanguageMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL })
   }
 }

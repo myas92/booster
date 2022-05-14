@@ -30,6 +30,6 @@ export class AuthRegisterResponseDto {
 
     @ApiProperty()
     message: string
-
+    AuthRegisterResponseDto
     code: string
 }
