@@ -1,6 +1,4 @@
 import { getVerifyCode } from './../../../../../common/utils/helpers';
-import { generalConfig } from 'src/config/general.config';
-import moment from "moment"
 import { BadRequestException, ConflictException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -33,9 +31,11 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
             let code = getVerifyCode();
             const { mobile_number, password } = command
             let authUserInfo = await this.authService.getAuthUserByPhoneIn24Hours(mobile_number);
-            if(authUserInfo.length > 4){ // more than 5 attempts for register
+            if(authUserInfo.length > 4){ // valid just under 5 attempts for register
                 throw new HttpException(Total_Resend_Code, Total_Resend_Code.status_code);
             }
+            //TODO: Is user exist??
+            
             let registerInfo = new AuthVerificationEntity();
             registerInfo.ip = command.req.ip;
             registerInfo.mobile_number = mobile_number;

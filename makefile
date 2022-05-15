@@ -5,4 +5,6 @@ dev:
 dstart:
 	docker-compose up
 dstop:
-	docker-compose up
+	docker-compose down
+ddbuild:
+	docker-compose build; docker-compose up;

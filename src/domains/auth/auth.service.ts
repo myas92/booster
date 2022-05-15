@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThan, Repository } from 'typeorm';
 
 import { AuthVerificationEntity } from './entities/auth-verification.entity';
+import { AuthVerificationTypeEnum } from './entities/auth-verification-type.enum';
 
 @Injectable()
 export class AuthService {
@@ -21,12 +22,14 @@ export class AuthService {
     }
 
     async getAuthUserByPhoneIn24Hours(mobileNumber) {
-        let date = moment().subtract(1, 'days')
+
+        let date = moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')
         const result = await this.authVerificationRepository.find({
             where: [{
                 mobile_number: mobileNumber, 
                 created_at:  MoreThan(date),
-                is_used: false
+                is_used: false,
+                type: AuthVerificationTypeEnum.Register
             }],
             order: { created_at: 'DESC' }
         });
