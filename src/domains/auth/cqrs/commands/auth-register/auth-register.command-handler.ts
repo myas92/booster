@@ -12,7 +12,7 @@ import { AuthRegisterCommand } from "./auth-register.command";
 import { AuthVerificationEntity } from "../../../entities/auth-verification.entity";
 
 import { AuthVerificationTypeEnum } from "../../../entities/auth-verification-type.enum";
-import { Account_Is_Disabled } from '../../../../../common/translates/errors.translate';
+import { Account_Is_Disabled, Total_Resend_Code } from '../../../../../common/translates/errors.translate';
 import { AuthService } from '../../../../../domains/auth/auth.service';
 @CommandHandler(AuthRegisterCommand)
 export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterCommand> {
@@ -29,9 +29,13 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
 
     async execute(command: AuthRegisterCommand): Promise<any> {
         try {
-
+            
             let code = getVerifyCode();
             const { mobile_number, password } = command
+            let authUserInfo = await this.authService.getAuthUserByPhoneIn24Hours(mobile_number);
+            if(authUserInfo.length > 4){ // more than 5 attempts for register
+                throw new HttpException(Total_Resend_Code, Total_Resend_Code.status_code);
+            }
             let registerInfo = new AuthVerificationEntity();
             registerInfo.ip = command.req.ip;
             registerInfo.mobile_number = mobile_number;

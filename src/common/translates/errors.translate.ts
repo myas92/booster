@@ -215,3 +215,11 @@ export const Field_Email_Is_Duplicate = {
       en: "Mobile number is not exist",
     },
   };
+  export const Generate_New_Code = {
+    status_code: 403,
+    code: 1024,
+    message: {
+      fa: "برای دریافت کد جدید یک دقیقه صبر کنید",
+      en: "Wait one minute for genreate a new code",
+    },
+  };

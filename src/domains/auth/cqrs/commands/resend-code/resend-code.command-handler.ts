@@ -1,6 +1,8 @@
-import { Total_Resend_Code, Mobile_Number_Is_Not_Exist } from './../../../../../common/translates/errors.translate';
+import { getVerifyCode } from './../../../../../common/utils/helpers';
+import { Total_Resend_Code, Mobile_Number_Is_Not_Exist, Generate_New_Code } from './../../../../../common/translates/errors.translate';
 import { generalConfig } from 'src/config/general.config';
-import moment from "moment"
+// import moment from "moment"
+import * as moment from 'moment-jalaali';
 import { BadRequestException, HttpException } from "@nestjs/common";
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -32,13 +34,20 @@ export class ResendCodeCommandHandler implements ICommandHandler<ResendCodeComma
         try {
             const { mobile_number } = command
             let authUserInfo = await this.authService.getAuthUserByPhone(mobile_number);
-            if (authUserInfo) {// 5 attempts
+            if (!authUserInfo) {
                 throw new HttpException(Mobile_Number_Is_Not_Exist, Mobile_Number_Is_Not_Exist.status_code);
             }
-            if (authUserInfo.total_resend_code < 3) {// 5 attempts
+            if (authUserInfo.total_resend_code > 3) {// 5 attempts maximum
                 throw new HttpException(Total_Resend_Code, Total_Resend_Code.status_code);
             }
-            console.log(command);
+            const validTime = moment().subscribe(1, 'minutes');
+            if(validTime < authUserInfo.updated_at){
+                throw new HttpException(Generate_New_Code, Generate_New_Code.status_code)
+            }
+            authUserInfo.total_resend_code = authUserInfo.total_resend_code + 1;
+            authUserInfo.verify_code = getVerifyCode();
+            await this.authVerificationRepository.save(authUserInfo);
+            return { code: authUserInfo.verify_code }
         } catch (error) {
             throw new HttpException(error, error.status);
         }

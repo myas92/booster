@@ -65,7 +65,7 @@ export class AuthController {
     @ApiBody({ type: AuthResendCodeSubmitDto })
     async resendToken(@Body() body: AuthResendCodeSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
         const result = await this.commandBus.execute(new ResendCodeCommand(req, body.mobile_number));
-        return new AuthResendCodeResponseDto('123', Request_Was_Successful.message[language]);
+        return new AuthResendCodeResponseDto(result.code, Request_Was_Successful.message[language]);
     }
 
 

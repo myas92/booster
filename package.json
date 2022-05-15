@@ -38,6 +38,7 @@
     "express-basic-auth": "^1.2.1",
     "handlebars": "^4.7.7",
     "moment": "^2.29.3",
+    "moment-jalaali": "^0.9.6",
     "nodemailer": "^6.7.5",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
