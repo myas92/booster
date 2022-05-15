@@ -1,10 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { AggregateRoot } from "@nestjs/cqrs";
-import { AuthVerificationTypeEnum } from "./enums/auth-verification-type.enum";
 import { ApiProperty } from '@nestjs/swagger';
 
-@Entity('auth_verification')
-export class AuthVerificationEntity extends AggregateRoot {
+@Entity('users')
+export class UserEntity extends AggregateRoot {
     @ApiProperty()
     @PrimaryGeneratedColumn("uuid")
     id: string;
@@ -20,26 +19,6 @@ export class AuthVerificationEntity extends AggregateRoot {
     @ApiProperty()
     @Column()
     password: string;
-
-    @ApiProperty()
-    @Column({ nullable: true })
-    type: AuthVerificationTypeEnum;
-
-    @ApiProperty()
-    @Column()
-    verify_code: string;
-
-    @ApiProperty()
-    @Column({ nullable: true })
-    ip: string;
-
-    @ApiProperty()
-    @Column('boolean', { default: false })
-    is_used: boolean = false
-
-    @ApiProperty()
-    @Column()
-    total_resend_code: number;
 
     @ApiProperty()
     @CreateDateColumn({ nullable: true })

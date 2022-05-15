@@ -46,3 +46,17 @@ For using multiple environment, use this [article](https://dev.to/erezhod/settin
 nameserver 178.22.122.100
 nameserver 185.51.200.2
 ```
+
+## Commands
+Create containers 
+```
+docker-compose build
+```
+Start Containers
+```
+docker-compose run
+```
+Remove containers
+```
+docker-compose down
+```
