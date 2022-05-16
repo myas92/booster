@@ -22,7 +22,7 @@ import {
     ApiTags
 } from "@nestjs/swagger";
 
-import { AuthService } from "./user.service";
+import { UserService } from "./user.service";
 // import { HttpExceptionFilter } from "../../infrastructure/filters/http-exception.filter";
 import { AuthRegisterResponseDto, AuthRegisterSubmitDto } from "./dto/add-user.dto";
 import { FormatResponseInterceptor } from "../../common/interceptors/format-response.interceptor";
@@ -40,33 +40,19 @@ import { DeleteUserCommand } from "./cqrs/commands/delete-user/delete-user.comma
 @UseFilters(new HttpExceptionFilter())
 @Controller('api/v1/auth')
 @ApiTags('Auth')
-export class AuthController {
+export class UserController {
 
     constructor(
         private readonly commandBus: CommandBus,
         private readonly queryBus: QueryBus,
-        private readonly authService: AuthService
+        private readonly userService: UserService
     ) {
     }
-
-    @Post('register-temp')
-    @ApiBody({ type: AuthRegisterSubmitDto })
-    async registerTemp(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
-        // const result = await this.commandBus.execute(new AddUserCommand(req, body.mobile_number, body.password));
-        let result = await this.authService.getAllRecords()
-        return new AuthRegisterResponseDto('12', 'کد تایید با موفقیت ارسال شد');
-    }
-    @Post('register')
+    @Post('user')
     @ApiBody({ type: AuthRegisterSubmitDto })
     async register(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
-        const result = await this.commandBus.execute(new AddUserCommand(req, body.mobile_number, body.password));
-        return new AuthRegisterResponseDto(result.code, Request_Was_Successful.message[language]);
-    }
-    @Post('resend-code')
-    @ApiBody({ type: AuthResendCodeSubmitDto })
-    async resendToken(@Body() body: AuthResendCodeSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
-        const result = await this.commandBus.execute(new DeleteUserCommand(req, body.mobile_number));
-        return new AuthResendCodeResponseDto(result.code, Request_Was_Successful.message[language]);
+        const result = await this.commandBus.execute(new AddUserCommand(req, body));
+        return new AuthRegisterResponseDto(result, Request_Was_Successful.message[language]);
     }
 
 

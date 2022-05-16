@@ -1,3 +1,4 @@
+import { UserModule } from './domains/user/user.module';
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { CqrsModule } from "@nestjs/cqrs";
 import { AppController } from './app.controller';
@@ -18,6 +19,7 @@ import { Connection } from 'typeorm';
     CqrsModule,
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
+    UserModule,
     ExampleModule
   ],
   controllers: [AppController],

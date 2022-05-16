@@ -13,7 +13,7 @@ import { AuthVerificationEntity } from "./entities/auth-verification.entity";
 
 import { AuthCheckUsernameQueryHandler } from './cqrs/queries/auth-check-username/auth-check-username.query-handler';
 import { ResendCodeCommandHandler } from './cqrs/commands/resend-code/resend-code.command-handler';
-
+import { UserModule } from '../user/user.module'
 
 export const CommandHandlers = [
     AuthRegisterCommandHandler,
@@ -34,6 +34,7 @@ export const EventHandlers = [
             secret: process.env.TOKEN_SECRET,
             signOptions: { expiresIn: process.env.TOKEN_EXPIRE },
         }),
+        UserModule
     ],
     controllers: [AuthController],
     providers: [

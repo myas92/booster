@@ -5,8 +5,8 @@ import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { MailerService } from "@nestjs-modules/mailer";
 
-import { AuthController } from './user.controller';
-import { AuthService } from './user.service';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
 
 import { UserEntity } from "./entities/user.entity";
 
@@ -35,19 +35,19 @@ export const EventHandlers = [
             signOptions: { expiresIn: process.env.TOKEN_EXPIRE },
         }),
     ],
-    controllers: [AuthController],
+    controllers: [UserController],
     providers: [
-        AuthService,
+        UserService,
         ...CommandHandlers,
         ...EventHandlers,
         ...QueriesHandlers],
     exports: [
-        AuthService,
+        UserService,
         ...CommandHandlers,
         ...EventHandlers,
         ...QueriesHandlers]
 })
 
 
-export class AuthModule {
+export class UserModule {
 }

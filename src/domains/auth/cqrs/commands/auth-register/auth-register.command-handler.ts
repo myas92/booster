@@ -1,3 +1,4 @@
+import { UserService } from './../../../../user/user.service';
 import { Invalid_Captcha } from './../../../../../common/translates/errors.translate';
 import { verifyCaptcha } from './../../../../../common/utils/captcha';
 import { getVerifyCode } from './../../../../../common/utils/helpers';
@@ -14,6 +15,7 @@ import { AuthVerificationEntity } from "../../../entities/auth-verification.enti
 import { AuthVerificationTypeEnum } from "../../../entities/enums/auth-verification-type.enum";
 import { Account_Is_Disabled, Total_Resend_Code } from '../../../../../common/translates/errors.translate';
 import { AuthService } from '../../../../../domains/auth/auth.service';
+
 @CommandHandler(AuthRegisterCommand)
 export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterCommand> {
 
@@ -29,7 +31,6 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
 
     async execute(command: AuthRegisterCommand): Promise<any> {
         try {
-
             let code = getVerifyCode();
             const { mobile_number, password, captcha } = command
             const isValidCaptcha = await verifyCaptcha(captcha);

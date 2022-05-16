@@ -87,3 +87,5 @@ Error response
     ]
 }
 ```
+streamKey : dR0pXz7y349L5G9NzaNAbxNrvJwW1BPE
+token : 3851571|t8BZwmjQzOmzIGjtVDT7M2bOs7z2WvelxLuwUUAh
