@@ -223,3 +223,11 @@ export const Field_Email_Is_Duplicate = {
       en: "Wait one minute for genreate a new code",
     },
   };
+  export const Invalid_Captcha = {
+    status_code: 403,
+    code: 1025,
+    message: {
+      fa: " کپچا نامعتبر است",
+      en: "Captcha is invalid",
+    },
+  };

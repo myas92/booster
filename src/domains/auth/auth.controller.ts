@@ -58,7 +58,7 @@ export class AuthController {
     @Post('register')
     @ApiBody({ type: AuthRegisterSubmitDto })
     async register(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
-        const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
+        const result = await this.commandBus.execute(new AuthRegisterCommand(req, body));
         return new AuthRegisterResponseDto(result.code, Request_Was_Successful.message[language]);
     }
     @Post('resend-code')

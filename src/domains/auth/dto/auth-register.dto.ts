@@ -17,9 +17,12 @@ export class AuthRegisterSubmitDto {
     password: string;
 
     @ApiProperty()
-    @IsEmpty()
     @MaxLength(20)
     invite_code: string;
+
+    @ApiProperty()
+    @MaxLength(1000)
+    captcha: string;
 }
 
 export class AuthRegisterResponseDto {

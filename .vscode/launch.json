@@ -1,11 +1,24 @@
 {
     "configurations": [
         {
-            "name": "Launch via NPM",
+            "name": "Debug",
             "request": "launch",
             "runtimeArgs": [
                 "run",
                 "start:debug"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "name": "Prod",
+            "request": "launch",
+            "runtimeArgs": [
+                "run",
+                "start:prod"
             ],
             "runtimeExecutable": "npm",
             "skipFiles": [

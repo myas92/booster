@@ -1,3 +1,5 @@
+import { Invalid_Captcha } from './../../../../../common/translates/errors.translate';
+import { verifyCaptcha } from './../../../../../common/utils/captcha';
 import { getVerifyCode } from './../../../../../common/utils/helpers';
 import { BadRequestException, ConflictException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
@@ -27,11 +29,19 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
 
     async execute(command: AuthRegisterCommand): Promise<any> {
         try {
-            
+
             let code = getVerifyCode();
-            const { mobile_number, password } = command
+            const { mobile_number, password, captcha } = command
+            const isValidCaptcha = await verifyCaptcha(captcha);
+            
+            // بررسی کپچا
+            if (!isValidCaptcha) {
+                throw new HttpException(Invalid_Captcha, Invalid_Captcha.status_code);
+            }
+
+            // بررسی تعداد دفعات درخواست ثبت نام در ۲۴ ساعت گذشته
             let authUserInfo = await this.authService.getAuthUserByPhoneIn24Hours(mobile_number);
-            if(authUserInfo.length > 4){ // valid just under 5 attempts for register
+            if (authUserInfo.length > 4) { // valid just under 5 attempts for register
                 throw new HttpException(Total_Resend_Code, Total_Resend_Code.status_code);
             }
             //TODO: Is user exist??
@@ -52,5 +62,6 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
         }
     }
 }
+
 
 
