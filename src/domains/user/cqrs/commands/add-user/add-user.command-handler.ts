@@ -25,7 +25,7 @@ export class AddUserCommandHandler implements ICommandHandler<AddUserCommand> {
 
     async execute(command: AddUserCommand): Promise<any> {
         try {
-            
+            const { name, password } = command.body
         } catch (error) {
             throw new HttpException(error, error.status);
         }

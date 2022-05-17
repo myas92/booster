@@ -13,7 +13,7 @@ import { UserEntity } from "./entities/user.entity";
 import { AddUserCommandHandler } from "./cqrs/commands/add-user/add-user.command-handler";
 import { DeleteUserCommandHandler } from './cqrs/commands/delete-user/delete-user.command-handler';
 
-import { AuthCheckUsernameQueryHandler } from './cqrs/queries/auth-check-username/auth-check-username.query-handler';
+import { AuthCheckUsernameQueryHandler } from './cqrs/queries/get-profile/get-profile.query-handler';
 
 export const CommandHandlers = [
     AddUserCommandHandler,

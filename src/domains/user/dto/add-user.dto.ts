@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsNotEmpty, MinLength, Matches, MaxLength, IsMobilePhone, IsEmpty } from 'class-validator';
-export class AuthRegisterSubmitDto {
+export class AddUserSubmitDto {
     @ApiProperty()
     @IsNotEmpty()
     // @IsMobilePhone()
@@ -22,7 +22,7 @@ export class AuthRegisterSubmitDto {
     invite_code: string;
 }
 
-export class AuthRegisterResponseDto {
+export class AddUserResponseDto {
     constructor(code: string, message: string) {
         this.message = message;
         this.code = code;

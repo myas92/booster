@@ -1,3 +1,4 @@
+import { GetProfileResponseDto } from './dto/get-profile.dto';
 import { AuthResendCodeResponseDto, AuthResendCodeSubmitDto } from './dto/delete-user.dto';
 import { Request_Was_Successful } from '../../common/translates/success.translate';
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
@@ -17,6 +18,7 @@ import {
     ApiBadRequestResponse,
     ApiBody,
     ApiConflictResponse,
+    ApiHeader,
     ApiNotFoundResponse,
     ApiOkResponse,
     ApiTags
@@ -24,7 +26,7 @@ import {
 
 import { UserService } from "./user.service";
 // import { HttpExceptionFilter } from "../../infrastructure/filters/http-exception.filter";
-import { AuthRegisterResponseDto, AuthRegisterSubmitDto } from "./dto/add-user.dto";
+import { AddUserResponseDto, AddUserSubmitDto } from "./dto/add-user.dto";
 import { FormatResponseInterceptor } from "../../common/interceptors/format-response.interceptor";
 import { HttpExceptionFilter } from "../../common/filters/http-exception.filter";
 
@@ -38,7 +40,7 @@ import { DeleteUserCommand } from "./cqrs/commands/delete-user/delete-user.comma
 
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
-@Controller('api/v1/auth')
+@Controller('api/v1/user')
 @ApiTags('Auth')
 export class UserController {
 
@@ -48,11 +50,17 @@ export class UserController {
         private readonly userService: UserService
     ) {
     }
-    @Post('user')
-    @ApiBody({ type: AuthRegisterSubmitDto })
-    async register(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
+    @Post('/')
+    @ApiBody({ type: AddUserSubmitDto })
+    async register(@Body() body: AddUserSubmitDto, @Req() req, @Headers('language') language): Promise<AddUserResponseDto> {
         const result = await this.commandBus.execute(new AddUserCommand(req, body));
-        return new AuthRegisterResponseDto(result, Request_Was_Successful.message[language]);
+        return new AddUserResponseDto(result, Request_Was_Successful.message[language]);
+    }
+    @Post('/profile')
+    async getProfile(@Req() req, @Headers('language') language): Promise<GetProfileResponseDto> {
+        // const result = await this.commandBus.execute(new AddUserCommand(req));
+        let result = 'true';
+        return new GetProfileResponseDto(result, Request_Was_Successful.message[language]);
     }
 
 
