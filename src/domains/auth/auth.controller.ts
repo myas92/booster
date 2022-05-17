@@ -48,13 +48,6 @@ export class AuthController {
     ) {
     }
 
-    @Post('register-temp')
-    @ApiBody({ type: AuthRegisterSubmitDto })
-    async registerTemp(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
-        // const result = await this.commandBus.execute(new AuthRegisterCommand(req, body.mobile_number, body.password));
-        let result = await this.authService.getAllRecords()
-        return new AuthRegisterResponseDto('12', 'کد تایید با موفقیت ارسال شد');
-    }
     @Post('register')
     @ApiBody({ type: AuthRegisterSubmitDto })
     async register(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
@@ -64,6 +57,12 @@ export class AuthController {
     @Post('resend-code')
     @ApiBody({ type: AuthResendCodeSubmitDto })
     async resendToken(@Body() body: AuthResendCodeSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
+        const result = await this.commandBus.execute(new ResendCodeCommand(req, body.mobile_number));
+        return new AuthResendCodeResponseDto(result.code, Request_Was_Successful.message[language]);
+    }
+    @Post('login')
+    @ApiBody({ type: AuthResendCodeSubmitDto })
+    async login(@Body() body: AuthResendCodeSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
         const result = await this.commandBus.execute(new ResendCodeCommand(req, body.mobile_number));
         return new AuthResendCodeResponseDto(result.code, Request_Was_Successful.message[language]);
     }

@@ -85,6 +85,10 @@ export class UserEntity extends AggregateRoot {
     meta: string;
 
     @ApiProperty()
+    @Column({ default: false })
+    is_deleted: boolean;
+
+    @ApiProperty()
     @CreateDateColumn({ nullable: true })
     created_at: Date;
 

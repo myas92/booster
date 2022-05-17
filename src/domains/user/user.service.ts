@@ -12,7 +12,7 @@ export class UserService {
         private readonly userRepository: Repository<UserEntity>
     ) { }
 
-    async addUser(userInfo) {
+    async create(userInfo) {
         try {
             userInfo = new UserEntity();
             userInfo.mobile_number = "yaser";
@@ -27,6 +27,12 @@ export class UserService {
 
     }
 
+    async findOneById(userId) {
+        let result = this.userRepository.findOne({
+            where: { id: userId }
+        })
+        return result
+    }
     async getAuthUserByPhoneIn24Hours(mobileNumber) {
 
         let date = moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')

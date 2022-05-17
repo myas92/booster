@@ -8,7 +8,6 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/c
 import { InjectRepository } from "@nestjs/typeorm";
 import { JwtService } from "@nestjs/jwt";
 import { Connection, Repository } from "typeorm";
-import { hashSync } from "bcrypt";
 
 import { ResendCodeCommand } from "./resend-code.command";
 import { AuthVerificationEntity } from "../../../entities/auth-verification.entity";

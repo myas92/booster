@@ -1,9 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, MinLength, Matches, MaxLength, IsMobilePhone, IsEmpty } from 'class-validator';
-export class AuthRegisterSubmitDto {
+import { IsNotEmpty, Matches, MinLength, MaxLength } from 'class-validator';
+export class LoginSubmitDto {
     @ApiProperty()
     @IsNotEmpty()
-    // @IsMobilePhone()
     @Matches(/^(\+98|0)?9\d{9}$/,
         { message: 'Mobile number is not valid' })
     mobile_number: string;
@@ -15,17 +14,9 @@ export class AuthRegisterSubmitDto {
     @Matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/,
         { message: 'Password is week' })
     password: string;
-
-    @ApiProperty()
-    @MaxLength(20)
-    invite_code: string;
-
-    @ApiProperty()
-    @MaxLength(1000)
-    captcha: string;
 }
 
-export class AuthRegisterResponseDto {
+export class LoginResponseDto {
     constructor(code: string, message: string) {
         this.message = message;
         this.code = code;
