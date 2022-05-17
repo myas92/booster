@@ -52,7 +52,7 @@ export class UserController {
     }
     @Post('/')
     @ApiBody({ type: AddUserSubmitDto })
-    async register(@Body() body: AddUserSubmitDto, @Req() req, @Headers('language') language): Promise<AddUserResponseDtoAuthRegisterResponseDto> {
+    async register(@Body() body: AddUserSubmitDto, @Req() req, @Headers('language') language): Promise<AddUserResponseDto> {
         const result = await this.commandBus.execute(new AddUserCommand(req, body));
         return new AddUserResponseDto(result, Request_Was_Successful.message[language]);
     }

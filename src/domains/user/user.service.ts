@@ -14,22 +14,22 @@ export class UserService {
 
     async create(userInfo) {
         try {
-            userInfo = new UserEntity();
-            userInfo.mobile_number = "yaser";
-            userInfo.password = "123123"
-            const result = await this.userRepository.save(
-                userInfo
-            );
+            const result = await this.userRepository.save(userInfo);
             return result;
         } catch (error) {
             console.log(error)
         }
-
     }
 
     async findOneById(userId) {
         let result = this.userRepository.findOne({
             where: { id: userId }
+        })
+        return result
+    }
+    async findOneByMobileNumber(mobileNumber) {
+        let result = this.userRepository.findOne({
+            where: { mobile_number: mobileNumber, is_deleted: false }
         })
         return result
     }

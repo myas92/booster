@@ -13,12 +13,16 @@ export class UserEntity extends AggregateRoot {
     mobile_number: string
 
     @ApiProperty()
-    @Column({ nullable: true })
-    email: string;
-
-    @ApiProperty()
     @Column()
     password: string;
+
+    @ApiProperty()
+    @Column({ nullable: true })
+    referral_code: string;
+
+    @ApiProperty()
+    @Column({ nullable: true })
+    email: string;
 
     @ApiProperty()
     @Column({ nullable: true })
@@ -79,6 +83,10 @@ export class UserEntity extends AggregateRoot {
     @ApiProperty()
     @Column({ nullable: true })
     status: string;
+
+    @ApiProperty()
+    @Column({ nullable: true })
+    role: string;
 
     @ApiProperty()
     @Column({ nullable: true })

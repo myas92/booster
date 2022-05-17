@@ -9,14 +9,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { JwtService } from "@nestjs/jwt";
 import { Connection, Repository } from "typeorm";
 
-import { LoginCommand } from "./login.command";
+import { AuthResendCodeCommand } from "./auth-resend-code.command";
 import { AuthVerificationEntity } from "../../../entities/auth-verification.entity";
 import { AuthService } from '../../../auth.service';
 
 import { AuthVerificationTypeEnum } from "../../../entities/enums/auth-verification-type.enum";
 
-@CommandHandler(LoginCommand)
-export class LoginCommandHandler implements ICommandHandler<LoginCommand> {
+@CommandHandler(AuthResendCodeCommand)
+export class AuthResendCodeCommandHandler implements ICommandHandler<AuthResendCodeCommand> {
 
     constructor(
         private readonly jwtService: JwtService,
@@ -29,10 +29,24 @@ export class LoginCommandHandler implements ICommandHandler<LoginCommand> {
     ) {
     }
 
-    async execute(command: LoginCommand): Promise<any> {
+    async execute(command: AuthResendCodeCommand): Promise<any> {
         try {
-
-            return { code: '111' }
+            const { mobile_number } = command
+            let authUserInfo = await this.authService.getAuthUserByPhone(mobile_number);
+            if (!authUserInfo) {
+                throw new HttpException(Mobile_Number_Is_Not_Exist, Mobile_Number_Is_Not_Exist.status_code);
+            }
+            if (authUserInfo.total_resend_code > 3) {// 5 attempts maximum
+                throw new HttpException(Total_Resend_Code, Total_Resend_Code.status_code);
+            }
+            const validTime = moment().subtract(1, 'minutes');
+            if(validTime < authUserInfo.updated_at){
+                throw new HttpException(Generate_New_Code, Generate_New_Code.status_code)
+            }
+            authUserInfo.total_resend_code = authUserInfo.total_resend_code + 1;
+            authUserInfo.verify_code = getVerifyCode();
+            await this.authVerificationRepository.save(authUserInfo);
+            return { code: authUserInfo.verify_code }
         } catch (error) {
             throw new HttpException(error, error.status);
         }

@@ -1,3 +1,5 @@
+import { AuthConfirmSubmitDto, AuthConfirmResponseDto } from './dto/auth-confirm.dto';
+import { AuthConfirmCommand } from './cqrs/commands/auth-confirm/auth-confirm.command';
 import { AuthResendCodeResponseDto, AuthResendCodeSubmitDto } from './dto/auth-resend-code.dto';
 import { Request_Was_Successful } from './../../common/translates/success.translate';
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
@@ -28,7 +30,7 @@ import { AuthRegisterResponseDto, AuthRegisterSubmitDto } from "./dto/auth-regis
 import { FormatResponseInterceptor } from "../../common/interceptors/format-response.interceptor";
 import { HttpExceptionFilter } from "../../common/filters/http-exception.filter";
 import { AuthService } from "./auth.service";
-import { ResendCodeCommand } from "./cqrs/commands/resend-code/resend-code.command";
+import { AuthResendCodeCommand } from "./cqrs/commands/auth-resend-code/auth-resend-code.command";
 
 
 
@@ -57,13 +59,19 @@ export class AuthController {
     @Post('resend-code')
     @ApiBody({ type: AuthResendCodeSubmitDto })
     async resendToken(@Body() body: AuthResendCodeSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
-        const result = await this.commandBus.execute(new ResendCodeCommand(req, body.mobile_number));
+        const result = await this.commandBus.execute(new AuthResendCodeCommand(req, body.mobile_number));
         return new AuthResendCodeResponseDto(result.code, Request_Was_Successful.message[language]);
+    }
+    @Post('confirm')
+    @ApiBody({ type: AuthConfirmSubmitDto })
+    async confirmResendCode(@Body() body: AuthConfirmSubmitDto, @Req() req, @Headers('language') language): Promise<AuthConfirmResponseDto> {
+        const result = await this.commandBus.execute(new AuthConfirmCommand(req, body));
+        return new AuthConfirmResponseDto(result.code, Request_Was_Successful.message[language]);
     }
     @Post('login')
     @ApiBody({ type: AuthResendCodeSubmitDto })
     async login(@Body() body: AuthResendCodeSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
-        const result = await this.commandBus.execute(new ResendCodeCommand(req, body.mobile_number));
+        const result = await this.commandBus.execute(new AuthResendCodeCommand(req, body.mobile_number));
         return new AuthResendCodeResponseDto(result.code, Request_Was_Successful.message[language]);
     }
 

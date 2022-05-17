@@ -1,3 +1,4 @@
+import { AuthConfirmCommandHandler } from './cqrs/commands/auth-confirm/auth-confirm.command-handler';
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CqrsModule } from "@nestjs/cqrs";
@@ -12,12 +13,13 @@ import { AuthRegisterCommandHandler } from "./cqrs/commands/auth-register/auth-r
 import { AuthVerificationEntity } from "./entities/auth-verification.entity";
 
 import { AuthCheckUsernameQueryHandler } from './cqrs/queries/auth-check-username/auth-check-username.query-handler';
-import { ResendCodeCommandHandler } from './cqrs/commands/resend-code/resend-code.command-handler';
+import { AuthResendCodeCommandHandler } from './cqrs/commands/auth-resend-code/auth-resend-code.command-handler';
 import { UserModule } from '../user/user.module'
 
 export const CommandHandlers = [
     AuthRegisterCommandHandler,
-    ResendCodeCommandHandler
+    AuthResendCodeCommandHandler,
+    AuthConfirmCommandHandler
 ];
 export const QueriesHandlers = [
     AuthCheckUsernameQueryHandler

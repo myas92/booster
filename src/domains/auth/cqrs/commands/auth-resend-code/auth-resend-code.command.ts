@@ -1,4 +1,4 @@
-export class ResendCodeCommand {
+export class AuthResendCodeCommand {
 
     constructor(req: any, mobile_number: string) {
         this.req = req;
