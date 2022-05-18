@@ -12,15 +12,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const request = ctx.getRequest<Request>();
         const generalError = exception.getResponse();
         let language = request.headers['language'] as string
-
+        let message: string;
         if (generalError.response) {
             result = {
                 status_code: generalError.response.status_code,
                 error_code: generalError.response.code,
                 timestamp: new Date().toISOString(),
                 path: request.url,
-                message: generalError.response.message[language],
             }
+            message = generalError.response.message[language];
         }
         else if (exception.status === 400 && exception.message === "Bad Request Exception") {
             result = {
@@ -28,10 +28,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 error_code: Bad_Request_Exception.code,
                 timestamp: new Date().toISOString(),
                 path: request.url,
-                message: Bad_Request_Exception.message[language],
-                //TODO : remove this line from
                 message_developer: exception.getResponse().message
+                //TODO : remove this line from
             }
+            message = Bad_Request_Exception.message[language]
         }
         // If none exception error is happened
         else {
@@ -42,11 +42,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 path: request.url,
                 message: Something_Went_Wrong.message[language],
                 //TODO : remove this line from
-                message_developer: exception.message
             }
+            message = exception.message
         }
 
         response.status(result.status_code)
-            .json({ status: "error", data: result });
+            .json({ success: false, result: result, message: message });
     }
 }

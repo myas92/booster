@@ -26,12 +26,10 @@ export class AuthRegisterSubmitDto {
 }
 
 export class AuthRegisterResponseDto {
-    constructor(code: string, message: string) {
-        this.message = message;
-        this.code = code;
-    }
-
+    @ApiProperty()
+    success: boolean
+    @ApiProperty()
+    result
     @ApiProperty()
     message: string
-    code: string
 }

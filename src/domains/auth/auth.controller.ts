@@ -12,6 +12,7 @@ import {
     Body,
     Controller,
     Headers,
+    HttpCode,
     HttpStatus,
     Post,
     Req,
@@ -20,10 +21,7 @@ import {
     UsePipes,
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse,
     ApiBody,
-    ApiConflictResponse,
-    ApiNotFoundResponse,
     ApiOkResponse,
     ApiTags
 } from "@nestjs/swagger";
@@ -55,29 +53,39 @@ export class AuthController {
     }
 
     @Post('register')
+    @HttpCode(200)
     @ApiBody({ type: AuthRegisterSubmitDto })
-    async register(@Body() body: AuthRegisterSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
+    @ApiOkResponse({ type: AuthRegisterResponseDto })
+    async register(@Body() body: AuthRegisterSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
         const result = await this.commandBus.execute(new AuthRegisterCommand(req, body));
-        return new AuthRegisterResponseDto(result.code, Request_Was_Successful.message[language]);
+        return result as AuthRegisterResponseDto;
     }
+    
     @Post('resend-code')
+    @HttpCode(200)
     @ApiBody({ type: AuthResendCodeSubmitDto })
-    async resendToken(@Body() body: AuthResendCodeSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
+    @ApiOkResponse({type: AuthRegisterResponseDto})
+    async resendToken(@Body() body: AuthResendCodeSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
         const result = await this.commandBus.execute(new AuthResendCodeCommand(req, body.mobile_number));
-        return new AuthResendCodeResponseDto(result.code, Request_Was_Successful.message[language]);
+        return result as AuthRegisterResponseDto
     }
     @Post('confirm')
-    @ApiBody({ type: AuthConfirmSubmitDto })
-    async confirmResendCode(@Body() body: AuthConfirmSubmitDto, @Req() req, @Headers('language') language): Promise<AuthConfirmResponseDto> {
+    @HttpCode(200)
+    @UsePipes(new TrimPipe())
+    @ApiBody({ type: AuthConfirmResponseDto })
+    @ApiOkResponse({ type: AuthLoginResponseDto })
+    async confirmResendCode(@Body() body: AuthConfirmSubmitDto, @Req() req): Promise<AuthConfirmResponseDto> {
         const result = await this.commandBus.execute(new AuthConfirmCommand(req, body));
-        return new AuthConfirmResponseDto(result.code, Request_Was_Successful.message[language]);
+        return result as AuthConfirmResponseDto
     }
     @Post('login')
+    @HttpCode(200)
     @UsePipes(new TrimPipe())
     @ApiBody({ type: AuthLoginSubmitDto })
+    @ApiOkResponse({ type: AuthLoginResponseDto })
     async login(@Body() body: AuthLoginSubmitDto, @Req() req, @Headers('language') language): Promise<AuthLoginResponseDto> {
         const result = await this.commandBus.execute(new AuthLoginCommand(req, body));
-        return new AuthLoginResponseDto(result, Request_Was_Successful.message[language]);
+        return result as AuthLoginResponseDto
     }
 
 

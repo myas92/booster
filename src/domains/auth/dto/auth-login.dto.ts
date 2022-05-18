@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, Matches, MinLength, MaxLength } from 'class-validator';
+import { UserEntity } from "src/domains/user/entities/user.entity";
 export class AuthLoginSubmitDto {
     @ApiProperty()
     @IsNotEmpty()
@@ -16,13 +17,16 @@ export class AuthLoginSubmitDto {
     password: string;
 }
 
-export class AuthLoginResponseDto {
-    constructor(code: string, message: string) {
-        this.message = message;
-        this.code = code;
-    }
+export class AuthLoginUserResponseDto {
+    @ApiProperty()
+    token: string;
+}
 
+export class AuthLoginResponseDto {
+    @ApiProperty()
+    success: boolean
+    @ApiProperty()
+    result: AuthLoginUserResponseDto
     @ApiProperty()
     message: string
-    code: string
 }

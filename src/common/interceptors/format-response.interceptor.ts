@@ -7,16 +7,18 @@ export class FormatResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map(value => {
+        let message;
         if (value) {
           if (!value.message) {
             const request = context.switchToHttp().getRequest();
-            value.message = Request_Was_Successful.message[request.header.language]
+            message = Request_Was_Successful.message[request.header.language]
           }
           value = value;
         }
-        else
+        else {
           value = []
-        return { status: "success", data: value};
+        }
+        return { success: true, result: value, message: message };
       }));
   }
 }

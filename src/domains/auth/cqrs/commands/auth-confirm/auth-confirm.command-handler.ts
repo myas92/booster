@@ -81,9 +81,7 @@ export class AuthConfirmCommandHandler implements ICommandHandler<AuthConfirmCom
                 await queryRunner.release();
             }
 
-
-
-            return { code: 'true' }
+            return {}
         } catch (error) {
             throw new HttpException(error, error.status);
         }

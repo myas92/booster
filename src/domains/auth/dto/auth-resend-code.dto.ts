@@ -9,12 +9,10 @@ export class AuthResendCodeSubmitDto {
 }
 
 export class AuthResendCodeResponseDto {
-    constructor(code: string, message: string) {
-        this.message = message;
-        this.code = code;
-    }
-
+    @ApiProperty()
+    success: boolean
+    @ApiProperty()
+    result
     @ApiProperty()
     message: string
-    code: string
 }

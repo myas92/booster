@@ -41,7 +41,7 @@ import { DeleteUserCommand } from "./cqrs/commands/delete-user/delete-user.comma
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
 @Controller('api/v1/user')
-@ApiTags('Auth')
+@ApiTags('User')
 export class UserController {
 
     constructor(

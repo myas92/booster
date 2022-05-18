@@ -12,7 +12,6 @@ export class UserEntity extends AggregateRoot {
     @Column()
     mobile_number: string
 
-    @ApiProperty()
     @Column()
     password: string;
 
@@ -92,11 +91,9 @@ export class UserEntity extends AggregateRoot {
     @Column({ nullable: true })
     meta: string;
 
-    @ApiProperty()
     @Column({ default: false })
     is_deleted: boolean;
 
-    @ApiProperty()
     @CreateDateColumn({ nullable: true })
     created_at: Date;
 

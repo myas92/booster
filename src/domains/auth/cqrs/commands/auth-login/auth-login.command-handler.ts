@@ -48,8 +48,7 @@ export class AuthLoginCommandHandler implements ICommandHandler<AuthLoginCommand
 
             let token = await this.jwtService.sign({ userId: user.id, username: user.mobile_number, role: user.role });
             return {
-                token: token,
-                user: user.toDto(),
+                token: token
             };
         } catch (error) {
             throw new HttpException(error, error.status);
