@@ -231,3 +231,11 @@ export const Field_Email_Is_Duplicate = {
       en: "Captcha is invalid",
     },
   };
+  export const Mobile_Number_Is_Selected = {
+    status_code: 422,
+    code: 1020,
+    message: {
+      fa: "شماره همراه قبلا انتخاب شده است",
+      en: "The mobile number has already been selected",
+    },
+  };
