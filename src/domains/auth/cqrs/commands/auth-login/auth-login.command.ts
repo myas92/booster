@@ -1,9 +1,9 @@
 export class AuthLoginCommand {
 
-    constructor(req: any, body: string) {
+    constructor(req: any, body: any) {
         this.req = req;
         this.body = body;
     }
     req: any;
-    body: string;
+    body: any;
 }

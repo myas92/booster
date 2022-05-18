@@ -17,7 +17,7 @@ export class UserEntity extends AggregateRoot {
     password: string;
 
     @ApiProperty()
-    @Column({ nullable: true })
+    @Column({ unique: true })
     referral_code: string;
 
     @ApiProperty()
@@ -102,5 +102,36 @@ export class UserEntity extends AggregateRoot {
 
     @UpdateDateColumn({ nullable: true })
     updated_at: Date;
+
+    toDto(type = '') {
+        return {
+            id: this.id,
+            mobile_number: this.mobile_number,
+            referral_code: this.referral_code,
+            email: this.email,
+            address: this.address,
+            status: this.status,
+            photo: {
+                path: (this.avatar) ? this.avatar : `upload/assets/default${type}.jpg`,
+                name: (this.avatar) ? "" : "default"
+            },
+            role: this.role,
+            birthday: this.birthday,
+            commission: this.commission,
+            face_image: this.face_image,
+            first_name: this.first_name,
+            last_name: this.last_name,
+            national_code: this.national_code,
+            invite_code: this.invite_code,
+            phone_number: this.phone_number,
+            tracking_id: this.tracking_id,
+            verification: this.verification,
+            settings: this.settings,
+            kyc_info: this.kyc_info,
+            meta: this.meta
+
+
+        }
+    }
 
 }

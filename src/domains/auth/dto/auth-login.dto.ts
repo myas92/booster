@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, Matches, MinLength, MaxLength } from 'class-validator';
-export class LoginSubmitDto {
+export class AuthLoginSubmitDto {
     @ApiProperty()
     @IsNotEmpty()
     @Matches(/^(\+98|0)?9\d{9}$/,
@@ -16,7 +16,7 @@ export class LoginSubmitDto {
     password: string;
 }
 
-export class LoginResponseDto {
+export class AuthLoginResponseDto {
     constructor(code: string, message: string) {
         this.message = message;
         this.code = code;

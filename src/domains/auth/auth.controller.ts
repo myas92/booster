@@ -1,3 +1,6 @@
+import { TrimPipe } from './../../common/pipes/trim.pipe';
+import { AuthLoginCommand } from './cqrs/commands/auth-login/auth-login.command';
+import { AuthLoginSubmitDto, AuthLoginResponseDto } from './dto/auth-login.dto';
 import { AuthConfirmSubmitDto, AuthConfirmResponseDto } from './dto/auth-confirm.dto';
 import { AuthConfirmCommand } from './cqrs/commands/auth-confirm/auth-confirm.command';
 import { AuthResendCodeResponseDto, AuthResendCodeSubmitDto } from './dto/auth-resend-code.dto';
@@ -14,6 +17,7 @@ import {
     Req,
     UseFilters,
     UseInterceptors,
+    UsePipes,
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse,
@@ -69,10 +73,11 @@ export class AuthController {
         return new AuthConfirmResponseDto(result.code, Request_Was_Successful.message[language]);
     }
     @Post('login')
-    @ApiBody({ type: AuthResendCodeSubmitDto })
-    async login(@Body() body: AuthResendCodeSubmitDto, @Req() req, @Headers('language') language): Promise<AuthRegisterResponseDto> {
-        const result = await this.commandBus.execute(new AuthResendCodeCommand(req, body.mobile_number));
-        return new AuthResendCodeResponseDto(result.code, Request_Was_Successful.message[language]);
+    @UsePipes(new TrimPipe())
+    @ApiBody({ type: AuthLoginSubmitDto })
+    async login(@Body() body: AuthLoginSubmitDto, @Req() req, @Headers('language') language): Promise<AuthLoginResponseDto> {
+        const result = await this.commandBus.execute(new AuthLoginCommand(req, body));
+        return new AuthLoginResponseDto(result, Request_Was_Successful.message[language]);
     }
 
 

@@ -1,3 +1,4 @@
+import { AuthLoginCommandHandler } from './cqrs/commands/auth-login/auth-login.command-handler';
 import { AuthConfirmCommandHandler } from './cqrs/commands/auth-confirm/auth-confirm.command-handler';
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -19,7 +20,8 @@ import { UserModule } from '../user/user.module'
 export const CommandHandlers = [
     AuthRegisterCommandHandler,
     AuthResendCodeCommandHandler,
-    AuthConfirmCommandHandler
+    AuthConfirmCommandHandler,
+    AuthLoginCommandHandler
 ];
 export const QueriesHandlers = [
     AuthCheckUsernameQueryHandler

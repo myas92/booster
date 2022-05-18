@@ -239,3 +239,11 @@ export const Field_Email_Is_Duplicate = {
       en: "The mobile number has already been selected",
     },
   };
+  export const Given_Data_Is_Invalid = {
+    status_code: 422,
+    code: 1020,
+    message: {
+      fa: "اطلاعات وارد شده اشتباه است",
+      en: "The given data is invalid.",
+    },
+  };
