@@ -1,17 +1,23 @@
+import { GetUserQuery } from './cqrs/queries/get-user/get-user.query';
+import { GetUserResponseDto } from './dto/get-users.dto';
 import { GetProfileResponseDto } from './dto/get-profile.dto';
 import { AuthResendCodeResponseDto, AuthResendCodeSubmitDto } from './dto/delete-user.dto';
 import { Request_Was_Successful } from '../../common/translates/success.translate';
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
+import { AuthGuard } from '@nestjs/passport';
 import { diskStorage } from 'multer';
 import * as fs from "fs";
 import {
     Body,
     Controller,
+    Get,
     Headers,
     HttpStatus,
+    Param,
     Post,
     Req,
     UseFilters,
+    UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -52,15 +58,18 @@ export class UserController {
     }
     @Post('/')
     @ApiBody({ type: AddUserSubmitDto })
-    async register(@Body() body: AddUserSubmitDto, @Req() req, @Headers('language') language): Promise<AddUserResponseDto> {
+    async register(@Body() body: AddUserSubmitDto, @Req() req): Promise<AddUserResponseDto> {
         const result = await this.commandBus.execute(new AddUserCommand(req, body));
-        return new AddUserResponseDto(result, Request_Was_Successful.message[language]);
+        return result as AddUserResponseDto
     }
-    @Post('/profile')
-    async getProfile(@Req() req, @Headers('language') language): Promise<GetProfileResponseDto> {
+
+
+    @UseGuards(AuthGuard('jwt'))
+    @Get('/:userId')
+    async getUser(@Param("userId") userId, @Req() req): Promise<GetUserResponseDto> {
         // const result = await this.commandBus.execute(new AddUserCommand(req));
-        let result = 'true';
-        return new GetProfileResponseDto(result, Request_Was_Successful.message[language]);
+        const result = await this.queryBus.execute(new GetUserQuery(req, userId));
+        return result as GetUserResponseDto
     }
 
 

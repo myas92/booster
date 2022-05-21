@@ -1,9 +1,11 @@
-import { NotAcceptableException, UnauthorizedException } from "@nestjs/common";
+import { Injectable, NotAcceptableException, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { UserService } from './../../domains/user/user.service';
 
 import { UserStatusEnum } from './../../domains/user/entities/enums/user-status.enum';
+
+@Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(private readonly userService: UserService) {
         super({

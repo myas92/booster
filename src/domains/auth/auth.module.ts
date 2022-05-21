@@ -1,3 +1,4 @@
+import { JwtStrategy } from './../../common/auth-strategies/jwt.strategy';
 import { AuthLoginConfirmCommandHandler } from './cqrs/commands/auth-login-confirm-code/auth-login-confirm.command-handler';
 import { LoginVerificationEntity } from './entities/auth-login-verification.entity';
 import { AuthLoginCommandHandler } from './cqrs/commands/auth-login/auth-login.command-handler';
@@ -37,19 +38,21 @@ export const EventHandlers = [
     imports: [
         TypeOrmModule.forFeature([AuthVerificationEntity, LoginVerificationEntity]),
         CqrsModule,
+        UserModule,
         JwtModule.register({
             secret: process.env.TOKEN_SECRET,
             signOptions: { expiresIn: process.env.TOKEN_EXPIRE },
         }),
-        UserModule
     ],
     controllers: [AuthController],
     providers: [
+        JwtStrategy,
         AuthService,
         ...CommandHandlers,
         ...EventHandlers,
         ...QueriesHandlers],
     exports: [
+        JwtStrategy,
         AuthService,
         ...CommandHandlers,
         ...EventHandlers,

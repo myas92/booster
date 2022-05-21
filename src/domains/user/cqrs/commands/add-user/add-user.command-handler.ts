@@ -2,7 +2,6 @@ import { getVerifyCode } from '../../../../../common/utils/helpers';
 import { BadRequestException, ConflictException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
-import { JwtService } from "@nestjs/jwt";
 import { Connection, Repository } from "typeorm";
 import { hashSync } from "bcrypt";
 
@@ -15,7 +14,6 @@ import { Account_Is_Disabled, Total_Resend_Code } from '../../../../../common/tr
 export class AddUserCommandHandler implements ICommandHandler<AddUserCommand> {
 
     constructor(
-        private readonly jwtService: JwtService,
         private readonly commandBus: CommandBus,
         private readonly eventBus: EventBus,
         @InjectRepository(UserEntity)

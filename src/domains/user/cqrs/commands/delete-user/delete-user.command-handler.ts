@@ -6,7 +6,6 @@ import * as moment from 'moment-jalaali';
 import { BadRequestException, HttpException } from "@nestjs/common";
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
-import { JwtService } from "@nestjs/jwt";
 import { Connection, Repository } from "typeorm";
 import { hashSync } from "bcrypt";
 
@@ -19,7 +18,6 @@ import { UserService } from '../../../user.service';
 export class DeleteUserCommandHandler implements ICommandHandler<DeleteUserCommand> {
 
     constructor(
-        private readonly jwtService: JwtService,
         private readonly commandBus: CommandBus,
         private readonly eventBus: EventBus,
         @InjectRepository(UserEntity)

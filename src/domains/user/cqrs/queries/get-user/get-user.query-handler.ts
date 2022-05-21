@@ -1,15 +1,15 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { AuthCheckUsernameQuery } from "./get-profile.query";
+import { GetUserQuery } from "./get-user.query";
 import { InternalServerErrorException, NotFoundException } from "@nestjs/common";
 
-@QueryHandler(AuthCheckUsernameQuery)
-export class AuthCheckUsernameQueryHandler implements IQueryHandler<AuthCheckUsernameQuery> {
+@QueryHandler(GetUserQuery)
+export class GetUserQueryHandler implements IQueryHandler<GetUserQuery> {
 
     constructor(
     ) {
     }
 
-    async execute(query: AuthCheckUsernameQuery): Promise<any> {
+    async execute(query: GetUserQuery): Promise<any> {
         try {
             console.log('First Event')
         } catch (error) {

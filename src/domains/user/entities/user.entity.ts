@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity } from "typeorm";
 import { AggregateRoot } from "@nestjs/cqrs";
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('users')
-export class UserEntity extends AggregateRoot {
+export class UserEntity extends BaseEntity {
     @ApiProperty()
     @PrimaryGeneratedColumn("uuid")
     id: string;

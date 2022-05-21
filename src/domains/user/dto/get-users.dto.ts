@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, Matches } from 'class-validator';
-export class AuthResendCodeSubmitDto {
+export class GetUserSubmitDto {
     @ApiProperty()
     @IsNotEmpty()
     @Matches(/^(\+98|0)?9\d{9}$/,
@@ -8,7 +8,7 @@ export class AuthResendCodeSubmitDto {
     mobile_number: string;
 }
 
-export class AuthResendCodeResponseDto {
+export class GetUserResponseDto {
     constructor(code: string, message: string) {
         this.message = message;
         this.code = code;
