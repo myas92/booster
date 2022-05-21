@@ -1,3 +1,5 @@
+import { AuthLoginConfirmCommand } from './cqrs/commands/auth-login-confirm-code/auth-login-confirm.command';
+import { AuthLoginConfirmSubmitDto, AuthLoginConfirmResponseDto } from './dto/auth-login-confirm.dto copy';
 import { TrimPipe } from './../../common/pipes/trim.pipe';
 import { AuthLoginCommand } from './cqrs/commands/auth-login/auth-login.command';
 import { AuthLoginSubmitDto, AuthLoginResponseDto } from './dto/auth-login.dto';
@@ -60,16 +62,16 @@ export class AuthController {
         const result = await this.commandBus.execute(new AuthRegisterCommand(req, body));
         return result as AuthRegisterResponseDto;
     }
-    
-    @Post('resend-code')
+
+    @Post('register/resend-code')
     @HttpCode(200)
     @ApiBody({ type: AuthResendCodeSubmitDto })
-    @ApiOkResponse({type: AuthRegisterResponseDto})
+    @ApiOkResponse({ type: AuthRegisterResponseDto })
     async resendToken(@Body() body: AuthResendCodeSubmitDto, @Req() req): Promise<AuthRegisterResponseDto> {
         const result = await this.commandBus.execute(new AuthResendCodeCommand(req, body.mobile_number));
         return result as AuthRegisterResponseDto
     }
-    @Post('confirm')
+    @Post('register/confirm')
     @HttpCode(200)
     @UsePipes(new TrimPipe())
     @ApiBody({ type: AuthConfirmResponseDto })
@@ -83,9 +85,18 @@ export class AuthController {
     @UsePipes(new TrimPipe())
     @ApiBody({ type: AuthLoginSubmitDto })
     @ApiOkResponse({ type: AuthLoginResponseDto })
-    async login(@Body() body: AuthLoginSubmitDto, @Req() req, @Headers('language') language): Promise<AuthLoginResponseDto> {
+    async login(@Body() body: AuthLoginSubmitDto, @Req() req,): Promise<AuthLoginResponseDto> {
         const result = await this.commandBus.execute(new AuthLoginCommand(req, body));
         return result as AuthLoginResponseDto
+    }
+    @Post('login/confirm')
+    @HttpCode(200)
+    @UsePipes(new TrimPipe())
+    @ApiBody({ type: AuthLoginConfirmSubmitDto })
+    @ApiOkResponse({ type: AuthLoginConfirmResponseDto })
+    async loginConfirm(@Body() body: AuthLoginConfirmSubmitDto, @Req() req): Promise<AuthLoginConfirmResponseDto> {
+        const result = await this.commandBus.execute(new AuthLoginConfirmCommand(req, body));
+        return result as AuthLoginConfirmResponseDto
     }
 
 

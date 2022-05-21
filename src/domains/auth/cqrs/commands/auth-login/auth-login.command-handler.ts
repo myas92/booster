@@ -1,3 +1,5 @@
+import { LoginTypeEnum } from './../../../entities/enums/login-type.enum';
+import { LoginVerificationEntity } from './../../../entities/auth-login-verification.entity';
 import { Given_Data_Is_Invalid } from './../../../../../common/translates/errors.translate';
 import { UserService } from './../../../../user/user.service';
 import { getVerifyCode } from '../../../../../common/utils/helpers';
@@ -26,6 +28,8 @@ export class AuthLoginCommandHandler implements ICommandHandler<AuthLoginCommand
         private readonly eventBus: EventBus,
         @InjectRepository(AuthVerificationEntity)
         private readonly authVerificationRepository: Repository<AuthVerificationEntity>,
+        @InjectRepository(LoginVerificationEntity)
+        private readonly loginVerificationRepository: Repository<LoginVerificationEntity>,
         private readonly authService: AuthService,
         private readonly userService: UserService,
         private readonly connection: Connection,
@@ -46,9 +50,19 @@ export class AuthLoginCommandHandler implements ICommandHandler<AuthLoginCommand
             if (!compare)
                 throw new HttpException(Given_Data_Is_Invalid, Given_Data_Is_Invalid.status_code);
 
-            let token = await this.jwtService.sign({ userId: user.id, username: user.mobile_number, role: user.role });
+
+            let loginVerifyInfo = new LoginVerificationEntity();
+            loginVerifyInfo.user_id = user.id;
+            loginVerifyInfo.role = user.role;
+            loginVerifyInfo.mobile_number = mobile_number;
+            loginVerifyInfo.verify_code = getVerifyCode();
+            loginVerifyInfo.total_resend_code = 0;
+            loginVerifyInfo.type = LoginTypeEnum.MOBILE;
+            const savedLoginVerifyInfo = await this.loginVerificationRepository.save(loginVerifyInfo);
+            // TODO: Delete the verify code from return
             return {
-                token: token
+                stream_token: savedLoginVerifyInfo.id,
+                code: loginVerifyInfo.verify_code
             };
         } catch (error) {
             throw new HttpException(error, error.status);

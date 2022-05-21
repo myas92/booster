@@ -1,3 +1,5 @@
+import { AuthLoginConfirmCommandHandler } from './cqrs/commands/auth-login-confirm-code/auth-login-confirm.command-handler';
+import { LoginVerificationEntity } from './entities/auth-login-verification.entity';
 import { AuthLoginCommandHandler } from './cqrs/commands/auth-login/auth-login.command-handler';
 import { AuthConfirmCommandHandler } from './cqrs/commands/auth-confirm/auth-confirm.command-handler';
 import { Module, OnModuleInit } from '@nestjs/common';
@@ -21,7 +23,8 @@ export const CommandHandlers = [
     AuthRegisterCommandHandler,
     AuthResendCodeCommandHandler,
     AuthConfirmCommandHandler,
-    AuthLoginCommandHandler
+    AuthLoginCommandHandler,
+    AuthLoginConfirmCommandHandler
 ];
 export const QueriesHandlers = [
     AuthCheckUsernameQueryHandler
@@ -32,7 +35,7 @@ export const EventHandlers = [
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([AuthVerificationEntity]),
+        TypeOrmModule.forFeature([AuthVerificationEntity, LoginVerificationEntity]),
         CqrsModule,
         JwtModule.register({
             secret: process.env.TOKEN_SECRET,

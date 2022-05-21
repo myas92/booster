@@ -1,5 +1,5 @@
 import { UserEntity } from './../../../../user/entities/user.entity';
-import { Account_Is_Disabled } from './../../../../../common/translates/errors.translate';
+import { Account_Is_Disabled, Invalid_Token, Given_Data_Is_Invalid } from './../../../../../common/translates/errors.translate';
 import { VerificationStatusEnum } from './../../../../user/entities/enums/verification-status';
 import { UserRoleEnum } from './../../../../user/entities/enums/user-role.enum';
 import { isExpiredVerifyCode, getReferralCodes } from './../../../../../common/utils/helpers';
@@ -42,19 +42,17 @@ export class AuthConfirmCommandHandler implements ICommandHandler<AuthConfirmCom
             const { code, mobile_number } = command.body;
             let foundedUser = await this.userService.findOneByMobileNumber(mobile_number);
             if (foundedUser)
-                throw new HttpException(Account_Is_Disabled, 200);
+                throw new HttpException(Given_Data_Is_Invalid, Given_Data_Is_Invalid.status_code);
 
             let foundedAuthUser = await this.authService.getAuthUserByPhone(mobile_number)
             if (!foundedAuthUser)
-                throw new HttpException(Account_Is_Disabled, 200);
+            throw new HttpException(Given_Data_Is_Invalid, Given_Data_Is_Invalid.status_code);
 
             if (foundedAuthUser.verify_code != code)
-                throw new HttpException(Account_Is_Disabled, 200);
+                throw new HttpException(Invalid_Token, Invalid_Token.status_code);
 
             if (isExpiredVerifyCode(foundedAuthUser.created_at))
-                throw new HttpException(Account_Is_Disabled, 200);
-
-
+                throw new HttpException(Invalid_Token, Invalid_Token.status_code);
 
 
             const queryRunner = this.connection.createQueryRunner();
