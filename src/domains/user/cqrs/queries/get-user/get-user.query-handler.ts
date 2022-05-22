@@ -11,7 +11,7 @@ export class GetUserQueryHandler implements IQueryHandler<GetUserQuery> {
 
     async execute(query: GetUserQuery): Promise<any> {
         try {
-            console.log('First Event')
+            console.log('First Event', query)
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }

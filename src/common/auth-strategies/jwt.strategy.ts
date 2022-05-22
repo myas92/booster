@@ -1,4 +1,5 @@
-import { Injectable, NotAcceptableException, UnauthorizedException } from "@nestjs/common";
+import { Invalid_Token } from './../translates/errors.translate';
+import { HttpException, Injectable, NotAcceptableException, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { UserService } from './../../domains/user/user.service';
@@ -21,17 +22,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
             let user = await this.userService.findOneById(payload.userId);
             if (!user || user.is_deleted === true) {
-                throw new NotAcceptableException("EXC_83EFF9S3 | token is invalid");
+                throw new HttpException(Invalid_Token, Invalid_Token.status_code);
             }
 
             if (user.status === UserStatusEnum.DeActive) {
-                throw new NotAcceptableException("EXC_83EFF9A3 | this user is deactivated");
+                throw new HttpException(Invalid_Token, Invalid_Token.status_code);
             }
-
-            if (user) {
-                return payload;
-            }
+            return user
         }
-        throw new UnauthorizedException("EXC_5807ED17 | Can not found user with this id");
+        throw new HttpException(Invalid_Token, Invalid_Token.status_code);
     }
 }

@@ -136,7 +136,7 @@ export const Field_Email_Is_Duplicate = {
     },
   };
   export const Invalid_Token = {
-    status_code: 200,
+    status_code: 401,
     code: 1014,
     message: {
       fa: "توکن نامعتبر است",

@@ -1,3 +1,4 @@
+import { Invalid_Token } from './../translates/errors.translate';
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Something_Went_Wrong, Bad_Request_Exception } from '../translates/errors.translate';
@@ -22,7 +23,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
             }
             message = generalError.response.message[language];
         }
-        else if (exception.status === 400 && exception.message === "Bad Request Exception") {
+        else if (exception.status === 400 && exception.message === 'Bad Request Exception') {
             result = {
                 status_code: Bad_Request_Exception.status_code,
                 error_code: Bad_Request_Exception.code,
@@ -32,6 +33,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 //TODO : remove this line from
             }
             message = Bad_Request_Exception.message[language]
+        }
+        else if (exception.status === 401 && exception.message === 'Unauthorized') {
+            result = {
+                status_code: Invalid_Token.status_code,
+                error_code: Invalid_Token.code,
+                timestamp: new Date().toISOString(),
+                path: request.url,
+                message_developer: exception.getResponse().message
+                //TODO : remove this line from
+            }
+            message = Invalid_Token.message[language]
         }
         // If none exception error is happened
         else {

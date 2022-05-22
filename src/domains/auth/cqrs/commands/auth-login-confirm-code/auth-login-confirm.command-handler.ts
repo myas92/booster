@@ -66,6 +66,7 @@ export class AuthLoginConfirmCommandHandler implements ICommandHandler<AuthLogin
             });
             // TODO: Delete the verify code from return
             return {
+                user_id: loginVerificationInfo.user_id,
                 token: token
             };
         } catch (error) {
