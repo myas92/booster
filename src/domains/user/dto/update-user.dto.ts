@@ -25,16 +25,12 @@ export class UpdateUserSubmitDto {
 export class UpdateUserResultResponseDto {
     @ApiProperty()
     id: string;
-
     @ApiProperty()
     first_name: string;
-
     @ApiProperty()
     last_name: string;
-
     @ApiProperty()
     national_code: string;
-
     @ApiProperty()
     birthday: string;
 }
