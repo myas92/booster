@@ -42,11 +42,6 @@ import { DeleteUserCommand } from "./cqrs/commands/delete-user/delete-user.comma
 import { Roles } from 'src/common/decorators/get-role.decorator';
 import { Role } from './entities/enums/user-role.enum';
 
-
-
-
-// import { FormatResponseInterceptor } from "../../infrastructure/interceptors/format-response.interceptor";
-
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -54,22 +49,18 @@ import { Role } from './entities/enums/user-role.enum';
 @Controller('api/v1/user')
 @ApiTags('User')
 export class UserController {
-
     constructor(
         private readonly commandBus: CommandBus,
         private readonly queryBus: QueryBus,
         private readonly userService: UserService
-    ) {
-    }
+    ) {}
     
     @Post('/')
-
     @ApiBody({ type: AddUserSubmitDto })
     async register(@Body() body: AddUserSubmitDto, @Req() req): Promise<AddUserResponseDto> {
         const result = await this.commandBus.execute(new AddUserCommand(req, body));
         return result as AddUserResponseDto
     }
-
 
     @UseGuards(AuthGuard('jwt'))
     @Get('/:userId')
@@ -78,6 +69,4 @@ export class UserController {
         const result = await this.queryBus.execute(new GetUserQuery(req, userId));
         return result as GetUserResponseDto
     }
-
-
 }

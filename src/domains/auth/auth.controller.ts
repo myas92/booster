@@ -35,10 +35,6 @@ import { FormatResponseInterceptor } from "../../common/interceptors/format-resp
 import { HttpExceptionFilter } from "../../common/filters/http-exception.filter";
 import { AuthService } from "./auth.service";
 import { AuthResendCodeCommand } from "./cqrs/commands/auth-resend-code/auth-resend-code.command";
-
-
-
-
 // import { FormatResponseInterceptor } from "../../infrastructure/interceptors/format-response.interceptor";
 
 @UseInterceptors(FormatResponseInterceptor)
@@ -98,6 +94,4 @@ export class AuthController {
         const result = await this.commandBus.execute(new AuthLoginConfirmCommand(req, body));
         return result as AuthLoginConfirmResponseDto
     }
-
-
 }
