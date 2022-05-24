@@ -1,3 +1,4 @@
+import { UpdateUserCommandHandler } from './cqrs/commands/update-user/update-user.command-handler';
 import { RolesGuard } from './../../common/guards/roles.guard';
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -18,7 +19,8 @@ import { APP_GUARD } from '@nestjs/core';
 
 export const CommandHandlers = [
     AddUserCommandHandler,
-    DeleteUserCommandHandler
+    DeleteUserCommandHandler,
+    UpdateUserCommandHandler
 ];
 export const QueriesHandlers = [
     GetUserQueryHandler

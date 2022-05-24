@@ -12,7 +12,7 @@ export class UserService {
         private readonly userRepository: Repository<UserEntity>
     ) { }
 
-    async create(userInfo) {
+    async save(userInfo) {
         try {
             const result = await this.userRepository.save(userInfo);
             return result;
@@ -23,7 +23,7 @@ export class UserService {
 
     async findOneById(userId) {
         let result = this.userRepository.findOne({
-            where: { id: userId }
+            where: { id: userId, is_deleted: false }
         })
         return result
     }

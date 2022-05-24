@@ -17,7 +17,7 @@ export class AuthLoginSubmitDto {
     password: string;
 }
 
-export class AuthLoginUserResponseDto {
+export class AuthLoginResultResponseDto {
     @ApiProperty()
     token: string;
 }
@@ -26,7 +26,7 @@ export class AuthLoginResponseDto {
     @ApiProperty()
     success: boolean
     @ApiProperty()
-    result: AuthLoginUserResponseDto
+    result: AuthLoginResultResponseDto
     @ApiProperty()
     message: string
 }
