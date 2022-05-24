@@ -130,5 +130,14 @@ export class UserEntity extends BaseEntity {
 
         }
     }
+    toDtoUpdate() {
+        return {
+            id: this.id,
+            first_name: this.first_name,
+            last_name: this.last_name,
+            national_code: this.national_code,
+            birthday: this.birthday
+        }
+    }
 
 }

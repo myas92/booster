@@ -22,16 +22,28 @@ export class UpdateUserSubmitDto {
     birthday: string;
 }
 
-// export class UpdateUserResultResponseDto {
-//     @ApiProperty()
-//     token: string;
-// }
+export class UpdateUserResultResponseDto {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    first_name: string;
+
+    @ApiProperty()
+    last_name: string;
+
+    @ApiProperty()
+    national_code: string;
+
+    @ApiProperty()
+    birthday: string;
+}
 
 export class UpdateUserResponseDto {
     @ApiProperty()
     success: boolean
     @ApiProperty()
-    result: UpdateUserSubmitDto
+    result: UpdateUserResultResponseDto
     @ApiProperty()
     message: string
 }

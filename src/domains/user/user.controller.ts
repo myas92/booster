@@ -67,6 +67,7 @@ export class UserController {
     @UseGuards(UserGuard)
     @Patch('/:userId')
     @ApiBody({ type: UpdateUserSubmitDto })
+    @ApiOkResponse({ type: UpdateUserResponseDto })
     async updateUser(@Body() body: UpdateUserSubmitDto, @Req() req): Promise<UpdateUserResponseDto> {
         const result = await this.commandBus.execute(new UpdateUserCommand(req, body));
         return result as UpdateUserResponseDto

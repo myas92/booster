@@ -37,7 +37,7 @@ export class UpdateUserCommandHandler implements ICommandHandler<UpdateUserComma
             foundedUser.birthday = birthday
             
             await this.userService.save(foundedUser);
-            return foundedUser.toDto();
+            return foundedUser.toDtoUpdate();
         } catch (error) {
             throw new HttpException(error, error.status);
         }
