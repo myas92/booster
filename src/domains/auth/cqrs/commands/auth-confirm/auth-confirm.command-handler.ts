@@ -1,7 +1,7 @@
 import { UserEntity } from './../../../../user/entities/user.entity';
 import { Account_Is_Disabled, Invalid_Token, Given_Data_Is_Invalid } from './../../../../../common/translates/errors.translate';
 import { VerificationStatusEnum } from './../../../../user/entities/enums/verification-status';
-import { UserRoleEnum } from './../../../../user/entities/enums/user-role.enum';
+import { Role } from './../../../../user/entities/enums/user-role.enum';
 import { isExpiredVerifyCode, getReferralCodes } from './../../../../../common/utils/helpers';
 import { UserService } from './../../../../user/user.service';
 import { getVerifyCode } from '../../../../../common/utils/helpers';
@@ -63,7 +63,7 @@ export class AuthConfirmCommandHandler implements ICommandHandler<AuthConfirmCom
                 user.mobile_number = foundedAuthUser.mobile_number;
                 user.password = foundedAuthUser.password;
                 user.referral_code = getReferralCodes();
-                user.role = UserRoleEnum.User;
+                user.role = Role.User;
                 user.verification = VerificationStatusEnum.Unverified;
 
                 foundedAuthUser.is_used = true;

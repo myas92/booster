@@ -241,9 +241,17 @@ export const Field_Email_Is_Duplicate = {
   };
   export const Given_Data_Is_Invalid = {
     status_code: 422,
-    code: 1020,
+    code: 1021,
     message: {
       fa: "اطلاعات وارد شده اشتباه است",
       en: "The given data is invalid.",
+    },
+  };
+  export const Unable_Access_Information = {
+    status_code: 200,
+    code: 1022,
+    message: {
+      fa: "دسترسی به اطلاعات مورد نظر امکان پذیر نیست",
+      en: "Unable to access the information",
     },
   };

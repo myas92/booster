@@ -1,3 +1,4 @@
+import { RolesGuard } from './../../common/guards/roles.guard';
 import { GetUserQuery } from './cqrs/queries/get-user/get-user.query';
 import { GetUserResponseDto } from './dto/get-users.dto';
 import { GetProfileResponseDto } from './dto/get-profile.dto';
@@ -38,6 +39,8 @@ import { HttpExceptionFilter } from "../../common/filters/http-exception.filter"
 
 import { AddUserCommand } from "./cqrs/commands/add-user/add-user.command";
 import { DeleteUserCommand } from "./cqrs/commands/delete-user/delete-user.command";
+import { Roles } from 'src/common/decorators/get-role.decorator';
+import { Role } from './entities/enums/user-role.enum';
 
 
 
@@ -46,6 +49,8 @@ import { DeleteUserCommand } from "./cqrs/commands/delete-user/delete-user.comma
 
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@Roles(Role.Admin)
 @Controller('api/v1/user')
 @ApiTags('User')
 export class UserController {
@@ -56,7 +61,9 @@ export class UserController {
         private readonly userService: UserService
     ) {
     }
+    
     @Post('/')
+
     @ApiBody({ type: AddUserSubmitDto })
     async register(@Body() body: AddUserSubmitDto, @Req() req): Promise<AddUserResponseDto> {
         const result = await this.commandBus.execute(new AddUserCommand(req, body));
