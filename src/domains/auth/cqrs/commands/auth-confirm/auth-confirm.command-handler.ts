@@ -1,3 +1,4 @@
+import { AccountStatusEnum } from './../../../../user/entities/enums/account-status.enum copy';
 import { UserEntity } from './../../../../user/entities/user.entity';
 import { Account_Is_Disabled, Invalid_Token, Given_Data_Is_Invalid } from './../../../../../common/translates/errors.translate';
 import { VerificationStatusEnum } from './../../../../user/entities/enums/verification-status';
@@ -46,7 +47,7 @@ export class AuthConfirmCommandHandler implements ICommandHandler<AuthConfirmCom
 
             let foundedAuthUser = await this.authService.getAuthUserByPhone(mobile_number)
             if (!foundedAuthUser)
-            throw new HttpException(Given_Data_Is_Invalid, Given_Data_Is_Invalid.status_code);
+                throw new HttpException(Given_Data_Is_Invalid, Given_Data_Is_Invalid.status_code);
 
             if (foundedAuthUser.verify_code != code)
                 throw new HttpException(Invalid_Token, Invalid_Token.status_code);
@@ -65,6 +66,7 @@ export class AuthConfirmCommandHandler implements ICommandHandler<AuthConfirmCom
                 user.invite_code = getReferralCodes();
                 user.role = Role.User;
                 user.verification = VerificationStatusEnum.Unverified;
+                user.status_mobile_number = AccountStatusEnum.ACCEPTED
 
                 foundedAuthUser.is_used = true;
                 foundedAuthUser.password = "";

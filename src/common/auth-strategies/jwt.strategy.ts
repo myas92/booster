@@ -25,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
                 throw new HttpException(Invalid_Token, Invalid_Token.status_code);
             }
 
-            if (user.status === UserStatusEnum.DeActive) {
+            if (user.state === UserStatusEnum.DeActive) {
                 throw new HttpException(Invalid_Token, Invalid_Token.status_code);
             }
             return user

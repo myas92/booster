@@ -1,3 +1,4 @@
+import { UserService } from './../../../user.service';
 import { Unable_Access_Information } from './../../../../../common/translates/errors.translate';
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { GetUserQuery } from "./get-user.query";
@@ -7,16 +8,15 @@ import { HttpException, InternalServerErrorException } from "@nestjs/common";
 export class GetUserQueryHandler implements IQueryHandler<GetUserQuery> {
 
     constructor(
+        private readonly userService: UserService
     ) {
     }
 
     async execute(query: GetUserQuery): Promise<any> {
         try {
-            const { req, userId } = query;
-            const { role } = req.user;
-            if (req.user.userId == userId) {
-                throw new HttpException(Unable_Access_Information, Unable_Access_Information.status_code)
-            }
+            const { userId } = query;
+            const foundedUser = await this.userService.findOneById(userId);
+            return foundedUser.toDto()
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }

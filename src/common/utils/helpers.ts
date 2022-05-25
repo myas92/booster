@@ -14,7 +14,7 @@ export const getReferralCodes = (): string => {
   let referralCode = ReferralCodes.generate({
     length: 7,
     count: 1,
-    charset: ReferralCodes.charset(ReferralCodes.Charset.ALPHABETIC).toUpperCase(),
+    charset: ReferralCodes.charset(ReferralCodes.Charset.ALPHABETIC).toLowerCase(),
   });
 
   return referralCode[0];

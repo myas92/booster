@@ -11,17 +11,16 @@ export class UserEntity extends BaseEntity {
     @ApiProperty()
     @Column()
     mobile_number: string
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_mobile_number: string
 
     @Column()
     password: string;
 
     @ApiProperty()
-    @Column({ nullable: true })
-    email: string;
-
-    @ApiProperty()
-    @Column({ nullable: true })
-    address: string;
+    @Column({ unique: true })
+    invite_code: string;
 
     @ApiProperty()
     @Column({ nullable: true })
@@ -29,7 +28,24 @@ export class UserEntity extends BaseEntity {
 
     @ApiProperty()
     @Column({ nullable: true })
+    email: string;
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_email: string;
+
+    @ApiProperty()
+    @Column({ nullable: true })
+    address: string;
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_address: string;
+
+    @ApiProperty()
+    @Column({ nullable: true })
     birthday: string;
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_birthday: string;
 
     @ApiProperty()
     @Column({ default: 25 })
@@ -38,33 +54,52 @@ export class UserEntity extends BaseEntity {
     @ApiProperty()
     @Column({ nullable: true })
     face_image: string;
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_face_image: string;
 
     @ApiProperty()
     @Column({ nullable: true })
     first_name: string;
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_first_name: string;
 
     @ApiProperty()
     @Column({ nullable: true })
     last_name: string;
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_last_name: string;
 
     @ApiProperty()
     @Column({ default: '****' })
     national_code: string;
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_national_code: string;
 
     @ApiProperty()
-    @Column({ unique: true })
-    invite_code: string;
+    @Column({ nullable: true })
+    national_card_image: string;
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_national_card_image: string;
+
 
     @ApiProperty()
     @Column({ nullable: true })
     phone_number: string;
+    @ApiProperty()
+    @Column({ default: 'UNFILLED' })
+    status_phone_number: string;
 
     @ApiProperty()
     @Column({ nullable: true })
     tracking_id: string;
 
     @ApiProperty()
-    @Column({ nullable: true })
+    @Column({ default: 'UNVERIFIED' })
     verification: string;
 
     @ApiProperty()
@@ -77,15 +112,15 @@ export class UserEntity extends BaseEntity {
 
     @ApiProperty()
     @Column({ nullable: true })
-    status: string;
-
-    @ApiProperty()
-    @Column({ nullable: true })
     role: string;
 
     @ApiProperty()
     @Column({ nullable: true })
     meta: string;
+
+    @ApiProperty()
+    @Column({ nullable: true })
+    state: string;
 
     @Column({ default: false })
     is_deleted: boolean;
@@ -102,10 +137,21 @@ export class UserEntity extends BaseEntity {
             mobile_number: this.mobile_number,
             email: this.email,
             address: this.address,
-            status: this.status,
+            state: this.state,
             photo: {
                 path: (this.avatar) ? this.avatar : `upload/assets/default${type}.jpg`,
                 name: (this.avatar) ? "" : "default"
+            },
+            status: {
+                address: this.status_address,
+                email: this.status_email,
+                face_image: this.status_face_image,
+                first_name: this.status_first_name,
+                last_name: this.status_last_name,
+                mobile_number: this.status_mobile_number,
+                national_card_image: this.status_national_card_image,
+                national_code: this.status_national_code,
+                phone_number: this.status_phone_number,
             },
             role: this.role,
             birthday: this.birthday,
