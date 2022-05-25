@@ -31,6 +31,7 @@ export class UpdateUserCommandHandler implements ICommandHandler<UpdateUserComma
 
             let foundedUser = await this.userService.findOneById(userId);
 
+            // TODO: Check Mobile Number with National Code based on Shahkar Service like Wallex
             foundedUser.first_name = first_name
             foundedUser.last_name = last_name
             foundedUser.national_code = national_code

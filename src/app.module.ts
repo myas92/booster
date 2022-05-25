@@ -8,6 +8,8 @@ import { typeOrmConfig } from './config/typeorm.config';
 // Modules
 import { AuthModule } from './domains/auth/auth.module';
 import { ExampleModule } from './domains/example/example.module';
+import { AccountModule } from './domains/account/account.module';
+
 // Middleware
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { LanguageMiddleware } from './common/middlewares/language.middleware'
@@ -20,6 +22,7 @@ import { Connection } from 'typeorm';
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
     UserModule,
+    AccountModule,
     ExampleModule
   ],
   controllers: [AppController],
