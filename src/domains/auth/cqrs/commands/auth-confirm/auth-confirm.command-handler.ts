@@ -62,7 +62,7 @@ export class AuthConfirmCommandHandler implements ICommandHandler<AuthConfirmCom
                 let user = new UserEntity();
                 user.mobile_number = foundedAuthUser.mobile_number;
                 user.password = foundedAuthUser.password;
-                user.referral_code = getReferralCodes();
+                user.invite_code = getReferralCodes();
                 user.role = Role.User;
                 user.verification = VerificationStatusEnum.Unverified;
 

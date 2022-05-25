@@ -16,10 +16,6 @@ export class UserEntity extends BaseEntity {
     password: string;
 
     @ApiProperty()
-    @Column({ unique: true })
-    referral_code: string;
-
-    @ApiProperty()
     @Column({ nullable: true })
     email: string;
 
@@ -56,7 +52,7 @@ export class UserEntity extends BaseEntity {
     national_code: string;
 
     @ApiProperty()
-    @Column({ nullable: true })
+    @Column({ unique: true })
     invite_code: string;
 
     @ApiProperty()
@@ -104,7 +100,6 @@ export class UserEntity extends BaseEntity {
         return {
             id: this.id,
             mobile_number: this.mobile_number,
-            referral_code: this.referral_code,
             email: this.email,
             address: this.address,
             status: this.status,
@@ -126,7 +121,6 @@ export class UserEntity extends BaseEntity {
             settings: this.settings,
             kyc_info: this.kyc_info,
             meta: this.meta
-
 
         }
     }
