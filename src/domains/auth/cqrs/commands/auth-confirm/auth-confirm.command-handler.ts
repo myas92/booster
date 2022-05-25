@@ -1,3 +1,5 @@
+import { AccountEntity } from './../../../../account/entities/account.entity';
+import { AccountService } from './../../../../account/account.service';
 import { AccountStatusEnum } from './../../../../user/entities/enums/account-status.enum copy';
 import { UserEntity } from './../../../../user/entities/user.entity';
 import { Account_Is_Disabled, Invalid_Token, Given_Data_Is_Invalid } from './../../../../../common/translates/errors.translate';
@@ -33,6 +35,7 @@ export class AuthConfirmCommandHandler implements ICommandHandler<AuthConfirmCom
         private readonly authVerificationRepository: Repository<AuthVerificationEntity>,
         private readonly authService: AuthService,
         private readonly userService: UserService,
+        private readonly accountService: AccountService,
         private readonly connection: Connection,
     ) {
     }
@@ -60,19 +63,24 @@ export class AuthConfirmCommandHandler implements ICommandHandler<AuthConfirmCom
             await queryRunner.connect();
             await queryRunner.startTransaction();
             try {
+                // User Table
                 let user = new UserEntity();
                 user.mobile_number = foundedAuthUser.mobile_number;
                 user.password = foundedAuthUser.password;
                 user.invite_code = getReferralCodes();
                 user.role = Role.User;
-                user.verification = VerificationStatusEnum.Unverified;
-                user.status_mobile_number = AccountStatusEnum.ACCEPTED
-
+                // Account Table
+                let account = new AccountEntity;
+                account.mobile_number = foundedAuthUser.mobile_number;
+                account.verification = VerificationStatusEnum.Unverified;
+                account.status_mobile_number = AccountStatusEnum.ACCEPTED
+                // Auth_Verification Table
                 foundedAuthUser.is_used = true;
                 foundedAuthUser.password = "";
 
                 await queryRunner.manager.save(user);
                 await queryRunner.manager.save(foundedAuthUser);
+                await queryRunner.manager.save(account);
 
                 await queryRunner.commitTransaction();
             } catch (err) {

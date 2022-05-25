@@ -1,3 +1,5 @@
+import { AccountEntity } from './../account/entities/account.entity';
+import { AccountService } from './../account/account.service';
 import { JwtStrategy } from './../../common/auth-strategies/jwt.strategy';
 import { AuthLoginConfirmCommandHandler } from './cqrs/commands/auth-login-confirm-code/auth-login-confirm.command-handler';
 import { LoginVerificationEntity } from './entities/auth-login-verification.entity';
@@ -36,7 +38,7 @@ export const EventHandlers = [
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([AuthVerificationEntity, LoginVerificationEntity]),
+        TypeOrmModule.forFeature([AuthVerificationEntity, LoginVerificationEntity, AccountEntity]),
         CqrsModule,
         UserModule,
         JwtModule.register({
@@ -48,6 +50,7 @@ export const EventHandlers = [
     providers: [
         JwtStrategy,
         AuthService,
+        AccountService,
         ...CommandHandlers,
         ...EventHandlers,
         ...QueriesHandlers],
