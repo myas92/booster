@@ -1,5 +1,6 @@
+import { CartEntity } from './../../cart/entities/cart.entity';
 import { UserEntity } from '../../user/entities/user.entity';
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity, OneToOne, JoinColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity, OneToOne, JoinColumn, OneToMany } from "typeorm";
 import { AggregateRoot } from "@nestjs/cqrs";
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -13,6 +14,10 @@ export class AccountEntity extends BaseEntity {
     @OneToOne(type => UserEntity, user => user.account)// one account => one user
     @JoinColumn({ referencedColumnName: "id", name: 'user_id' })
     user: UserEntity
+
+    // Relation with Cart -> every Account hast multiple Carts
+    @OneToMany(type => CartEntity, cart => cart.account, { nullable: true })
+    carts: CartEntity
 
     @ApiProperty()
     @Column({ default: 'UNFILLED' })
@@ -114,6 +119,7 @@ export class AccountEntity extends BaseEntity {
             id: this.id,
             mobile_number: this.user.mobile_number,
             email: this.user.email,
+            carts: this.carts,
             address: this.address,
             invite_code: this.invite_code,
             photo: {

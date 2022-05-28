@@ -15,6 +15,7 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { LanguageMiddleware } from './common/middlewares/language.middleware'
 
 import { Connection } from 'typeorm';
+import { CartModule } from './domains/cart/cart.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { Connection } from 'typeorm';
     AuthModule,
     UserModule,
     AccountModule,
-    ExampleModule
+    ExampleModule,
+    CartModule
   ],
   controllers: [AppController],
   providers: [AppService],

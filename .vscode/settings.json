@@ -25,6 +25,7 @@
         "Jalali",
         "middlewares",
         "nestjs",
+        "shaba",
         "typeorm"
     ]
 }
