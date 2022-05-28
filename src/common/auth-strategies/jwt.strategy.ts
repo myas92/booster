@@ -20,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
         if (payload) {
 
-            let user = await this.userService.findOneById(payload.userId);
+            let user:any = await this.userService.findOneById(payload.userId);
             if (!user || user.is_deleted === true) {
                 throw new HttpException(Invalid_Token, Invalid_Token.status_code);
             }
@@ -28,7 +28,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             if (user.state === UserStatusEnum.DeActive) {
                 throw new HttpException(Invalid_Token, Invalid_Token.status_code);
             }
-            return user
+            return {
+                id: user.id,
+                role: user.role
+            }
         }
         throw new HttpException(Invalid_Token, Invalid_Token.status_code);
     }

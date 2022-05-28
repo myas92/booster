@@ -1,3 +1,6 @@
+import { BadRequestException } from '@nestjs/common';
+import { imageFileFilter } from './../../common/utils/image-file-filter';
+import { editFileName } from './../../common/utils/helpers';
 import { CheckUserIdGuard } from './../../common/guards/user.guard';
 import { Role } from './../user/entities/enums/user-role.enum';
 import { GetProfileResultResponseDto } from './dto/get-profile.dto';
@@ -20,6 +23,7 @@ import {
     Patch,
     Post,
     Req,
+    UploadedFile,
     UseFilters,
     UseGuards,
     UseInterceptors,
@@ -41,6 +45,9 @@ import { HttpExceptionFilter } from "../../common/filters/http-exception.filter"
 
 import { Roles } from 'src/common/decorators/get-role.decorator';
 
+import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
+import { Express } from 'express';
+import LocalFilesInterceptor from 'src/common/interceptors/local-file.interceptor';
 
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
@@ -63,11 +70,69 @@ export class AccountController {
         return result as GetProfileResultResponseDto
     }
 
-    @Post('/cart-number')
+    @UseInterceptors(
+        FileInterceptor('file', {
+            storage: diskStorage({
+                destination: (req, file, cb) => {
+                    const userId = '12313123'
+                    const dir = `./upload/user-${userId}/profile`;
+                    const checkFullPath = fs.existsSync(dir);
+                    if (!checkFullPath) {
+                        let result;
+                        let check = fs.existsSync(`./upload/user-${userId}`);
+                        if (!check) {
+                            result = fs.mkdirSync(`./upload/user-${userId}`, { recursive: true });
+                            result = fs.mkdirSync(dir, { recursive: true });
+                        }
+                        else {
+                            result = fs.mkdirSync(dir, { recursive: true });
+                        }
+                        return cb(null, result)
+                    }
+                    return cb(null, dir)
+                },
+                filename: editFileName,
+            }),
+            fileFilter: imageFileFilter,
+        }),
+    )
+    @Post('/national-cart-image')
     @ApiBody({ type: AddCartSubmitDto })
-    async addCartNumber(@Body() body: AddCartSubmitDto, @Req() req): Promise<AddCartResponseDto> {
+    async uploadNationalCartImage(@Body() body: AddCartSubmitDto, @Req() req): Promise<AddCartResponseDto> {
         const result = await this.commandBus.execute(new AddCartCommand(req, body));
         return result as AddCartResponseDto
+    }
+
+    @Post('/upload')
+    @UseInterceptors(
+        FileInterceptor('file', {
+            storage: diskStorage({
+                destination: (req, file, cb) => {
+                    const userId = req.user["id"];
+                    const dir = `./upload/${userId}/national-image`;
+                    const checkFullPath = fs.existsSync(dir);
+                    if (!checkFullPath) {
+                        let result;
+                        let check = fs.existsSync(`./upload/${userId}`);
+                        if (!check) {
+                            result = fs.mkdirSync(`./upload/${userId}`, { recursive: true });
+                            result = fs.mkdirSync(dir, { recursive: true });
+                        }
+                        else {
+                            result = fs.mkdirSync(dir, { recursive: true });
+                        }
+                        return cb(null, result)
+                    }
+                    return cb(null, dir)
+                },
+                filename: editFileName,
+            }),
+            fileFilter: imageFileFilter,
+        }),
+    )
+    async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {    
+        const result = {}
+        return result
     }
 
 }
