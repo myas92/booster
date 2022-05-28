@@ -1,4 +1,4 @@
-import { UserGuard } from './../../common/guards/user.guard';
+import { CheckUserIdGuard } from './../../common/guards/user.guard';
 import { UpdateUserCommand } from './cqrs/commands/update-user/update-user.command';
 import { UpdateUserSubmitDto, UpdateUserResponseDto } from './dto/update-user.dto';
 import { RolesGuard } from './../../common/guards/roles.guard';
@@ -64,7 +64,7 @@ export class UserController {
         return result as AddUserResponseDto
     }
 
-    @UseGuards(UserGuard)
+    @UseGuards(CheckUserIdGuard)
     @Patch('/:userId')
     @ApiBody({ type: UpdateUserSubmitDto })
     @ApiOkResponse({ type: UpdateUserResponseDto })

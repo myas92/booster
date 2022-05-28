@@ -1,3 +1,6 @@
+import { CheckUserIdGuard } from './../../common/guards/user.guard';
+import { Role } from './../user/entities/enums/user-role.enum';
+import { GetProfileResultResponseDto, GetProfileSubmitDto } from './dto/get-profile.dto';
 import { GetProfileQuery } from './cqrs/queries/get-profile/get-profile.query';
 import { AddCartCommand } from './cqrs/commands/add-cart/add-cart.command';
 import { AddCartSubmitDto, AddCartResponseDto } from './dto/add-cart.dto';
@@ -28,6 +31,7 @@ import {
     ApiHeader,
     ApiNotFoundResponse,
     ApiOkResponse,
+    ApiParam,
     ApiTags
 } from "@nestjs/swagger";
 
@@ -41,6 +45,7 @@ import { Roles } from 'src/common/decorators/get-role.decorator';
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
 @UseGuards(AuthGuard('jwt'), RolesGuard)
+@Roles(Role.USER)
 @Controller('api/v1/account')
 @ApiTags('Account')
 export class AccountController {
@@ -49,11 +54,13 @@ export class AccountController {
         private readonly queryBus: QueryBus,
     ) { }
 
+    @UseGuards(CheckUserIdGuard)
     @Get('/profile/:userId')
-    @ApiBody({ type: AddCartSubmitDto })
-    async getProfile(@Param("userId") userId, @Req() req): Promise<AddCartResponseDto> {
+    @ApiParam({ name: 'userId', type: 'uuid' })
+    @ApiOkResponse({ type: GetProfileResultResponseDto })
+    async getProfile(@Param("userId") userId, @Req() req): Promise<GetProfileResultResponseDto> {
         const result = await this.queryBus.execute(new GetProfileQuery(req, userId));
-        return result as AddCartResponseDto
+        return result as GetProfileResultResponseDto
     }
 
     @Post('/cart-number')

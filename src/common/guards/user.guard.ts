@@ -4,7 +4,7 @@ import { Reflector } from '@nestjs/core';
 export const ROLES_KEY = 'roles';
 
 @Injectable()
-export class UserGuard implements CanActivate {
+export class CheckUserIdGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const req = context.switchToHttp().getRequest();
 
