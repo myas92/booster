@@ -1,6 +1,6 @@
 import { CheckUserIdGuard } from './../../common/guards/user.guard';
 import { Role } from './../user/entities/enums/user-role.enum';
-import { GetProfileResultResponseDto, GetProfileSubmitDto } from './dto/get-profile.dto';
+import { GetProfileResultResponseDto } from './dto/get-profile.dto';
 import { GetProfileQuery } from './cqrs/queries/get-profile/get-profile.query';
 import { AddCartCommand } from './cqrs/commands/add-cart/add-cart.command';
 import { AddCartSubmitDto, AddCartResponseDto } from './dto/add-cart.dto';
