@@ -17,7 +17,7 @@ export class AccountEntity extends BaseEntity {
 
     // Relation with Cart -> every Account hast multiple Carts
     @OneToMany(type => CartEntity, cart => cart.account, { nullable: true })
-    carts: CartEntity
+    carts: CartEntity[]
 
     @ApiProperty()
     @Column({ default: 'UNFILLED' })

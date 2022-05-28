@@ -25,5 +25,12 @@ export class AccountService {
         // https://stackoverflow.com/questions/65525851/how-to-make-inner-join-to-work-on-typeorm#:~:text=TypeORM%20has%20a%20method%20called,table%20will%20be%20selected%20from.
         return result
     }
+    async findOneByUserId(userId) {
+        let result = await this.accountRepository
+        .createQueryBuilder("accounts")
+        .where("user_id = :userId", { userId: userId })
+        .getOne()
+        return result
+    }
 
 }

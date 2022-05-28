@@ -29,4 +29,16 @@ export class CartEntity extends BaseEntity {
     @Column({ default: null })
     expire_date: string
 
+    @ApiProperty()
+    @Column({ default: null })
+    status: string
+
+    toDto() {
+        return {
+            cart_number: this.cart_number,
+            shaba_number: this.shaba_number,
+            bank_name: this.bank_name,
+            status: this.status
+        }
+    }
 }

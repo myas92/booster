@@ -33,7 +33,7 @@ import { Roles } from 'src/common/decorators/get-role.decorator';
 @UseFilters(new HttpExceptionFilter())
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @Roles(Role.USER)
-@Controller('api/v1/account')
+@Controller('api/v1/cart')
 @ApiTags('Account')
 @Controller('cart')
 export class CartController {
@@ -43,8 +43,7 @@ export class CartController {
   ) { }
 
 
-  @UseGuards(CheckUserIdGuard)
-  @Post('/')
+  @Post('')
   @ApiOkResponse({ type: AddCartResponseDto })
   async AddCart(@Body() body: CreateCartSubmitDto, @Req() req): Promise<AddCartResponseDto> {
     const result = await this.commandBus.execute(new AddCartCommand(req, body))
