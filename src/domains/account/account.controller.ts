@@ -109,13 +109,13 @@ export class AccountController {
             storage: diskStorage({
                 destination: (req, file, cb) => {
                     const userId = req.user["id"];
-                    const dir = `./upload/${userId}/national-image`;
+                    const dir = `../upload/${userId}/national-image`;
                     const checkFullPath = fs.existsSync(dir);
                     if (!checkFullPath) {
                         let result;
-                        let check = fs.existsSync(`./upload/${userId}`);
+                        let check = fs.existsSync(`../upload/${userId}`);
                         if (!check) {
-                            result = fs.mkdirSync(`./upload/${userId}`, { recursive: true });
+                            result = fs.mkdirSync(`../upload/${userId}`, { recursive: true });
                             result = fs.mkdirSync(dir, { recursive: true });
                         }
                         else {
