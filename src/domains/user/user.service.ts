@@ -22,11 +22,12 @@ export class UserService {
     }
 
     async findOneById(userId) {
-        let result = this.userRepository.findOne({
+        let result = await this.userRepository.findOne({
             where: { id: userId, is_deleted: false }
         })
         return result
     }
+    
     async findOneByMobileNumber(mobileNumber) {
         let result = this.userRepository.findOne({
             where: { mobile_number: mobileNumber, is_deleted: false }

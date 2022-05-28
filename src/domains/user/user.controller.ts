@@ -48,7 +48,7 @@ import { Role } from './entities/enums/user-role.enum';
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles(Role.User)
+@Roles(Role.USER)
 @Controller('api/v1/user')
 @ApiTags('User')
 export class UserController {

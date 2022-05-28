@@ -1,3 +1,4 @@
+import { GetProfileQuery } from './cqrs/queries/get-profile/get-profile.query';
 import { AddCartCommand } from './cqrs/commands/add-cart/add-cart.command';
 import { AddCartSubmitDto, AddCartResponseDto } from './dto/add-cart.dto';
 import { RolesGuard } from '../../common/guards/roles.guard';
@@ -47,6 +48,13 @@ export class AccountController {
         private readonly commandBus: CommandBus,
         private readonly queryBus: QueryBus,
     ) { }
+
+    @Get('/profile/:userId')
+    @ApiBody({ type: AddCartSubmitDto })
+    async getProfile(@Param("userId") userId, @Req() req): Promise<AddCartResponseDto> {
+        const result = await this.queryBus.execute(new GetProfileQuery(req, userId));
+        return result as AddCartResponseDto
+    }
 
     @Post('/cart-number')
     @ApiBody({ type: AddCartSubmitDto })

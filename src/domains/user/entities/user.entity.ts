@@ -10,7 +10,7 @@ export class UserEntity extends BaseEntity {
     id: string;
 
     // Relation with Account 
-    @OneToOne(type => AccountEntity, userStatistics => userStatistics.user) //user => many links
+    @OneToOne(type => AccountEntity, account => account.user) //user => many links
     account: AccountEntity;
 
     @ApiProperty()

@@ -63,17 +63,19 @@ export class AuthConfirmCommandHandler implements ICommandHandler<AuthConfirmCom
             await queryRunner.connect();
             await queryRunner.startTransaction();
             try {
+                const inviteCode = getReferralCodes();
                 // User Table
                 let user = new UserEntity();
                 user.mobile_number = foundedAuthUser.mobile_number;
                 user.password = foundedAuthUser.password;
-                user.invite_code = getReferralCodes();
-                user.role = Role.User;
+                user.invite_code = inviteCode;
+                user.role = Role.USER;
                 // Account Table
                 let account = new AccountEntity;
-                account.mobile_number = foundedAuthUser.mobile_number;
                 account.verification = VerificationStatusEnum.Unverified;
-                account.status_mobile_number = AccountStatusEnum.ACCEPTED
+                account.status_mobile_number = AccountStatusEnum.ACCEPTED;
+                account.invite_code = inviteCode;
+                account.user = user
                 // Auth_Verification Table
                 foundedAuthUser.is_used = true;
                 foundedAuthUser.password = "";

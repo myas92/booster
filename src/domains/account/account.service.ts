@@ -12,5 +12,14 @@ export class AccountService {
         private readonly accountRepository: Repository<AccountEntity>
     ) { }
 
+    async findOneById(userId) {
+        let result = await this.accountRepository
+        .createQueryBuilder("accounts")
+        .innerJoinAndSelect("accounts.user", "user")
+        .getOne()
+        // SELECT * from accounts
+        // inner join users on users.id = accounts.user_id
+        return result
+    }
 
 }

@@ -1,3 +1,4 @@
+import { GetAccountQueryHandler } from './cqrs/queries/get-profile/get-profile.query-handler';
 import { AddCartCommandHandler } from './cqrs/commands/add-cart/add-cart.command-handler';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Module, OnModuleInit } from '@nestjs/common';
@@ -20,7 +21,7 @@ export const CommandHandlers = [
 export const QueriesHandlers = [
 ];
 export const EventHandlers = [
-
+    GetAccountQueryHandler
 ];
 
 @Module({

@@ -15,15 +15,9 @@ export class AccountEntity extends BaseEntity {
     user: UserEntity
 
     @ApiProperty()
-    @Column()
-    mobile_number: string
-    @ApiProperty()
     @Column({ default: 'UNFILLED' })
     status_mobile_number: string
 
-    @ApiProperty()
-    @Column({ nullable: true })
-    email: string;
     @ApiProperty()
     @Column({ default: 'UNFILLED' })
     status_email: string;
@@ -102,6 +96,9 @@ export class AccountEntity extends BaseEntity {
     @Column({ default: 'UNVERIFIED' })
     verification: string;
 
+    @ApiProperty()
+    @Column({ unique: true })
+    invite_code: string;
 
     @Column({ default: false })
     is_deleted: boolean;
@@ -112,14 +109,15 @@ export class AccountEntity extends BaseEntity {
     @UpdateDateColumn({ nullable: true })
     updated_at: Date;
 
-    toDto(type = '') {
+    toDto() {
         return {
             id: this.id,
-            mobile_number: this.mobile_number,
-            email: this.email,
+            mobile_number: this.user.mobile_number,
+            email: this.user.email,
             address: this.address,
+            invite_code: this.invite_code,
             photo: {
-                path: (this.avatar) ? this.avatar : `upload/assets/default${type}.jpg`,
+                path: (this.avatar) ? this.avatar : `upload/assets/default.jpg`,
                 name: (this.avatar) ? "" : "default"
             },
             status: {
