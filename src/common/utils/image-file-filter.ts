@@ -1,7 +1,7 @@
 import {BadRequestException, InternalServerErrorException, NotFoundException} from "@nestjs/common";
 export const imageFileFilter = (req, file, callback) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-        return callback(new  InternalServerErrorException('EXC_7BC0F593 | Only image files are allowed! [jpg|jpeg|png]'), false);
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+        return callback(new  InternalServerErrorException('Only image files are allowed! [jpg|jpeg|png]'), false);
     }
     callback(null, true);
 };

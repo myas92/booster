@@ -1,6 +1,6 @@
+import { storageImage, editFileName } from './../../common/utils/upload-image';
 import { BadRequestException } from '@nestjs/common';
 import { imageFileFilter } from './../../common/utils/image-file-filter';
-import { editFileName } from './../../common/utils/helpers';
 import { CheckUserIdGuard } from './../../common/guards/user.guard';
 import { Role } from './../user/entities/enums/user-role.enum';
 import { GetProfileResultResponseDto } from './dto/get-profile.dto';
@@ -70,32 +70,7 @@ export class AccountController {
         return result as GetProfileResultResponseDto
     }
 
-    @UseInterceptors(
-        FileInterceptor('file', {
-            storage: diskStorage({
-                destination: (req, file, cb) => {
-                    const userId = '12313123'
-                    const dir = `./upload/user-${userId}/profile`;
-                    const checkFullPath = fs.existsSync(dir);
-                    if (!checkFullPath) {
-                        let result;
-                        let check = fs.existsSync(`./upload/user-${userId}`);
-                        if (!check) {
-                            result = fs.mkdirSync(`./upload/user-${userId}`, { recursive: true });
-                            result = fs.mkdirSync(dir, { recursive: true });
-                        }
-                        else {
-                            result = fs.mkdirSync(dir, { recursive: true });
-                        }
-                        return cb(null, result)
-                    }
-                    return cb(null, dir)
-                },
-                filename: editFileName,
-            }),
-            fileFilter: imageFileFilter,
-        }),
-    )
+
     @Post('/national-cart-image')
     @ApiBody({ type: AddCartSubmitDto })
     async uploadNationalCartImage(@Body() body: AddCartSubmitDto, @Req() req): Promise<AddCartResponseDto> {
@@ -107,30 +82,13 @@ export class AccountController {
     @UseInterceptors(
         FileInterceptor('file', {
             storage: diskStorage({
-                destination: (req, file, cb) => {
-                    const userId = req.user["id"];
-                    const dir = `../upload/${userId}/national-image`;
-                    const checkFullPath = fs.existsSync(dir);
-                    if (!checkFullPath) {
-                        let result;
-                        let check = fs.existsSync(`../upload/${userId}`);
-                        if (!check) {
-                            result = fs.mkdirSync(`../upload/${userId}`, { recursive: true });
-                            result = fs.mkdirSync(dir, { recursive: true });
-                        }
-                        else {
-                            result = fs.mkdirSync(dir, { recursive: true });
-                        }
-                        return cb(null, result)
-                    }
-                    return cb(null, dir)
-                },
+                destination: storageImage,
                 filename: editFileName,
             }),
             fileFilter: imageFileFilter,
         }),
     )
-    async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {    
+    async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {
         const result = {}
         return result
     }
