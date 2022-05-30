@@ -1,3 +1,5 @@
+import { AddPhoneNumberSubmitDto, AddPhoneNumberResponseDto } from './dto/add-phone-number.dto';
+import { AddPhoneNumberCommand } from './cqrs/commands/add-phone-number/add-phone-number.command';
 import { storageImage, editFileName } from './../../common/utils/upload-image';
 import { BadRequestException } from '@nestjs/common';
 import { imageFileFilter } from './../../common/utils/image-file-filter';
@@ -5,7 +7,6 @@ import { CheckUserIdGuard } from './../../common/guards/user.guard';
 import { Role } from './../user/entities/enums/user-role.enum';
 import { GetProfileResultResponseDto } from './dto/get-profile.dto';
 import { GetProfileQuery } from './cqrs/queries/get-profile/get-profile.query';
-import { AddCartCommand } from './cqrs/commands/add-cart/add-cart.command';
 import { AddCartSubmitDto, AddCartResponseDto } from './dto/add-cart.dto';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Request_Was_Successful } from '../../common/translates/success.translate';
@@ -71,14 +72,14 @@ export class AccountController {
     }
 
 
-    @Post('/national-cart-image')
-    @ApiBody({ type: AddCartSubmitDto })
-    async uploadNationalCartImage(@Body() body: AddCartSubmitDto, @Req() req): Promise<AddCartResponseDto> {
-        const result = await this.commandBus.execute(new AddCartCommand(req, body));
-        return result as AddCartResponseDto
+    @Post('/phone-number')
+    @ApiBody({ type: AddPhoneNumberSubmitDto })
+    async addPhoneNumber(@Body() body: AddPhoneNumberSubmitDto, @Req() req): Promise<AddPhoneNumberResponseDto> {
+        const result = await this.commandBus.execute(new AddPhoneNumberCommand(req, body));
+        return result as AddPhoneNumberResponseDto
     }
 
-    @Post('/upload')
+    @Post('/national-image-cart')
     @UseInterceptors(
         FileInterceptor('file', {
             storage: diskStorage({

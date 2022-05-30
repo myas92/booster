@@ -1,5 +1,5 @@
+import { AddPhoneNumberCommandHandler } from './cqrs/commands/add-phone-number/add-phone-number.command-handler';
 import { GetAccountQueryHandler } from './cqrs/queries/get-profile/get-profile.query-handler';
-import { AddCartCommandHandler } from './cqrs/commands/add-cart/add-cart.command-handler';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -16,7 +16,7 @@ import { AccountEntity } from "./entities/account.entity";
 import { APP_GUARD } from '@nestjs/core';
 
 export const CommandHandlers = [
-    AddCartCommandHandler
+    AddPhoneNumberCommandHandler
 ];
 export const QueriesHandlers = [
 ];

@@ -1,4 +1,4 @@
-export class AddCartCommand {
+export class AddPhoneNumberCommand {
 
     constructor(req: any, body: any) {
         this.req = req;
