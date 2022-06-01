@@ -1,3 +1,5 @@
+import { AuthEventEntity } from './entities/auth-event.entity';
+import { AuthSendCodeSmsEventHandler } from './cqrs/events/auth-send-code-sms.event-handler';
 import { AccountEntity } from './../account/entities/account.entity';
 import { AccountService } from './../account/account.service';
 import { JwtStrategy } from './../../common/auth-strategies/jwt.strategy';
@@ -33,12 +35,12 @@ export const QueriesHandlers = [
     AuthCheckUsernameQueryHandler
 ];
 export const EventHandlers = [
-
+    AuthSendCodeSmsEventHandler
 ];
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([AuthVerificationEntity, LoginVerificationEntity, AccountEntity]),
+        TypeOrmModule.forFeature([AuthVerificationEntity, LoginVerificationEntity, AccountEntity, AuthEventEntity]),
         CqrsModule,
         UserModule,
         JwtModule.register({

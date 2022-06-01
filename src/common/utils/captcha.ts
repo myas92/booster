@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 export const verifyCaptcha = async (token:string) => {
     if (process.env.NODE_ENV == 'dev') {
     	return true;

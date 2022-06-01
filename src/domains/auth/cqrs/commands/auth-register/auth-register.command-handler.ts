@@ -1,3 +1,5 @@
+import { getVerifyTemplate } from '../../../../../common/templates/verify.template';
+import { AuthSendCodeSmsEvent } from './../../events/auth-send-code-sms.event';
 import { UserService } from './../../../../user/user.service';
 import { Invalid_Captcha, Mobile_Number_Is_Selected } from './../../../../../common/translates/errors.translate';
 import { verifyCaptcha } from './../../../../../common/utils/captcha';
@@ -52,17 +54,32 @@ export class AuthRegisterCommandHandler implements ICommandHandler<AuthRegisterC
             if (user)
                 throw new HttpException(Mobile_Number_Is_Selected, Mobile_Number_Is_Selected.status_code)
 
+            const code = getVerifyCode()
             let registerInfo = new AuthVerificationEntity();
             registerInfo.ip = command.req.ip;
             registerInfo.mobile_number = mobile_number;
             registerInfo.password = hashSync(password, 10);
-            registerInfo.verify_code = getVerifyCode();;
+            registerInfo.verify_code = code;
             registerInfo.total_resend_code = 0
             registerInfo.type = AuthVerificationTypeEnum.Register;
             registerInfo.created_at = new Date(Date.now())
 
             await this.authVerificationRepository.save(registerInfo);
-            return { code: registerInfo.verify_code };
+
+            let result:any =  { 
+                mobile_number: mobile_number,
+            }
+            // TODO: Change it after test
+            if (process.env.NODE_ENV != 'dev') {
+                this.eventBus.publish(new AuthSendCodeSmsEvent(mobile_number, getVerifyTemplate(code)));
+            }
+            else{
+                result =  { 
+                    mobile_number: mobile_number,
+                    code: code
+                }
+            }
+            return result
         } catch (error) {
             throw new HttpException(error, error.status);
         }
