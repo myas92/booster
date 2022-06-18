@@ -1,3 +1,4 @@
+import { AuthForgetPasswordConfirmCommandHandler } from './cqrs/commands/auth-forget-password-confirm/auth-forget-password-confirm.command-handler';
 import { AuthForgetPasswordCommandHandler } from './cqrs/commands/auth-forget-password/auth-forget-password.command-handler';
 import { AuthEventEntity } from './entities/auth-event.entity';
 import { AuthSendCodeSmsEventHandler } from './cqrs/events/auth-send-code-sms.event-handler';
@@ -31,7 +32,8 @@ export const CommandHandlers = [
     AuthConfirmCommandHandler,
     AuthLoginCommandHandler,
     AuthLoginConfirmCommandHandler,
-    AuthForgetPasswordCommandHandler
+    AuthForgetPasswordCommandHandler,
+    AuthForgetPasswordConfirmCommandHandler
 ];
 export const QueriesHandlers = [
     AuthCheckUsernameQueryHandler

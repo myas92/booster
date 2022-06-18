@@ -1,3 +1,5 @@
+import { AuthForgetPasswordConfirmSubmitDto, AuthForgetPasswordConfirmResponseDto } from './dto/auth-forget-password-confirm.dto';
+import { AuthForgetPasswordConfirmCommand } from './cqrs/commands/auth-forget-password-confirm/auth-forget-password-confirm.command';
 import { AuthForgetPasswordCommand } from './cqrs/commands/auth-forget-password/auth-forget-password.command';
 import { AuthForgetPasswordSubmitDto, AuthForgetPasswordResponseDto } from './dto/auth-forget-password.dto';
 import { AuthLoginConfirmCommand } from './cqrs/commands/auth-login-confirm-code/auth-login-confirm.command';
@@ -104,5 +106,14 @@ export class AuthController {
     async forgetPassword(@Body() body: AuthForgetPasswordSubmitDto, @Req() req): Promise<AuthForgetPasswordResponseDto> {
         const result = await this.commandBus.execute(new AuthForgetPasswordCommand(req, body));
         return result as AuthForgetPasswordResponseDto
+    }
+    @Post('password/forget/confirm')
+    @HttpCode(200)
+    @UsePipes(new TrimPipe())
+    @ApiBody({ type: AuthForgetPasswordConfirmSubmitDto })
+    @ApiOkResponse({ type: AuthForgetPasswordConfirmResponseDto })
+    async forgetPasswordConfirm(@Body() body: AuthForgetPasswordConfirmSubmitDto, @Req() req): Promise<AuthForgetPasswordConfirmResponseDto> {
+        const result = await this.commandBus.execute(new AuthForgetPasswordConfirmCommand(req, body));
+        return result as AuthForgetPasswordConfirmResponseDto
     }
 }
