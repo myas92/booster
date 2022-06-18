@@ -1,3 +1,4 @@
+import { AuthForgetPasswordCommandHandler } from './cqrs/commands/auth-forget-password/auth-forget-password.command-handler';
 import { AuthEventEntity } from './entities/auth-event.entity';
 import { AuthSendCodeSmsEventHandler } from './cqrs/events/auth-send-code-sms.event-handler';
 import { AccountEntity } from './../account/entities/account.entity';
@@ -29,7 +30,8 @@ export const CommandHandlers = [
     AuthResendCodeCommandHandler,
     AuthConfirmCommandHandler,
     AuthLoginCommandHandler,
-    AuthLoginConfirmCommandHandler
+    AuthLoginConfirmCommandHandler,
+    AuthForgetPasswordCommandHandler
 ];
 export const QueriesHandlers = [
     AuthCheckUsernameQueryHandler

@@ -1,3 +1,5 @@
+import { AuthForgetPasswordCommand } from './cqrs/commands/auth-forget-password/auth-forget-password.command';
+import { AuthForgetPasswordSubmitDto, AuthForgetPasswordResponseDto } from './dto/auth-forget-password.dto';
 import { AuthLoginConfirmCommand } from './cqrs/commands/auth-login-confirm-code/auth-login-confirm.command';
 import { AuthLoginConfirmSubmitDto, AuthLoginConfirmResponseDto } from './dto/auth-login-confirm.dto copy';
 import { TrimPipe } from './../../common/pipes/trim.pipe';
@@ -93,5 +95,14 @@ export class AuthController {
     async loginConfirm(@Body() body: AuthLoginConfirmSubmitDto, @Req() req): Promise<AuthLoginConfirmResponseDto> {
         const result = await this.commandBus.execute(new AuthLoginConfirmCommand(req, body));
         return result as AuthLoginConfirmResponseDto
+    }
+    @Post('password/forget')
+    @HttpCode(200)
+    @UsePipes(new TrimPipe())
+    @ApiBody({ type: AuthForgetPasswordSubmitDto })
+    @ApiOkResponse({ type: AuthForgetPasswordResponseDto })
+    async forgetPassword(@Body() body: AuthForgetPasswordSubmitDto, @Req() req): Promise<AuthForgetPasswordResponseDto> {
+        const result = await this.commandBus.execute(new AuthForgetPasswordCommand(req, body));
+        return result as AuthForgetPasswordResponseDto
     }
 }

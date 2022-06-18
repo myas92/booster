@@ -36,6 +36,21 @@ export class AuthService {
         return result;
     }
 
+    async getNumberOfForgetPasswordIn24Hours(mobileNumber) {
+
+        let date = moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')
+        const result = await this.authVerificationRepository.find({
+            where: [{
+                mobile_number: mobileNumber,
+                created_at: MoreThan(date),
+                is_used: false,
+                type: AuthVerificationTypeEnum.ForgetPassword
+            }],
+            order: { created_at: 'DESC' }
+        });
+        return result;
+    }
+
     async getAuthUser(mobileNumber: string) {
         const result = this.authVerificationRepository.findOne({
             where: {
