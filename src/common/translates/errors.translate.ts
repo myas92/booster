@@ -255,3 +255,19 @@ export const Field_Email_Is_Duplicate = {
       en: "Unable to access the information",
     },
   };
+  export const National_Card_Image_Size = {
+    status_code: 200,
+    code: 1023,
+    message: {
+      fa: "حجم عکس بیشتر از ۱ مگابایت است",
+      en: "Image size is more than 1MB",
+    },
+  };
+  export const Image_Is_Not_Valid= {
+    status_code: 200,
+    code: 1024,
+    message: {
+      fa: "عکس نامعتبر است",
+      en: "Upload a valid image",
+    },
+  };
