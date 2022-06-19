@@ -16,7 +16,6 @@ import { existsSync, unlinkSync } from 'fs';
 export class NationalCardImageCommandHandler implements ICommandHandler<NationalCardImageCommand> {
 
     constructor(
-        @InjectRepository(AccountEntity)
         private readonly accountService: AccountService
     ) {
     }
@@ -33,38 +32,43 @@ export class NationalCardImageCommandHandler implements ICommandHandler<National
             let oldNationalCardImageStatus = userAccount.status_national_card_image;
 
             //  بررسی حجم عکس
-            if (filename) {
-                if (size > generalConfig.MAX_IMAGE_SIZE) {
-                    let dir = join(uploadPath, `${filename}`)
-                    if (existsSync(dir))
-                        unlinkSync(dir)
-                    throw new HttpException(National_Card_Image_Size, National_Card_Image_Size.status_code);
-                }
-            } else {
-                throw new HttpException(Image_Is_Not_Valid, Image_Is_Not_Valid.status_code);
-            }
+            await this.deleteImageWithExtraSize(filename, uploadPath, size)
 
             userAccount.national_card_image = filename;
             userAccount.status_national_card_image = AccountStatusEnum.EDITED;
             await userAccount.save();
 
             //پاک کردن عکس قبلی که ذخیره شده اگر در حالت ویرایش است
-            try {
-                if (oldNationalCardImage &&
-                    oldNationalCardImageStatus == AccountStatusEnum.EDITED
-                ) {
-                    let dir = join(uploadPath, `${oldNationalCardImage}`)
-                    if (existsSync(dir))
-                        unlinkSync(dir)
-                }
-            }
-            catch (error) {
-                console.log(error)
-            }
+            await this.deleteOldationalCardImage(oldNationalCardImage, oldNationalCardImageStatus, uploadPath)
 
             return { national_card_image: filename }
         } catch (error) {
             throw new HttpException(error, error.status);
+        }
+    }
+
+    async deleteImageWithExtraSize(filename, uploadPath, size) {
+        if (size > generalConfig.MAX_IMAGE_SIZE) {
+            let dir = join(uploadPath, `${filename}`)
+            if (existsSync(dir))
+                unlinkSync(dir)
+            throw new HttpException(National_Card_Image_Size, National_Card_Image_Size.status_code);
+        }
+    }
+
+    async deleteOldationalCardImage(oldNationalCardImage, oldNationalCardImageStatus, uploadPath) {
+        try {
+            console.log()
+            if (oldNationalCardImage &&
+                oldNationalCardImageStatus == AccountStatusEnum.EDITED
+            ) {
+                let dir = join(uploadPath, `${oldNationalCardImage}`)
+                if (existsSync(dir))
+                    unlinkSync(dir)
+            }
+        }
+        catch (error) {
+            console.log(error)
         }
     }
 }
