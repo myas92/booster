@@ -1,3 +1,4 @@
+import { NationalCardImageCommand } from './cqrs/commands/upload-national-card-image/national-card-image.command';
 import { AddPhoneNumberSubmitDto, AddPhoneNumberResponseDto } from './dto/add-phone-number.dto';
 import { AddPhoneNumberCommand } from './cqrs/commands/add-phone-number/add-phone-number.command';
 import { storageImage, editFileName } from './../../common/utils/upload-image';
@@ -79,9 +80,9 @@ export class AccountController {
         return result as AddPhoneNumberResponseDto
     }
 
-    @Post('/national-image-cart')
+    @Post('/national-card-image')
     @UseInterceptors(
-        FileInterceptor('file', {
+        FileInterceptor('national_card_image', {
             storage: diskStorage({
                 destination: storageImage,
                 filename: editFileName,
@@ -90,8 +91,8 @@ export class AccountController {
         }),
     )
     async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {
-        const result = {}
-        return result
+        const result = await this.commandBus.execute(new NationalCardImageCommand(req, file));
+        return result as AddPhoneNumberResponseDto
     }
 
 }

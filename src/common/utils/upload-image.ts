@@ -9,6 +9,7 @@ export const editFileName = (req, file, callback) => {
 export const storageImage = (req, file, cb) => {
     const userId = req.user["id"];
     const dir = `../upload/${userId}/`;
+    console.log(dir)
     const checkFullPath = fs.existsSync(dir);
     if (!checkFullPath) {
         let result;

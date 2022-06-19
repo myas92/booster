@@ -1,3 +1,4 @@
+import { NationalCardImageCommandHandler } from './cqrs/commands/upload-national-card-image/national-card-image.command-handler';
 import { AddPhoneNumberCommandHandler } from './cqrs/commands/add-phone-number/add-phone-number.command-handler';
 import { GetAccountQueryHandler } from './cqrs/queries/get-profile/get-profile.query-handler';
 import { RolesGuard } from '../../common/guards/roles.guard';
@@ -16,7 +17,8 @@ import { AccountEntity } from "./entities/account.entity";
 import { APP_GUARD } from '@nestjs/core';
 
 export const CommandHandlers = [
-    AddPhoneNumberCommandHandler
+    AddPhoneNumberCommandHandler,
+    NationalCardImageCommandHandler
 ];
 export const QueriesHandlers = [
 ];
