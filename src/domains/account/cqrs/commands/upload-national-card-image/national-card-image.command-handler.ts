@@ -1,30 +1,22 @@
 import { National_Card_Image_Size, Image_Is_Not_Valid } from './../../../../../common/translates/errors.translate';
 import { generalConfig } from 'src/config/general.config';
 import { AccountStatusEnum } from '../../../../user/entities/enums/account-status.enum copy';
-import { Given_Data_Is_Invalid } from '../../../../../common/translates/errors.translate';
 import { AccountService } from '../../../account.service';
-import { getVerifyCode } from '../../../../../common/utils/helpers';
-import { BadRequestException, ConflictException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
-import { CommandBus, CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
+import { HttpException } from "@nestjs/common";
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Connection, Repository } from "typeorm";
-import { hashSync } from "bcrypt";
 
 import { NationalCardImageCommand } from "./national-card-image.command";
 import { AccountEntity } from "../../../entities/account.entity";
 
-import { Account_Is_Disabled, Total_Resend_Code } from '../../../../../common/translates/errors.translate';
 import { join } from 'path';
-import { existsSync, rmdirSync, unlink, unlinkSync } from 'fs';
+import { existsSync, unlinkSync } from 'fs';
 // import { AuthService } from '../../../../auth/auth.service';
 @CommandHandler(NationalCardImageCommand)
 export class NationalCardImageCommandHandler implements ICommandHandler<NationalCardImageCommand> {
 
     constructor(
-        private readonly commandBus: CommandBus,
-        private readonly eventBus: EventBus,
         @InjectRepository(AccountEntity)
-        private readonly accountRepository: Repository<AccountEntity>,
         private readonly accountService: AccountService
     ) {
     }
@@ -32,7 +24,7 @@ export class NationalCardImageCommandHandler implements ICommandHandler<National
     async execute(command: NationalCardImageCommand): Promise<any> {
         try {
             const { body, req } = command;
-            const { file, filename, size } = body;
+            const { filename, size } = body;
             const { id } = req.user;
             const uploadPath = join(__dirname, `../../../../../../../upload/${id}/`)
 
