@@ -1,9 +1,12 @@
+import { RolesGuard } from './../../common/guards/roles.guard';
+import { AuthPasswordResetCommand } from './cqrs/commands/auth-password-reset/auth-password-reset.command';
+import { AuthPasswordResetSubmitDto, AuthPasswordResetResponseDto } from './dto/auth-password-reset.dto';
 import { AuthForgetPasswordConfirmSubmitDto, AuthForgetPasswordConfirmResponseDto } from './dto/auth-forget-password-confirm.dto';
 import { AuthForgetPasswordConfirmCommand } from './cqrs/commands/auth-forget-password-confirm/auth-forget-password-confirm.command';
 import { AuthForgetPasswordCommand } from './cqrs/commands/auth-forget-password/auth-forget-password.command';
 import { AuthForgetPasswordSubmitDto, AuthForgetPasswordResponseDto } from './dto/auth-forget-password.dto';
 import { AuthLoginConfirmCommand } from './cqrs/commands/auth-login-confirm-code/auth-login-confirm.command';
-import { AuthLoginConfirmSubmitDto, AuthLoginConfirmResponseDto } from './dto/auth-login-confirm.dto copy';
+import { AuthLoginConfirmSubmitDto, AuthLoginConfirmResponseDto } from './dto/auth-login-confirm.dto';
 import { TrimPipe } from './../../common/pipes/trim.pipe';
 import { AuthLoginCommand } from './cqrs/commands/auth-login/auth-login.command';
 import { AuthLoginSubmitDto, AuthLoginResponseDto } from './dto/auth-login.dto';
@@ -23,6 +26,7 @@ import {
     Post,
     Req,
     UseFilters,
+    UseGuards,
     UseInterceptors,
     UsePipes,
 } from '@nestjs/common';
@@ -39,6 +43,7 @@ import { FormatResponseInterceptor } from "../../common/interceptors/format-resp
 import { HttpExceptionFilter } from "../../common/filters/http-exception.filter";
 import { AuthService } from "./auth.service";
 import { AuthResendCodeCommand } from "./cqrs/commands/auth-resend-code/auth-resend-code.command";
+import { AuthGuard } from '@nestjs/passport';
 // import { FormatResponseInterceptor } from "../../infrastructure/interceptors/format-response.interceptor";
 
 @UseInterceptors(FormatResponseInterceptor)
@@ -115,5 +120,16 @@ export class AuthController {
     async forgetPasswordConfirm(@Body() body: AuthForgetPasswordConfirmSubmitDto, @Req() req): Promise<AuthForgetPasswordConfirmResponseDto> {
         const result = await this.commandBus.execute(new AuthForgetPasswordConfirmCommand(req, body));
         return result as AuthForgetPasswordConfirmResponseDto
+    }
+
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Post('password/reset')
+    @HttpCode(200)
+    @UsePipes(new TrimPipe())
+    @ApiBody({ type: AuthPasswordResetSubmitDto })
+    @ApiOkResponse({ type: AuthPasswordResetResponseDto })
+    async PasswordReset(@Body() body: AuthPasswordResetSubmitDto, @Req() req): Promise<AuthPasswordResetResponseDto> {
+        const result = await this.commandBus.execute(new AuthPasswordResetCommand(req, body));
+        return result as AuthPasswordResetResponseDto
     }
 }

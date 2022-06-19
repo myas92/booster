@@ -1,3 +1,4 @@
+import { AuthPasswordResetCommandHandler } from './cqrs/commands/auth-password-reset/auth-password-reset.command-handler';
 import { AuthForgetPasswordConfirmCommandHandler } from './cqrs/commands/auth-forget-password-confirm/auth-forget-password-confirm.command-handler';
 import { AuthForgetPasswordCommandHandler } from './cqrs/commands/auth-forget-password/auth-forget-password.command-handler';
 import { AuthEventEntity } from './entities/auth-event.entity';
@@ -33,7 +34,8 @@ export const CommandHandlers = [
     AuthLoginCommandHandler,
     AuthLoginConfirmCommandHandler,
     AuthForgetPasswordCommandHandler,
-    AuthForgetPasswordConfirmCommandHandler
+    AuthForgetPasswordConfirmCommandHandler,
+    AuthPasswordResetCommandHandler
 ];
 export const QueriesHandlers = [
     AuthCheckUsernameQueryHandler
