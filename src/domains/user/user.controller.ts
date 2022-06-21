@@ -1,21 +1,16 @@
+import { GetUsersQuery } from './cqrs/queries/get-users/get-users.query';
 import { CheckUserIdGuard } from './../../common/guards/user.guard';
 import { UpdateUserCommand } from './cqrs/commands/update-user/update-user.command';
 import { UpdateUserSubmitDto, UpdateUserResponseDto } from './dto/update-user.dto';
 import { RolesGuard } from './../../common/guards/roles.guard';
 import { GetUserQuery } from './cqrs/queries/get-user/get-user.query';
 import { GetUserResponseDto } from './dto/get-users.dto';
-import { AuthResendCodeResponseDto, AuthResendCodeSubmitDto } from './dto/delete-user.dto';
-import { Request_Was_Successful } from '../../common/translates/success.translate';
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { AuthGuard } from '@nestjs/passport';
-import { diskStorage } from 'multer';
-import * as fs from "fs";
 import {
     Body,
     Controller,
     Get,
-    Headers,
-    HttpStatus,
     Param,
     Patch,
     Post,
@@ -25,11 +20,7 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse,
     ApiBody,
-    ApiConflictResponse,
-    ApiHeader,
-    ApiNotFoundResponse,
     ApiOkResponse,
     ApiTags
 } from "@nestjs/swagger";
@@ -48,7 +39,6 @@ import { Role } from './entities/enums/user-role.enum';
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles(Role.USER)
 @Controller('api/v1/user')
 @ApiTags('User')
 export class UserController {
@@ -57,6 +47,7 @@ export class UserController {
         private readonly queryBus: QueryBus,
     ) { }
 
+    
     @Post('/')
     @ApiBody({ type: AddUserSubmitDto })
     async register(@Body() body: AddUserSubmitDto, @Req() req): Promise<AddUserResponseDto> {
@@ -64,6 +55,7 @@ export class UserController {
         return result as AddUserResponseDto
     }
 
+    @Roles(Role.USER)
     @UseGuards(CheckUserIdGuard)
     @Patch('/:userId')
     @ApiBody({ type: UpdateUserSubmitDto })
@@ -73,11 +65,17 @@ export class UserController {
         return result as UpdateUserResponseDto
     }
 
-
+    @Roles(Role.USER)
     @Get('/:userId')
     async getUser(@Param("userId") userId, @Req() req): Promise<GetUserResponseDto> {
-        // const result = await this.commandBus.execute(new AddUserCommand(req));
         const result = await this.queryBus.execute(new GetUserQuery(req, userId));
+        return result as GetUserResponseDto
+    }
+
+    @Roles(Role.ADMIN)
+    @Get('/')
+    async getUsers(@Param("userId") userId, @Req() req): Promise<GetUserResponseDto> {
+        const result = await this.queryBus.execute(new GetUsersQuery(req, userId));
         return result as GetUserResponseDto
     }
 

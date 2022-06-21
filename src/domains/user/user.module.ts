@@ -1,3 +1,4 @@
+import { GetUsersQueryHandler } from './cqrs/queries/get-users/get-users.query-handler';
 import { UpdateUserCommandHandler } from './cqrs/commands/update-user/update-user.command-handler';
 import { RolesGuard } from './../../common/guards/roles.guard';
 import { Module, OnModuleInit } from '@nestjs/common';
@@ -23,7 +24,8 @@ export const CommandHandlers = [
     UpdateUserCommandHandler
 ];
 export const QueriesHandlers = [
-    GetUserQueryHandler
+    GetUserQueryHandler,
+    GetUsersQueryHandler
 ];
 export const EventHandlers = [
 

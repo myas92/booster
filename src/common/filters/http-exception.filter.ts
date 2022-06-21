@@ -1,4 +1,4 @@
-import { Invalid_Token } from './../translates/errors.translate';
+import { Invalid_Token, Forbidden_Resource } from './../translates/errors.translate';
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Something_Went_Wrong, Bad_Request_Exception } from '../translates/errors.translate';
@@ -45,6 +45,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
             }
             message = Invalid_Token.message[language]
         }
+        else if(exception.status === 403 && exception.message === 'Forbidden resource'){
+            result = {
+                status_code: Forbidden_Resource.status_code,
+                error_code: Forbidden_Resource.code,
+                timestamp: new Date().toISOString(),
+                path: request.url,
+                message_developer: exception.getResponse().message
+                //TODO : remove this line from
+            }
+            message = Forbidden_Resource.message[language]
+        }
         // If none exception error is happened
         else {
             result = {
@@ -52,7 +63,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 error_code: Something_Went_Wrong.code,
                 timestamp: new Date().toISOString(),
                 path: request.url,
-                message: Something_Went_Wrong.message[language],
+                message_developer: Something_Went_Wrong.message[language],
                 //TODO : remove this line from
             }
             message = exception.message

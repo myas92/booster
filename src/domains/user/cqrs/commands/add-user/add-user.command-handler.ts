@@ -17,7 +17,7 @@ export class AddUserCommandHandler implements ICommandHandler<AddUserCommand> {
         private readonly commandBus: CommandBus,
         private readonly eventBus: EventBus,
         @InjectRepository(UserEntity)
-        private readonly authVerificationRepository: Repository<UserEntity>,
+        private readonly userRepository: Repository<UserEntity>,
     ) {
     }
 

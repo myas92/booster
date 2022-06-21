@@ -271,3 +271,11 @@ export const Field_Email_Is_Duplicate = {
       en: "Upload a valid image",
     },
   };
+  export const Forbidden_Resource= {
+    status_code: 403,
+    code: 1024,
+    message: {
+      fa: "دسترسی به این مسیر امکان پذیر نمی باشد",
+      en: "Forbidden resource",
+    },
+  };
