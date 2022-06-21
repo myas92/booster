@@ -203,6 +203,8 @@ The [Makefile](https://gist.github.com/zoe-1/784100440f0cf2299010#:~:text=The%20
 make start
 ```
 
+# Seeder
+By default created an admin user (in `user.service`)
 
 # Useful articles
 
