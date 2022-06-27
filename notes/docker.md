@@ -60,3 +60,6 @@ Remove containers
 ```
 docker-compose down
 ```
+
+## Change password 
+ALTER USER postgres WITH PASSWORD 'new_password';

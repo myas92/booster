@@ -1,5 +1,4 @@
 import { generalConfig } from 'src/config/general.config';
-import * as ReferralCodes from 'referral-codes';
 import { extname } from 'path';
 
 export const getVerifyCode = (min = 100000, max = 999999): string => {
@@ -12,12 +11,7 @@ export const isExpiredVerifyCode = (date: Date): boolean => {
 }
 
 export const getReferralCodes = (): string => {
-  let referralCode = ReferralCodes.generate({
-    length: 7,
-    count: 1,
-    charset: ReferralCodes.charset(ReferralCodes.Charset.ALPHABETIC).toLowerCase(),
-  });
-
-  return referralCode[0];
+  let referralCode = (new Date().getTime()).toString(36)
+  return referralCode;
 }
 

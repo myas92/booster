@@ -9,24 +9,23 @@ export const sendSms = async (mobileNumber, message) => {
     }
     try {
         const data = JSON.stringify({
-            "username": process.env.SMS_USERNAME,
-            "password": process.env.SMS_PASSWORD,
-            "to": mobileNumber,
-            "from": process.env.SMS_FROM_MOBILE_NUMBER,
-            "text": message,
-            "isflash": "false"
+            username: process.env.SMS_USERNAME,
+            password: process.env.SMS_PASSWORD,
+            to: mobileNumber,
+            from: process.env.SMS_FROM_MOBILE_NUMBER,
+            text: message,
+            isflash: false
         });
 
         const config = {
-            method: 'post',
-            url: 'http://rest.payamak-panel.com/api/SendSMS/SendSMS',
             headers: {
                 'Content-Type': 'application/json'
             },
             data: data
         };
 
-        let response = await axios(config)
+        let response = await axios.post<any>('http://rest.payamak-panel.com/api/SendSMS/SendSMS', config
+        )
         const result = response.data
         return result;
     } catch (err) {

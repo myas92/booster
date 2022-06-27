@@ -15,6 +15,8 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { AuthGuard } from '@nestjs/passport';
 import { diskStorage } from 'multer';
 import * as fs from "fs";
+import { Express } from 'express';
+import { Multer } from 'multer';
 import {
     Body,
     Controller,
@@ -48,7 +50,6 @@ import { HttpExceptionFilter } from "../../common/filters/http-exception.filter"
 import { Roles } from 'src/common/decorators/get-role.decorator';
 
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
-import { Express } from 'express';
 import LocalFilesInterceptor from 'src/common/interceptors/local-file.interceptor';
 
 @UseInterceptors(FormatResponseInterceptor)
