@@ -65,7 +65,8 @@ export class UserController {
         return result as UpdateUserResponseDto
     }
 
-    @Roles(Role.USER)
+    @Roles(Role.USER, Role.ADMIN)
+    @UseGuards(CheckUserIdGuard)
     @Get('/:userId')
     async getUser(@Param("userId") userId, @Req() req): Promise<GetUserResponseDto> {
         const result = await this.queryBus.execute(new GetUserQuery(req, userId));

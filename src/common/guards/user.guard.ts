@@ -11,6 +11,9 @@ export class CheckUserIdGuard implements CanActivate {
         if (req.user?.id == req.params?.userId) {
             return true;
         }
+        else if(req.user?.role == Role.ADMIN){
+            return true
+        }
         return false;
     }
 } 

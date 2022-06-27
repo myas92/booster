@@ -31,6 +31,7 @@ export class GetUsersQueryHandler implements IQueryHandler<GetUsersQuery> {
             // Third way:
             const foundedUsers = await this.userRepository.findAndCount(
                 {
+                    select:['id', 'mobile_number', 'email', 'invite_code', 'kyc_info', 'settings'],
                     where: {}, order: { created_at: "DESC" },
                     take: limit,
                     skip: offset

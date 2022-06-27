@@ -16,7 +16,7 @@ export class GetUserQueryHandler implements IQueryHandler<GetUserQuery> {
         try {
             const { userId } = query;
             const foundedUser = await this.userService.findOneById(userId);
-            return foundedUser
+            return foundedUser.toDto()
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }
