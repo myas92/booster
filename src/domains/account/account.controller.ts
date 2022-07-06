@@ -1,3 +1,6 @@
+import { UploadNationalCardImageResponseDto } from './dto/upload-national-card-image.dto';
+import { UploadFaceImageResponseDto } from './dto/upload-face-image.dto';
+import { uploadFaceImageCommand } from './cqrs/commands/upload-face-image/upload-face-image.command';
 import { NationalCardImageCommand } from './cqrs/commands/upload-national-card-image/national-card-image.command';
 import { AddPhoneNumberSubmitDto, AddPhoneNumberResponseDto } from './dto/add-phone-number.dto';
 import { AddPhoneNumberCommand } from './cqrs/commands/add-phone-number/add-phone-number.command';
@@ -91,9 +94,24 @@ export class AccountController {
             fileFilter: imageFileFilter,
         }),
     )
-    async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    async uploadNationalCarrdImage(@UploadedFile() file: Express.Multer.File, @Req() req) {
         const result = await this.commandBus.execute(new NationalCardImageCommand(req, file));
         return result as AddPhoneNumberResponseDto
+    }
+
+    @Post('/face-image')
+    @UseInterceptors(
+        FileInterceptor('face_image', {
+            storage: diskStorage({
+                destination: storageImage,
+                filename: editFileName,
+            }),
+            fileFilter: imageFileFilter,
+        }),
+    )
+    async uploadImageFace(@UploadedFile() file: Express.Multer.File, @Req() req) {
+        const result = await this.commandBus.execute(new uploadFaceImageCommand(req, file));
+        return result as UploadNationalCardImageResponseDto
     }
 
 }

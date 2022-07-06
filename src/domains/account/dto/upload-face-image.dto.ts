@@ -1,21 +1,21 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsNotEmpty, MinLength, Matches, MaxLength, IsMobilePhone, IsEmpty, IsDate, IsDateString } from 'class-validator';
-export class UploadNationalCardImageSubmitDto {
+export class UploadFaceImageSubmitDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsNotEmpty()
     national_card_image: string;
 }
 
-export class UploadNationalCardImageResultResponseDto {
-    national_card_image: string
+export class UploadFaceImageResultResponseDto {
+    face_image: string
 }
 
-export class UploadNationalCardImageResponseDto {
+export class UploadFaceImageResponseDto {
     @ApiProperty()
     success: boolean
     @ApiProperty()
-    result: UploadNationalCardImageResultResponseDto
+    result: UploadFaceImageResultResponseDto
     @ApiProperty()
     message: string
 }
