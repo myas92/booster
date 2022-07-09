@@ -1,4 +1,4 @@
-import { AccountStatusEnum } from './../../../../user/entities/enums/account-status.enum copy';
+import { AccountStatusEnum } from '../../../../user/entities/enums/account-status.enum';
 import { Given_Data_Is_Invalid } from './../../../../../common/translates/errors.translate';
 import { AccountService } from './../../../account.service';
 import { HttpException} from "@nestjs/common";

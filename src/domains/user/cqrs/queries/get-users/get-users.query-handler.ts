@@ -1,4 +1,4 @@
-import { Repository ,Connection } from 'typeorm';
+import { Repository, Connection } from 'typeorm';
 import { UserEntity } from './../../../entities/user.entity';
 import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
 import { UserService } from '../../../user.service';
@@ -31,14 +31,15 @@ export class GetUsersQueryHandler implements IQueryHandler<GetUsersQuery> {
             // Third way:
             const foundedUsers = await this.userRepository.findAndCount(
                 {
-                    select:['id', 'mobile_number', 'email', 'invite_code', 'kyc_info', 'settings'],
+                    select: ['id', 'mobile_number', 'email', 'invite_code', 'kyc_info', 'settings'],
                     where: {}, order: { created_at: "DESC" },
                     take: limit,
                     skip: offset
                 }
             )
 
-            return foundedUsers
+
+            return { total: foundedUsers[1], data: foundedUsers[0] }
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }

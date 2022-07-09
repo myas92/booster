@@ -1,3 +1,4 @@
+import { GetAllProfilesQuery } from './cqrs/queries/get-all-profiles/get-all-profiles.query';
 import { UploadNationalCardImageResponseDto } from './dto/upload-national-card-image.dto';
 import { UploadFaceImageResponseDto } from './dto/upload-face-image.dto';
 import { uploadFaceImageCommand } from './cqrs/commands/upload-face-image/upload-face-image.command';
@@ -58,7 +59,6 @@ import LocalFilesInterceptor from 'src/common/interceptors/local-file.intercepto
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles(Role.USER)
 @Controller('api/v1/account')
 @ApiTags('Account')
 export class AccountController {
@@ -67,6 +67,7 @@ export class AccountController {
         private readonly queryBus: QueryBus,
     ) { }
 
+    @Roles(Role.USER)
     @UseGuards(CheckUserIdGuard)
     @Get('/profile/:userId')
     @ApiParam({ name: 'userId', type: 'uuid' })
@@ -76,7 +77,17 @@ export class AccountController {
         return result as GetProfileResultResponseDto
     }
 
+    @Roles(Role.ADMIN)
+    @UseGuards(CheckUserIdGuard)
+    @Get('/profiles')
+    @ApiParam({ name: 'userId', type: 'uuid' })
+    @ApiOkResponse({ type: GetProfileResultResponseDto })
+    async getAllProfiles(@Param("userId") userId, @Req() req): Promise<GetProfileResultResponseDto> {
+        const result = await this.queryBus.execute(new GetAllProfilesQuery(req));
+        return result as GetProfileResultResponseDto
+    }
 
+    @Roles(Role.USER)
     @Post('/phone-number')
     @ApiBody({ type: AddPhoneNumberSubmitDto })
     async addPhoneNumber(@Body() body: AddPhoneNumberSubmitDto, @Req() req): Promise<AddPhoneNumberResponseDto> {
@@ -84,6 +95,7 @@ export class AccountController {
         return result as AddPhoneNumberResponseDto
     }
 
+    @Roles(Role.USER)
     @Post('/national-card-image')
     @UseInterceptors(
         FileInterceptor('national_card_image', {
@@ -99,6 +111,7 @@ export class AccountController {
         return result as AddPhoneNumberResponseDto
     }
 
+    @Roles(Role.USER)
     @Post('/face-image')
     @UseInterceptors(
         FileInterceptor('face_image', {

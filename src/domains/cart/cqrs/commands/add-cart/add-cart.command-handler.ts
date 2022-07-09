@@ -1,4 +1,4 @@
-import { AccountStatusEnum } from './../../../../user/entities/enums/account-status.enum copy';
+import { AccountStatusEnum } from '../../../../user/entities/enums/account-status.enum';
 import { Given_Data_Is_Invalid } from './../../../../../common/translates/errors.translate';
 import { CartService } from './../../../cart.service';
 import { AccountService } from './../../../../account/account.service';

@@ -1,6 +1,6 @@
 import { National_Card_Image_Size, Image_Is_Not_Valid } from './../../../../../common/translates/errors.translate';
 import { generalConfig } from 'src/config/general.config';
-import { AccountStatusEnum } from '../../../../user/entities/enums/account-status.enum copy';
+import { AccountStatusEnum } from '../../../../user/entities/enums/account-status.enum';
 import { AccountService } from '../../../account.service';
 import { HttpException } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";

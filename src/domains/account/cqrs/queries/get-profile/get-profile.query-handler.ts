@@ -5,7 +5,7 @@ import { GetProfileQuery } from "./get-profile.query";
 import { HttpException, InternalServerErrorException } from "@nestjs/common";
 
 @QueryHandler(GetProfileQuery)
-export class GetAccountQueryHandler implements IQueryHandler<GetProfileQuery> {
+export class GetProfileQueryHandler implements IQueryHandler<GetProfileQuery> {
 
     constructor(
         private readonly accountService: AccountService

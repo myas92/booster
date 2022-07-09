@@ -1,7 +1,8 @@
+import { GetAllProfilesQueryHandler } from './cqrs/queries/get-all-profiles/get-all-profiles.query-handler';
 import { uploadFaceImageCommandHandler } from './cqrs/commands/upload-face-image/upload-face-image.command-handler';
 import { NationalCardImageCommandHandler } from './cqrs/commands/upload-national-card-image/national-card-image.command-handler';
 import { AddPhoneNumberCommandHandler } from './cqrs/commands/add-phone-number/add-phone-number.command-handler';
-import { GetAccountQueryHandler } from './cqrs/queries/get-profile/get-profile.query-handler';
+import { GetProfileQueryHandler } from './cqrs/queries/get-profile/get-profile.query-handler';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -25,7 +26,9 @@ export const CommandHandlers = [
 export const QueriesHandlers = [
 ];
 export const EventHandlers = [
-    GetAccountQueryHandler
+    GetProfileQueryHandler,
+    GetAllProfilesQueryHandler
+    
 ];
 
 @Module({

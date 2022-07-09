@@ -1,6 +1,6 @@
 import { AccountEntity } from './../../../../account/entities/account.entity';
 import { AccountService } from './../../../../account/account.service';
-import { AccountStatusEnum } from './../../../../user/entities/enums/account-status.enum copy';
+import { AccountStatusEnum } from '../../../../user/entities/enums/account-status.enum';
 import { UserEntity } from './../../../../user/entities/user.entity';
 import { Account_Is_Disabled, Invalid_Token, Given_Data_Is_Invalid } from './../../../../../common/translates/errors.translate';
 import { VerificationStatusEnum } from './../../../../user/entities/enums/verification-status';
