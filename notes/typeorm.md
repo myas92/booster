@@ -80,3 +80,31 @@ let result = await this.accountRepository
 ```
 
 <hr>
+
+## Find And Count
+
+**First Way**
+```js
+ const foundedUsers = await this.userRepository.findAndCount(
+{
+    select: ['id', 'mobile_number', 'email', 'invite_code', 'kyc_info', 'settings'],
+    where: {}, order: { created_at: "DESC" },
+    take: limit,
+    skip: offset
+})
+```
+
+**Second Way**
+```js
+// src/domains/user/cqrs/queries/get-users/get-users.query-handler.ts
+let [foundedProfiles, count] = await Promise.all([
+    this.accountService.findAll(limit, offset, queryStr, queryValues),
+    this.accountService.getTotalCount()
+
+```
+
+
+## Add Pro QeuryBuilder
+```js
+// https://www.tabnine.com/code/javascript/functions/typeorm/Repository/count
+

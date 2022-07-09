@@ -41,7 +41,7 @@ export class AccountService {
             .getMany()
         return result
     }
-    async getTotalCount() {
+    async getTotalCount(query = '', value = {}) {
         let result = await this.accountRepository
             .createQueryBuilder("accounts")
             .innerJoinAndSelect("accounts.user", "user")
@@ -49,7 +49,7 @@ export class AccountService {
             .orderBy('accounts.updated_at')
             .where("user.is_deleted = :value", { value: false })
             .where("user.role = :value", { value: Role.USER })
-            .where(``, {})
+            .where(query, value)
             .getCount()
         return result
     }

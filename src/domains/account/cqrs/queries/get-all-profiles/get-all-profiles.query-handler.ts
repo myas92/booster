@@ -29,7 +29,7 @@ export class GetAllProfilesQueryHandler implements IQueryHandler<GetAllProfilesQ
 
             let [foundedProfiles, count] = await Promise.all([
                 this.accountService.findAll(limit, offset, queryStr, queryValues),
-                this.accountService.getTotalCount()
+                this.accountService.getTotalCount(queryStr, queryValues)
             ])
 
             const result = []
