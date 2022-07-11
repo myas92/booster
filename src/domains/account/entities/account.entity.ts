@@ -1,3 +1,4 @@
+import { Role } from './../../user/entities/enums/user-role.enum';
 import { CartEntity } from './../../cart/entities/cart.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity, OneToOne, JoinColumn, OneToMany } from "typeorm";
@@ -114,7 +115,13 @@ export class AccountEntity extends BaseEntity {
     @UpdateDateColumn({ nullable: true })
     updated_at: Date;
 
-    toDto() {
+    toDto(role=Role.USER) {
+        let privatePersonalInfo= {};
+        if(role==Role.ADMIN){
+            privatePersonalInfo = {
+                face_image: this.face_image,
+            }
+        }
         return {
             id: this.id,
             mobile_number: this.user.mobile_number,
@@ -139,13 +146,13 @@ export class AccountEntity extends BaseEntity {
             },
             birthday: this.birthday,
             commission: this.commission,
-            face_image: this.face_image,
             first_name: this.first_name,
             last_name: this.last_name,
             national_code: this.national_code,
             phone_number: this.phone_number,
             tracking_id: this.tracking_id,
-            verification: this.verification
+            verification: this.verification,
+            ...privatePersonalInfo,
 
         }
     }

@@ -24,7 +24,7 @@ export class GetAllProfilesQueryHandler implements IQueryHandler<GetAllProfilesQ
             let { limit, offset } = query.req.query;
             limit = limit ? limit : 10;
             offset = offset ? offset : 0
-
+            const { role } = query.req.user;
             const { queryStr, queryValues } = this.getQueryStrAndValues(query.req.query)
 
             let [foundedProfiles, count] = await Promise.all([
@@ -34,7 +34,7 @@ export class GetAllProfilesQueryHandler implements IQueryHandler<GetAllProfilesQ
 
             const result = []
             for (let profile of foundedProfiles) {
-                result.push(profile.toDto())
+                result.push(profile.toDto(role))
             }
             return { total: count, data: result }
         } catch (error) {
