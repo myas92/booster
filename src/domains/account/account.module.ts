@@ -1,3 +1,4 @@
+import { UpdatePersonalBasicInfoCommandHandler } from './cqrs/commands/update-personal-basic-info/update-personal-basic-info.command-handler';
 import { GetAllProfilesQueryHandler } from './cqrs/queries/get-all-profiles/get-all-profiles.query-handler';
 import { uploadFaceImageCommandHandler } from './cqrs/commands/upload-face-image/upload-face-image.command-handler';
 import { NationalCardImageCommandHandler } from './cqrs/commands/upload-national-card-image/national-card-image.command-handler';
@@ -21,14 +22,15 @@ import { APP_GUARD } from '@nestjs/core';
 export const CommandHandlers = [
     AddPhoneNumberCommandHandler,
     NationalCardImageCommandHandler,
-    uploadFaceImageCommandHandler
+    uploadFaceImageCommandHandler,
+    UpdatePersonalBasicInfoCommandHandler
 ];
 export const QueriesHandlers = [
 ];
 export const EventHandlers = [
     GetProfileQueryHandler,
     GetAllProfilesQueryHandler
-    
+
 ];
 
 @Module({

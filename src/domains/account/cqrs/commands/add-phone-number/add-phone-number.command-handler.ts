@@ -12,7 +12,6 @@ import { AccountEntity } from "../../../entities/account.entity";
 export class AddPhoneNumberCommandHandler implements ICommandHandler<AddPhoneNumberCommand> {
 
     constructor(
-        @InjectRepository(AccountEntity)
         private readonly accountService: AccountService
     ) {
     }
@@ -24,8 +23,8 @@ export class AddPhoneNumberCommandHandler implements ICommandHandler<AddPhoneNum
             const { id } = req.user;
             // TODO : اگه قبلا حساب داشت میتونه این ای پی ای رو صدا بزنه یا نه
             let userAccount = await this.accountService.findOneByUserId(id);
-            if (!userAccount.phone_number)
-                throw new HttpException(Given_Data_Is_Invalid, Given_Data_Is_Invalid.status_code)
+            // if (!userAccount.phone_number)
+            //     throw new HttpException(Given_Data_Is_Invalid, Given_Data_Is_Invalid.status_code)
             userAccount.phone_number = phone_number;
             // TODO: بررسی وضعیت شماره تلفن ادیتت درسته یا معتبر؟
             userAccount.status_phone_number = AccountStatusEnum.EDITED;

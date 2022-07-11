@@ -15,8 +15,9 @@ export class GetProfileQueryHandler implements IQueryHandler<GetProfileQuery> {
     async execute(query: GetProfileQuery): Promise<any> {
         try {
             const { userId } = query;
+            const { role } = query.req.user;
             const foundedAccount = await this.accountService.findOneById(userId);
-            return foundedAccount.toDto()
+            return foundedAccount.toDto(role)
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }

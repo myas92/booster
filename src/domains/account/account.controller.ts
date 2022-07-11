@@ -1,3 +1,5 @@
+import { UpdatePersonalBasicInfoCommand } from './cqrs/commands/update-personal-basic-info/update-personal-basic-info.command';
+import { UpdatePersonalInfoSubmitDto, UpdatePersonalInfoResponseDto } from './dto/update-personal-info.dto';
 import { GetAllProfilesQuery } from './cqrs/queries/get-all-profiles/get-all-profiles.query';
 import { UploadNationalCardImageResponseDto } from './dto/upload-national-card-image.dto';
 import { UploadFaceImageResponseDto } from './dto/upload-face-image.dto';
@@ -67,15 +69,7 @@ export class AccountController {
         private readonly queryBus: QueryBus,
     ) { }
 
-    @Roles(Role.USER)
-    @UseGuards(CheckUserIdGuard)
-    @Get('/profile/:userId')
-    @ApiParam({ name: 'userId', type: 'uuid' })
-    @ApiOkResponse({ type: GetProfileResultResponseDto })
-    async getProfile(@Param("userId") userId, @Req() req): Promise<GetProfileResultResponseDto> {
-        const result = await this.queryBus.execute(new GetProfileQuery(req, userId));
-        return result as GetProfileResultResponseDto
-    }
+    // ------------------------- Admin Role -------------------------
 
     @Roles(Role.ADMIN)
     @UseGuards(CheckUserIdGuard)
@@ -86,6 +80,22 @@ export class AccountController {
         const result = await this.queryBus.execute(new GetAllProfilesQuery(req));
         return result as GetProfileResultResponseDto
     }
+
+    // ---------------------- Admin & User Role ------------------------
+
+
+   // ------------------------- User Role ------------------------------
+
+    @Roles(Role.USER)
+    @UseGuards(CheckUserIdGuard)
+    @Get('/profile/:userId')
+    @ApiParam({ name: 'userId', type: 'uuid' })
+    @ApiOkResponse({ type: GetProfileResultResponseDto })
+    async getProfile(@Param("userId") userId, @Req() req): Promise<GetProfileResultResponseDto> {
+        const result = await this.queryBus.execute(new GetProfileQuery(req, userId));
+        return result as GetProfileResultResponseDto
+    }
+
 
     @Roles(Role.USER)
     @Post('/phone-number')
@@ -125,6 +135,16 @@ export class AccountController {
     async uploadImageFace(@UploadedFile() file: Express.Multer.File, @Req() req) {
         const result = await this.commandBus.execute(new uploadFaceImageCommand(req, file));
         return result as UploadNationalCardImageResponseDto
+    }
+
+    @Roles(Role.USER)
+    @UseGuards(CheckUserIdGuard)
+    @Patch('/personal-basic-info/:userId')
+    @ApiBody({ type: UpdatePersonalInfoSubmitDto })
+    @ApiOkResponse({ type: UpdatePersonalInfoResponseDto })
+    async updatePersonalInfo(@Body() body: UpdatePersonalInfoSubmitDto, @Req() req): Promise<UpdatePersonalInfoResponseDto> {
+        const result = await this.commandBus.execute(new UpdatePersonalBasicInfoCommand(req, body));
+        return result as UpdatePersonalInfoResponseDto
     }
 
 }

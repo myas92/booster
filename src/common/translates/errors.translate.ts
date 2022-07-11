@@ -273,9 +273,17 @@ export const Field_Email_Is_Duplicate = {
   };
   export const Forbidden_Resource= {
     status_code: 403,
-    code: 1024,
+    code: 1025,
     message: {
       fa: "دسترسی به این مسیر امکان پذیر نمی باشد",
       en: "Forbidden resource",
+    },
+  };
+  export const Register_Under_18_Years_Old= {
+    status_code: 422,
+    code: 1026,
+    message: {
+      fa: "امکان ثبت نام برای افراد زیر 18 سال وجود ندارد.",
+      en: "It is not possible to register for people under 18 years old.",
     },
   };

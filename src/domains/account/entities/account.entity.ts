@@ -115,16 +115,20 @@ export class AccountEntity extends BaseEntity {
     @UpdateDateColumn({ nullable: true })
     updated_at: Date;
 
-    toDto(role=Role.USER) {
-        let privatePersonalInfo= {};
-        if(role==Role.ADMIN){
+    toDto(role = Role.USER) {
+        let privatePersonalInfo = {};
+        let mobile_number = this.user.mobile_number
+        if (role == Role.ADMIN) {
             privatePersonalInfo = {
                 face_image: this.face_image,
             }
         }
+        if (role == Role.USER) {
+            mobile_number = mobile_number.replace(mobile_number.substring(4, 8), '****')
+        }
         return {
             id: this.id,
-            mobile_number: this.user.mobile_number,
+            mobile_number: mobile_number,
             email: this.user.email,
             carts: this.carts,
             address: this.address,
@@ -143,6 +147,7 @@ export class AccountEntity extends BaseEntity {
                 national_card_image: this.status_national_card_image,
                 national_code: this.status_national_code,
                 phone_number: this.status_phone_number,
+                birthday: this.status_birthday
             },
             birthday: this.birthday,
             commission: this.commission,
