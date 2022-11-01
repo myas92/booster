@@ -1,3 +1,4 @@
+import { UpdateNationalCardStatusCommand } from './cqrs/commands/update-national-card-status/update-national-card-status.command';
 import { UpdatePersonalBasicInfoCommand } from './cqrs/commands/update-personal-basic-info/update-personal-basic-info.command';
 import { UpdatePersonalInfoSubmitDto, UpdatePersonalInfoResponseDto } from './dto/update-personal-info.dto';
 import { GetAllProfilesQuery } from './cqrs/queries/get-all-profiles/get-all-profiles.query';
@@ -57,6 +58,7 @@ import { Roles } from 'src/common/decorators/get-role.decorator';
 
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import LocalFilesInterceptor from 'src/common/interceptors/local-file.interceptor';
+import { UpdateNationalCardStatusSubmitDto } from './dto/update-national-card-status.dto';
 
 @UseInterceptors(FormatResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
@@ -74,17 +76,25 @@ export class AccountController {
     @Roles(Role.ADMIN)
     @UseGuards(CheckUserIdGuard)
     @Get('/profiles')
+    @ApiOkResponse({ type: GetProfileResultResponseDto })
+    async getAllProfiles(@Req() req): Promise<GetProfileResultResponseDto> {
+        const result = await this.queryBus.execute(new GetAllProfilesQuery(req));
+        return result as GetProfileResultResponseDto
+    }
+    @Roles(Role.ADMIN)
+    @UseGuards(CheckUserIdGuard)
+    @Patch('/profile/:userId/national-card')
     @ApiParam({ name: 'userId', type: 'uuid' })
     @ApiOkResponse({ type: GetProfileResultResponseDto })
-    async getAllProfiles(@Param("userId") userId, @Req() req): Promise<GetProfileResultResponseDto> {
-        const result = await this.queryBus.execute(new GetAllProfilesQuery(req));
+    async updateNationalCardStatus(@Param("userId") userId, @Req() req, @Body() body: UpdateNationalCardStatusSubmitDto): Promise<GetProfileResultResponseDto> {
+        const result = await this.commandBus.execute(new UpdateNationalCardStatusCommand(req, body, userId));
         return result as GetProfileResultResponseDto
     }
 
     // ---------------------- Admin & User Role ------------------------
 
 
-   // ------------------------- User Role ------------------------------
+    // ------------------------- User Role ------------------------------
 
     @Roles(Role.USER)
     @UseGuards(CheckUserIdGuard)

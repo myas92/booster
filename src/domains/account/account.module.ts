@@ -4,6 +4,7 @@ import { uploadFaceImageCommandHandler } from './cqrs/commands/upload-face-image
 import { NationalCardImageCommandHandler } from './cqrs/commands/upload-national-card-image/national-card-image.command-handler';
 import { AddPhoneNumberCommandHandler } from './cqrs/commands/add-phone-number/add-phone-number.command-handler';
 import { GetProfileQueryHandler } from './cqrs/queries/get-profile/get-profile.query-handler';
+import { UpdateNationalCardStatusCommandHandler } from './cqrs/commands/update-national-card-status/update-national-card-status.command-handler';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -23,7 +24,7 @@ export const CommandHandlers = [
     AddPhoneNumberCommandHandler,
     NationalCardImageCommandHandler,
     uploadFaceImageCommandHandler,
-    UpdatePersonalBasicInfoCommandHandler
+    UpdateNationalCardStatusCommandHandler
 ];
 export const QueriesHandlers = [
 ];
