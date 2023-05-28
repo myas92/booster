@@ -63,3 +63,10 @@ docker-compose down
 
 ## Change password 
 ALTER USER postgres WITH PASSWORD 'new_password';
+
+## Swtich between Docker enging and Docker Descktop
+```bash
+docker context ls
+docker context use default
+# or 
+docker context use desktop-linux
